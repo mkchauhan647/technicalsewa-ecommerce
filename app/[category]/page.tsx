@@ -98,6 +98,8 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
       setError("No model provided")
     }
   }, [model])
+  console.log(grandChildData)
+  console.log(model)
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>{error}</div>
@@ -108,8 +110,8 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
     <>
       <div>
         <Navbar cart={cart} />
-        <div className="container flex gap-3">
-          <div className="w-60 text-sm md:text-base pt-0 category-item">
+        <div className="container ">
+          {/* <div className="w-60 text-sm md:text-base pt-0 category-item">
             <Branddata />
             <h2 className="text-xl font-bold text-gray-800 pb-2 pt-4">
               Prices
@@ -164,7 +166,7 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
                 </label>
               </li>
             </ul>
-          </div>
+          </div> */}
           <div className=" relative">
             {/* Product List */}
             <Productlist grandChildData={grandChildData} />
