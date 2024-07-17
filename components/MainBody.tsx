@@ -17,6 +17,7 @@ import "slick-carousel/slick/slick-theme.css"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { DealCarousel } from "./deal-of-the-day-carousel/Carousel"
 import Brands from "./brands/Brands"
+import { MdOutlineCategory } from "react-icons/md"
 
 interface Product {
   id: string
@@ -97,14 +98,14 @@ const MainBody = ({ children }: any) => {
         <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
           <Slider {...settings}>
             {bannerImages.map((product) => (
-              <div key={product.id} className="w-full h-[380px]">
+              <div key={product.id} className="w-full">
                 <Image
                   src={product.image_url}
                   alt={product.alt}
                   width={1000}
                   height={1000}
                   // layout="responsive"
-                  className="w-full h-[400px]"
+                  className="w-full h-[200px] sm:h-[400px] object-cover object-center"
                   quality={100}
                   priority
                 />
@@ -115,9 +116,9 @@ const MainBody = ({ children }: any) => {
       </div>
       <div className="xl:container mx-auto lg:flex md:my-8 items-start 2xl:px-28 px-4">
         {/* larger screen */}
-        <div className="border-r hidden lg:block lg:w-[25%] h-[380px] ">
+        <div className="border-r hidden lg:block lg:w-[25%] sm:h-[380px] ">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
-            <BiCategory className="text-2xl cursor-pointer" /> Brands
+            <MdOutlineCategory className="text-2xl cursor-pointer" /> Brands
           </div>
           <Brands />
         </div>
@@ -125,14 +126,14 @@ const MainBody = ({ children }: any) => {
         <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
           <Slider {...settings}>
             {bannerImages.map((product) => (
-              <div key={product.id} className="w-full h-[380px]">
+              <div key={product.id} className="w-full sm:h-[380px]">
                 <Image
                   src={product.image_url}
                   alt={product.alt}
                   width={1000}
                   height={1000}
                   // layout="responsive"
-                  className="w-full h-[400px]"
+                  className="w-full h-[200px] sm:h-[400px] object-cover object-center"
                   quality={100}
                   priority
                 />

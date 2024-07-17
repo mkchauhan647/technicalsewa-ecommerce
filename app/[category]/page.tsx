@@ -30,22 +30,15 @@ interface CartItem {
 }
 
 interface GrandChild {
-  STATUS: string
-  blog_desc: string
+  model: string
   blog_name: string
-  contact_info: string
-  features: string
-  image_name: null | string
-  market_rate: string
-  meta_desc: string
-  our_rate: string
-  page_title: string
-  page_url: string
+  name: string
+  image_name: string
+  our_rate: number
+  market_rate: number
   blog_id: string
-  svc_rate: string
-  tech_rate: string
-  id: string
-  topTitle: string
+  featured: boolean
+  page_title: string
 }
 
 const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {

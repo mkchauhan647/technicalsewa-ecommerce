@@ -15,7 +15,8 @@ import { FaUser, FaUserAlt, FaUserCircle } from "react-icons/fa"
 import { Button } from "../ui/button"
 import { FaCircleUser } from "react-icons/fa6"
 import Tolltip from "../Tolltip"
-
+import Brands from "../brands/Brands"
+import { MdOutlineCategory } from "react-icons/md"
 interface CartItem {
   id: string
   name: string
@@ -38,6 +39,7 @@ const links = [
 const Navbar: FC<NavbarProps> = ({ cart }) => {
   const [showMenu, setShowMenu] = useState(false)
   const [show, setShow] = useState(false)
+  const [showbrand, setShowbrand] = useState(false)
   // const id = localStorage.getItem("id") ?? "{}"
   const router = useRouter()
   const [isSigningOut, setIsSigningOut] = useState(false)
@@ -51,6 +53,14 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   const handleClick = () => {
     router.push("/dashboard") // Redirect if necessary
   }
+  const handlecategory = () => {
+    setShowbrand(false)
+    setShow(!show)
+  }
+  const handlebrand = () => {
+    setShow(false)
+    setShowbrand(!showbrand)
+  }
 
   return (
     <div className="sticky top-0 border-b-2 z-40 bg-white">
@@ -62,8 +72,11 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         </Link>
         {/* ...........Hamburger Menu.......... */}
         <div className="flex items-center gap-4 lg:hidden">
-          <div className="text-2xl text-black" onClick={() => setShow(!show)}>
+          <div className="text-2xl text-black" onClick={handlecategory}>
             <BiCategory />
+          </div>
+          <div className="text-2xl text-black" onClick={handlebrand}>
+            <MdOutlineCategory />
           </div>
           <Cart />
 
@@ -175,6 +188,21 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div className="">
           <div className="">
             <Categories />
+          </div>
+        </div>
+      </div>
+      <div
+        className={`lg:hidden flex flex-col gap-y-4 bg-white py-4 absolute w-full shadow-md ${
+          showbrand ? "scale-y-100" : "scale-y-0"
+        }`}
+        style={{
+          transition: "transform 0.05s ease-out",
+          transformOrigin: "top",
+        }}
+      >
+        <div className="">
+          <div className="">
+            <Brands />
           </div>
         </div>
       </div>

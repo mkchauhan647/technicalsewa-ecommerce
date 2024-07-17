@@ -1,10 +1,18 @@
-import React from "react"
+import React, { useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ToastContainer } from "react-toastify"
+import { toast, ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { BiCategory } from "react-icons/bi"
 import Brands from "../brands/Brands"
+import {
+  addCartItems,
+  editCartItems,
+  fetchCartItems,
+} from "@/store/slice/cart/getcartSlice"
+import { useRouter } from "next/navigation"
+import { useDispatch, useSelector } from "react-redux"
+import { AppDispatch, RootState } from "@/store/store"
 
 export interface GrandChild {
   STATUS: string
@@ -26,10 +34,102 @@ export interface GrandChild {
 }
 
 interface ProductProps {
-  grandChildData: GrandChild[]
+  grandChildData: Product[]
+}
+interface Product {
+  model: string
+  blog_name: string
+  name: string
+  image_name: string
+  our_rate: number
+  market_rate: number
+  blog_id: string
+  featured: boolean
+  page_title: string
 }
 
+interface CartItem {
+  items: Product[]
+  quantity: number
+  image_url: string
+  total: number
+}
+
+interface ParsedCartItem {
+  item: CartItem
+  itemsData: Product[]
+}
 const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
+  const dispatch: AppDispatch = useDispatch()
+  const cartItems = useSelector((state: RootState) => state.cart.items)
+
+  const router = useRouter()
+
+  const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
+    const itemsData = JSON.parse(item.items)
+    return { item, itemsData }
+  })
+
+  useEffect(() => {
+    dispatch(fetchCartItems())
+  }, [dispatch])
+
+  const addToCart = (product: Product) => {
+    const ifloggedIn = localStorage.getItem("id")
+    if (ifloggedIn === null) {
+      router.push("/login")
+    }
+
+    const itemExists = cartItems.some((item: any) => {
+      const parsedItems = JSON.parse(item.items)
+      return parsedItems.some(
+        (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+      )
+    })
+
+    if (itemExists) {
+      const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
+        parsedItem.itemsData.some(
+          (cartProduct) => cartProduct.blog_name === product.blog_name,
+        ),
+      )
+
+      const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
+      const updatedItem = {
+        ...prevCartItem[0].item,
+        quantity: updatedQuantity + 1,
+        itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
+      }
+      dispatch(
+        editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
+      ).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          dispatch(fetchCartItems())
+          toast.success("Added to Cart")
+        } else {
+          toast.error("Error adding to Cart")
+        }
+      })
+
+      return
+    }
+
+    const newItem: CartItem = {
+      items: [product],
+      total: product.our_rate,
+      quantity: 1,
+      image_url: product.image_name,
+    }
+
+    dispatch(addCartItems(newItem)).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        dispatch(fetchCartItems())
+        toast.success("Added to Cart")
+      } else {
+        toast.error("Error Adding To Cart")
+      }
+    })
+  }
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14">
@@ -39,45 +139,57 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
           </div>
           <Brands />
         </div>{" "}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:w-5/6">
-          {grandChildData.map((item, index) => (
-            <Link
-              href={{
-                pathname: "/detail-beta",
-                query: { id: item.blog_id },
-              }}
-              className="product rounded-lg overflow-hidden relative  hover:shadow-lg shadow-md"
+        <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:w-5/6">
+          {grandChildData.map((product, index) => (
+            <div
+              className="flex flex-col md:h-[400px] product rounded-lg overflow-hidden relative hover:shadow-lg shadow-md cursor-pointer"
+              key={index}
             >
-              <div className="">
-                <Image
-                  src={item.image_name ?? "/p5.jpg"}
-                  alt={item.blog_name}
-                  width={189}
-                  height={189}
-                  className="w-full h-36 md:h-56 object-cover"
-                />
-                <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
-                  -10%
-                </span>
-                <span className="absolute bottom-36 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
-                  HOT
-                </span>
-              </div>
-              <div className="p-4 mt-[18px]">
-                <h3 className="text-[15px] text-[black] h-[48px] pr-[10px] overflow-hidden">
-                  {item.blog_name}
-                </h3>
-
+              <Link
+                href={{
+                  pathname: "/detail-beta",
+                  query: { id: product.blog_id },
+                }}
+              >
                 <div className="">
-                  <span className="text-[18px] text-[#f85606] block">
-                    Rs.{item.our_rate}
+                  <Image
+                    src={product.image_name ?? "/p5.jpg"}
+                    alt={product.blog_name}
+                    width={189}
+                    height={189}
+                    className="w-full h-48 md:h-56 object-cover"
+                  />
+                  <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                    -10%
                   </span>
-                  <span className="text-[14px] line-through text-[#9e9e9e]">
-                    Rs. {item.market_rate}
+                  <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
+                    HOT
                   </span>
                 </div>
+                <div className="px-4 mt-4">
+                  <h3 className="text-[15px] h-12 text-[black]  pr-[10px] overflow-hidden">
+                    {product.blog_name}
+                  </h3>
+
+                  <div className="">
+                    <span className="text-[18px] text-[#f85606] block">
+                      Rs.{product.our_rate}
+                    </span>
+                    <span className="text-[14px] line-through text-[#9e9e9e]">
+                      Rs. {product.market_rate}
+                    </span>
+                  </div>
+                </div>
+              </Link>
+              <div className="flex justify-between items-center">
+                <button
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  onClick={() => addToCart(product)}
+                >
+                  Add to Cart
+                </button>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
