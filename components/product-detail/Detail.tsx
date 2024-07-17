@@ -19,6 +19,11 @@ import { AxiosCorsInstance } from "@/axios_config/Axios"
 import { useRouter } from "next/navigation"
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi"
 import { fetchUserProfile } from "@/store/userSlice"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
 interface ProductDetails {
   text: string
   value: string
@@ -195,12 +200,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const [zoomStyles, setZoomStyles] = useState({})
   const mainImageRef = useRef<HTMLImageElement>(null)
   const [quantity, setQuantity] = useState(1)
+  const [address, setAddress] = useState("")
   const [productDetails, setProductDetails] = useState<ProductDetails>({
     text: "",
     value: "",
     content: "",
   })
-
   // For handeling callback form
   const [formData, setFormData] = useState({
     name: "",
@@ -302,6 +307,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       thumbnailRef?.current.scrollBy({ left: 200, behavior: "smooth" })
     }
   }
+  console.log(address)
 
   return (
     <div className="container mt-5 md:mt-10 items-start ">
@@ -456,7 +462,18 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <MdLocationOn className="h-5 w-5 text-gray-600" />{" "}
                 <span className="font-semibold text-sm">Location</span>
               </div>
-              <div className="text-sm  ml-2">Change</div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline">Open popover</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <div className="grid gap-4">
+                    <div>{userProfile?.shipping_address1}</div>
+                    <div>{userProfile?.shipping_address2}</div>
+                    <div>{userProfile?.shipping_address3}</div>
+                  </div>
+                </PopoverContent>
+              </Popover>
             </div>
             <CardDescription className="text-sm">
               {userProfile?.shipping_address1}{" "}

@@ -16,6 +16,7 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { DealCarousel } from "./deal-of-the-day-carousel/Carousel"
+import Brands from "./brands/Brands"
 
 interface Product {
   id: string
@@ -93,17 +94,45 @@ const MainBody = ({ children }: any) => {
           <Categories />
         </div>
 
-        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:ml-[30px]">
+        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
           <Slider {...settings}>
             {bannerImages.map((product) => (
-              <div key={product.id} className="w-full h-auto">
+              <div key={product.id} className="w-full h-[380px]">
                 <Image
                   src={product.image_url}
                   alt={product.alt}
-                  width={189}
-                  height={189}
-                  layout="responsive"
-                  className="w-full h-auto object-cover"
+                  width={1000}
+                  height={1000}
+                  // layout="responsive"
+                  className="w-full h-[400px]"
+                  quality={100}
+                  priority
+                />
+              </div>
+            ))}
+          </Slider>
+        </div>
+      </div>
+      <div className="xl:container mx-auto lg:flex md:my-8 items-start 2xl:px-28 px-4">
+        {/* larger screen */}
+        <div className="border-r hidden lg:block lg:w-[25%] h-[380px] ">
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
+            <BiCategory className="text-2xl cursor-pointer" /> Brands
+          </div>
+          <Brands />
+        </div>
+
+        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
+          <Slider {...settings}>
+            {bannerImages.map((product) => (
+              <div key={product.id} className="w-full h-[380px]">
+                <Image
+                  src={product.image_url}
+                  alt={product.alt}
+                  width={1000}
+                  height={1000}
+                  // layout="responsive"
+                  className="w-full h-[400px]"
                   quality={100}
                   priority
                 />
