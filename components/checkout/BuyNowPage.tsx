@@ -26,10 +26,12 @@ interface CartContentProps {
 interface DetailsProps {
   product: SingleProduct | null | any
   qty?: any
+  routeid: string
 }
-const BuyNowPage: React.FC<DetailsProps> = ({ product, qty }) => {
+const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [data, setData] = useState<CustomerData | null>(null)
   const itemsArray = product
+  console.log(routeid)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -120,7 +122,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty }) => {
       )
 
       if (response.data) {
-        router.push("/checkout/success")
+        router.push(`/checkout/success/id=${routeid}`)
       } else {
         toast.error("Order failed. Please try again.")
       }

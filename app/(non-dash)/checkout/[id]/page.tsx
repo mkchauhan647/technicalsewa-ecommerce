@@ -21,5 +21,5 @@ export default function Page() {
     dispatch(getSingleProduct(id))
   }, [id])
 
-  return <BuyNowPage product={singleData.data} />
+  return <BuyNowPage product={singleData.data} routeid={id} />
 }

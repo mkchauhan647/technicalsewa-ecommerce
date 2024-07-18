@@ -119,7 +119,7 @@ const MainBody = ({ children }: any) => {
       </div>
       <div className="xl:container mx-auto lg:flex md:my-8 items-start 2xl:px-28 px-4">
         {/* larger screen */}
-        <div className="border-r hidden lg:block lg:w-[10%] sm:h-[380px] ">
+        <div className="border-r hidden lg:block lg:w-[10%]  ">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
             <MdOutlineCategory className="text-2xl cursor-pointer" /> Brands
           </div>
