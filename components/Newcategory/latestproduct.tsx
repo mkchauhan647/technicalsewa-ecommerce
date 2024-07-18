@@ -186,8 +186,6 @@ const Home = () => {
   //     }
   //   }
   // }, [])
-  const startIndex = (currentPage - 1) * productsPerPage
-  const endIndex = currentPage * productsPerPage
 
   return (
     <>
