@@ -21,6 +21,10 @@ const ShippingDetailsForm = ({ setFormData }: any) => {
     const storedAddress = localStorage.getItem("address")
     if (storedAddress) {
       setAdd(storedAddress)
+      setFormData((prevState: object) => ({
+        ...prevState,
+        address: storedAddress,
+      }))
     }
   }, [setFormData])
   return (
@@ -64,8 +68,12 @@ const ShippingDetailsForm = ({ setFormData }: any) => {
           </label>
           <Input
             type="text"
-            value={add ? add : ""}
-            onChange={(e) => updateField("address", e.target)}
+            value={add}
+            onChange={(e) => {
+              const value = e.target.value
+              setAdd(value)
+              updateField("address", value)
+            }}
           />
         </div>
       </div>

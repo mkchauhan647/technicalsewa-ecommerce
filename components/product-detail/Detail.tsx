@@ -46,6 +46,7 @@ interface Product {
   latest: boolean
   featured: boolean
   page_title: string
+  tech_rate: number
 }
 
 interface CartItem {
@@ -62,7 +63,11 @@ interface ParsedCartItem {
   item: CartItem
   itemsData: Product[]
 }
-
+interface CustomerData {
+  name: string
+  type: string
+  // Add other properties as needed
+}
 const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const apiResponse = {
     product_id: "86",
@@ -89,6 +94,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     return { item, itemsData }
   })
 
+  const [data, setData] = useState<CustomerData | null>(null)
   useEffect(() => {
     dispatch(fetchCartItems())
     dispatch(fetchUserProfile())
@@ -160,6 +166,19 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     })
   }
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("id") ?? "{}"
+
+      const storedData = localStorage.getItem("data") ?? "{}"
+      if (storedData) {
+        try {
+          const parsedData = JSON.parse(storedData)
+          setData(parsedData)
+        } catch (error) {
+          console.error("Failed to parse stored data", error)
+        }
+      }
+    }
     const { value } = apiResponse
     if (value && value.length > 0) {
       const { text, value: price, content: description } = value[0]
@@ -452,7 +471,9 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                         Rs. {product?.market_rate * quantity}
                       </span>
                       <span className="text-[20px]  text-[black] font-semibold block">
-                        Rs. {product?.our_rate * quantity}
+                        {data?.type === "Technician"
+                          ? `Rs. ${product?.tech_rate * quantity}`
+                          : `Rs. ${product?.our_rate * quantity}`}
                       </span>
                     </div>
                   </div>

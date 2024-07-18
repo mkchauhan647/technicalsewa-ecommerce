@@ -24,10 +24,10 @@ interface CartContentProps {
 }
 
 interface DetailsProps {
-  product: SingleProduct | null | any,
-  qty?:any
+  product: SingleProduct | null | any
+  qty?: any
 }
-const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
+const BuyNowPage: React.FC<DetailsProps> = ({ product, qty }) => {
   const [data, setData] = useState<CustomerData | null>(null)
   const itemsArray = product
 
@@ -51,36 +51,49 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
     name: data?.name,
     phone: "",
     email: "",
-    state: "",
+    // state: "",
     address: "",
-    city: "",
+    // city: "",
     vat: "",
     remark: "",
   })
 
-  function formatDate(date: any) {
+  function formatDateTime(date: Date) {
     const day = String(date.getDate()).padStart(2, "0")
     const month = String(date.getMonth() + 1).padStart(2, "0")
     const year = date.getFullYear()
-    return `${day}/${month}/${year}`
+
+    const hours = String(date.getHours()).padStart(2, "0")
+    const minutes = String(date.getMinutes()).padStart(2, "0")
+    const seconds = String(date.getSeconds()).padStart(2, "0")
+
+    return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`
   }
   const today = new Date()
-  const formattedToday = formatDate(today)
+  const formattedToday = formatDateTime(today)
 
-    // Calculate subtotal for each item and add it to total
-  const quantity = qty?qty:"1";
-  const pqty = [qty?qty:"1"]
-  let subtotalamt = itemsArray?.our_rate * quantity
+  // Calculate subtotal for each item and add it to total
+  const quantity = qty ? qty : "1"
+  const pqty = [qty ? qty : "1"]
+  let subtotalamt =
+    data?.type === "Technician"
+      ? itemsArray?.tech_rate * quantity
+      : itemsArray?.our_rate * quantity
   const pnum = [itemsArray?.blog_name]
   const prate = [itemsArray?.our_rate]
   const img = [itemsArray?.image_name]
-  const sales_details_id:string[] = ['']
+  const sales_details_id: string[] = [""]
   // const sales_details_id = Array(itemsArray.length).fill([""])
 
   const handleOrder = async () => {
-    if(formData.email  === "" || formData.name  === "" || formData.phone  === "" || formData.address  === "" || formData.city === ""){
+    if (
+      formData.email === "" ||
+      formData.name === "" ||
+      formData.phone === "" ||
+      formData.address === ""
+    ) {
       toast.error("Please fill the shipping Details")
-      return;
+      return
     }
     const id = localStorage.getItem("id") ?? "{}"
 
@@ -89,7 +102,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
         "/publiccontrol/publicsales/CreatePublicSales",
         {
           customer_name: formData?.name,
-          customer_address: formData.city,
+          customer_address: formData.address,
           cust_vat: formData.vat,
           sales_remarks: formData.remark,
           sales_date: formattedToday,
@@ -107,7 +120,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
       )
 
       if (response.data) {
-       router.push("/checkout/success")
+        router.push("/checkout/success")
       } else {
         toast.error("Order failed. Please try again.")
       }
@@ -117,12 +130,10 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
     }
   }
 
-
   return (
     <div className="bg-gray-50">
       <div className="container flex md:flex-row flex-col gap-5 py-8 ">
         <div className="bg-white flex flex-col md:w-2/3 md:h-fit overflow-hidden shadow-lg rounded-lg md:p-5 p-2 gap-2 justify-between">
-
           <div className="flex flex-col gap-3">
             <hr />
             <div className="flex justify-start">
@@ -131,87 +142,85 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
           </div>
         </div>
 
-
         <div className="bg-white flex flex-col md:w-1/3 shadow-lg rounded-lg p-5 gap-2">
-          
-          
           <span className="md:max-h-[320px] md:overflow-auto">
+            <span>
+              <div className="flex md:flex-row flex-col gap-4">
+                <div className="flex flex-col gap-4">
+                  <div className="flex gap-4">
+                    <Image
+                      src={product?.image_name ?? ""}
+                      alt="img"
+                      width={150}
+                      height={150}
+                      // layout="responsive"
+                      className="hidden md:flex"
+                    />
 
-          <span>
-            <div className="flex md:flex-row flex-col gap-4">
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-4">
-                <Image
-                  src={product?.image_name ?? ""}
-                  alt="img"
-                  width={150}
-                  height={150}
-                  // layout="responsive"
-                  className="hidden md:flex"
-                />
+                    <Image
+                      src={product?.image_name ?? ""}
+                      alt="img"
+                      width={80}
+                      className="md:hidden flex object-cover"
+                      height={80}
+                      // layout="responsive"
+                    />
 
-                <Image
-                  src={product?.image_name ?? ""}
-                  alt="img"
-                  width={80}
-                  className="md:hidden flex object-cover"
-                  height={80}
-                  // layout="responsive"
-                />
+                    <div className="md:hidden flex flex-col flex-3 gap-1 justify-center">
+                      <span className="font-semibold">
+                        {product?.blog_name}
+                      </span>
+                      <span className="font-normal text-sm">
+                        {product?.meta_desc}
+                      </span>
+                    </div>
+                  </div>
 
-                <div className="md:hidden flex flex-col flex-3 gap-1 justify-center">
-                  <span className="font-semibold">
-                    {product?.blog_name}
-                  </span>
-                  <span className="font-normal text-sm">
-                    {product?.meta_desc}
-                  </span>
-                </div>
-                </div>
-
-                <div className="md:hidden flex">
-                <div className="w-1/4 flex justify-center items-center text-green-700">
-                  Qty:{pqty}
-                </div>
-                <div className="w-3/4 flex justify-end items-center gap-3">
-                  <span className="line-through text-red-500">
-                    Rs.{product?.market_rate * quantity}
-                  </span>
-                  <span>Rs.{product?.our_rate * quantity}</span>
-                </div>
+                  <div className="md:hidden flex">
+                    <div className="w-1/4 flex justify-center items-center text-green-700">
+                      Qty:{pqty}
+                    </div>
+                    <div className="w-3/4 flex justify-end items-center gap-3">
+                      <span className="line-through text-red-500">
+                        Rs.{product?.market_rate * quantity}
+                      </span>
+                      <span>
+                        {" "}
+                        {data?.type === "Technician"
+                          ? `Rs.${product?.tech_rate * quantity}`
+                          : `Rs.${product?.our_rate * quantity}`}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
+                <div className="w-full flex">
+                  <div className="hidden flex-1 md:flex justify-center items-center">
+                    Qty:{pqty}
+                  </div>
+                  <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
+                    <span className="line-through text-red-500">
+                      Rs.{product?.market_rate * quantity}
+                    </span>
+                    <span>
+                      {data?.type === "Technician"
+                        ? `Rs.${product?.tech_rate * quantity}`
+                        : `Rs.${product?.our_rate * quantity}`}
+                    </span>
+                  </div>
+                </div>
               </div>
-              
-              <div className="w-full flex">
-                
-                <div className="hidden flex-1 md:flex justify-center items-center">
-                  Qty:{pqty}
-                </div>
-                <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
-                  <span className="line-through text-red-500">
-                    Rs.{product?.market_rate * quantity}
-                  </span>
-                  <span>Rs.{product?.our_rate *quantity}</span>
-                </div>
+              <div className="hidden md:flex flex-col w-full gap-1 justify-center">
+                <span className="font-semibold">{product?.blog_name}</span>
+                <span className="font-normal text-sm">
+                  {product?.meta_desc}
+                </span>
               </div>
-
-            </div>
-            <div className="hidden md:flex flex-col w-full gap-1 justify-center">
-            <span className="font-semibold">
-              {product?.blog_name}
+              <hr />
             </span>
-            <span className="font-normal text-sm">
-              {product?.meta_desc}
-            </span>
-          </div>
-          <hr />
-          </span>
-        
 
-          <hr />
+            <hr />
           </span>
-
           <div className="font-semibold">Order Summary</div>
           <div className="flex flex-col justify-between gap-1">
             <div className="flex justify-between ">
@@ -237,8 +246,8 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty}) => {
             Place Order
           </button>
         </div>
-        </div>
-          <Toaster />
+      </div>
+      <Toaster />
     </div>
   )
 }
