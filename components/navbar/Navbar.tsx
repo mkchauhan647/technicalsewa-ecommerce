@@ -17,6 +17,7 @@ import { FaCircleUser } from "react-icons/fa6"
 import Tolltip from "../Tolltip"
 import Brands from "../brands/Brands"
 import { MdOutlineCategory } from "react-icons/md"
+import AxiosInstance from "@/axios_config/Axios"
 interface CartItem {
   id: string
   name: string
@@ -37,6 +38,9 @@ const links = [
 ]
 
 const Navbar: FC<NavbarProps> = ({ cart }) => {
+  const [searchText, setSearchText] = useState<string>("")
+  const [suggestions, setSuggestions] = useState([{ label: "", id: "" }])
+  const [allData, setAllData] = useState<any>(null)
   const [showMenu, setShowMenu] = useState(false)
   const [show, setShow] = useState(false)
   const [showbrand, setShowbrand] = useState(false)
@@ -61,6 +65,46 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
     setShow(false)
     setShowbrand(!showbrand)
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await AxiosInstance.get(
+          "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
+        )
+
+        setAllData(response.data)
+      } catch (error) {
+        console.error("Error fetching data:", error)
+      }
+    }
+    if (allData === null) {
+      fetchData()
+    }
+  }, [])
+
+  // select suggestion.
+  const selectSuggestion = (option:any)=>{
+    setSearchText(option.label)
+    router.push(`/detail-beta?id=${option.id}`)
+    setSuggestions([{ label: "", id: "" }])
+  }
+
+  // Update suggestions based on user input
+  useEffect(() => {
+    if (searchText.length > 1) {
+      const filteredSuggestions = [...allData]
+        .filter((item: any) =>
+          item?.blog_name.toLowerCase().includes(searchText.toLowerCase()),
+        )
+        .map((item: any) => ({
+          label: item.blog_name,
+          id: item.blog_id,
+        }))
+
+      setSuggestions(filteredSuggestions)
+    }
+  }, [searchText])
 
   return (
     <div className="sticky top-0 border-b-2 z-40 bg-white">
@@ -94,9 +138,20 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
               <FiSearch />
             </div>
             <input
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               className="border border-black/40 rounded-md sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
               placeholder="Search"
             />
+            {suggestions.length > 1 && searchText.length > 1 && (
+              <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
+                {suggestions.map((option: any) => (
+                  <span onClick={()=>selectSuggestion(option)} className="hover:bg-white border-b-2 border-black/40 sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400">
+                    {option.label}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         {/* ...........nav links.......... */}
@@ -151,9 +206,21 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
             <FiSearch />
           </div>
           <input
-            className="border border-black rounded-md text-xs outline-none p-2 lg:p-3 placeholder:text-gray-400 w-[280px] large_mobile:w-[380px] sm:w-[500px]"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              className="border border-black rounded-md text-xs outline-none p-2 lg:p-3 placeholder:text-gray-400 w-[280px] large_mobile:w-[380px] sm:w-[500px]"
             placeholder="Search"
           />
+          
+          {suggestions.length > 1 && searchText.length > 1 && (
+              <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
+                {suggestions.map((option: any) => (
+                  <span className="hover:bg-white border-b-2 border-black/40 text-xs outline-none p-2 lg:p-3 placeholder:text-gray-400 w-[280px] large_mobile:w-[380px] sm:w-[500px]">
+                    {option.label}
+                  </span>
+                ))}
+              </div>
+            )}
         </div>
         {links.map((link, index) => (
           <Link
