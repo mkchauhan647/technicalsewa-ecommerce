@@ -201,6 +201,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const mainImageRef = useRef<HTMLImageElement>(null)
   const [quantity, setQuantity] = useState(1)
   const [address, setAddress] = useState("")
+  const [isOpen, setIsOpen] = useState(false)
   const [productDetails, setProductDetails] = useState<ProductDetails>({
     text: "",
     value: "",
@@ -297,6 +298,11 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       setMainImage(product.image_name)
     }
   }, [product])
+  useEffect(() => {
+    if (userProfile?.shipping_address1) {
+      localStorage.setItem("address", userProfile?.shipping_address1)
+    }
+  }, [userProfile])
 
   const thumbnailRef: any = useRef(null)
 
@@ -307,8 +313,17 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       thumbnailRef?.current.scrollBy({ left: 200, behavior: "smooth" })
     }
   }
-  console.log(address)
-
+  useEffect(() => {
+    if (userProfile?.shipping_address1) {
+      localStorage.setItem("address", userProfile?.shipping_address1)
+      setAddress(userProfile?.shipping_address1)
+    }
+  }, [userProfile])
+  const handleAddressChange = (address: any) => {
+    localStorage.setItem("address", address)
+    setAddress(address)
+    setIsOpen(false)
+  }
   return (
     <div className="container mt-5 md:mt-10 items-start ">
       <div className=" lg:flex gap-6">
@@ -462,22 +477,49 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <MdLocationOn className="h-5 w-5 text-gray-600" />{" "}
                 <span className="font-semibold text-sm">Location</span>
               </div>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline">Open popover</Button>
+              <Popover open={isOpen}>
+                <PopoverTrigger>
+                  <Button variant="outline" onClick={() => setIsOpen(!isOpen)}>
+                    Change
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="grid gap-4">
-                    <div>{userProfile?.shipping_address1}</div>
-                    <div>{userProfile?.shipping_address2}</div>
-                    <div>{userProfile?.shipping_address3}</div>
+                <PopoverContent className="">
+                  <div className="grid p-3 gap-2 ">
+                    {userProfile?.shipping_address1 && (
+                      <div
+                        className="cursor-pointer hover:bg-gray-100 p-1"
+                        onClick={() =>
+                          handleAddressChange(userProfile?.shipping_address1)
+                        }
+                      >
+                        {userProfile.shipping_address1}
+                      </div>
+                    )}
+                    {userProfile?.shipping_address2 && (
+                      <div
+                        className="cursor-pointer hover:bg-gray-100 p-1"
+                        onClick={() =>
+                          handleAddressChange(userProfile?.shipping_address2)
+                        }
+                      >
+                        {userProfile.shipping_address2}
+                      </div>
+                    )}
+                    {userProfile?.shipping_address3 && (
+                      <div
+                        className="cursor-pointer hover:bg-gray-100 p-1"
+                        onClick={() =>
+                          handleAddressChange(userProfile?.shipping_address3)
+                        }
+                      >
+                        {userProfile.shipping_address3}
+                      </div>
+                    )}
                   </div>
                 </PopoverContent>
               </Popover>
             </div>
-            <CardDescription className="text-sm">
-              {userProfile?.shipping_address1}{" "}
-            </CardDescription>
+            <CardDescription className="text-sm">{address} </CardDescription>
             <CardContent>
               <div className="mt-4">
                 <div className="flex items-start justify-between">

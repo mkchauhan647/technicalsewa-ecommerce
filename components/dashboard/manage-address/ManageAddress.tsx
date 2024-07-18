@@ -6,6 +6,7 @@ import { fetchUserProfile } from "@/store/userSlice"
 import { AppDispatch, RootState } from "@/store/store"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
+import toast, { Toaster } from "react-hot-toast"
 
 interface CustomerData {
   first_name?: string
@@ -25,6 +26,7 @@ export default function ManageAddress() {
   const [initialData, setInitialData] = useState<CustomerData | null>(null)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [isEditing, setIsEditing] = useState<boolean>(false)
 
   useEffect(() => {
     dispatch(fetchUserProfile())
@@ -97,14 +99,18 @@ export default function ManageAddress() {
       if (response.ok) {
         dispatch(fetchUserProfile())
         console.log("Data updated successfully!")
+        window.location.reload()
+        toast.success("Address Changed successfully!")
       } else {
         console.error("Failed to update data:", response.statusText)
+        toast.error("Address Change Failed!")
       }
     } catch (error) {
       console.error("Failed to update data:", error)
+      toast.error("Address Change Failed!")
     }
   }
-  //manage address
+
   return (
     <main className="p-4 sm:p-10 lg:p-20 flex flex-col w-full gap-4">
       <header>
@@ -127,6 +133,7 @@ export default function ManageAddress() {
                     placeholder="Enter your first shipping address"
                     type="text"
                     value={data?.shipping_address1 || ""}
+                    disabled={!isEditing}
                     onChange={(e) =>
                       setData({ ...data, shipping_address1: e.target.value })
                     }
@@ -142,6 +149,7 @@ export default function ManageAddress() {
                     placeholder="Enter your second shipping address"
                     type="text"
                     value={data?.shipping_address2 || ""}
+                    disabled={!isEditing}
                     onChange={(e) =>
                       setData({ ...data, shipping_address2: e.target.value })
                     }
@@ -156,6 +164,7 @@ export default function ManageAddress() {
                     placeholder="Enter your third shipping address"
                     type="text"
                     value={data?.shipping_address3 || ""}
+                    disabled={!isEditing}
                     onChange={(e) =>
                       setData({ ...data, shipping_address3: e.target.value })
                     }
@@ -164,14 +173,25 @@ export default function ManageAddress() {
               </div>
             </div>
           </div>
-          <button
-            type="submit"
-            className="w-40 pt-4 bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
-          >
-            Save
-          </button>
+          {!isEditing ? (
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="w-40 pt-4 bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
+            >
+              Edit
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="w-40 pt-4 bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
+            >
+              Save
+            </button>
+          )}
         </form>
       )}
+      <Toaster />
     </main>
   )
 }
