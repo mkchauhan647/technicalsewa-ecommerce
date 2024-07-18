@@ -18,6 +18,8 @@ import { LazyLoadImage } from "react-lazy-load-image-component"
 import { DealCarousel } from "./deal-of-the-day-carousel/Carousel"
 import Brands from "./brands/Brands"
 import { MdOutlineCategory } from "react-icons/md"
+import BrandSliders from "./Newcategory/Brands"
+import { Search } from "./navbar/Search"
 
 interface Product {
   id: string
@@ -77,6 +79,7 @@ const MainBody = ({ children }: any) => {
 
   return (
     <>
+      <Search />
       <div className="xl:container mx-auto lg:flex md:my-4 items-start 2xl:px-28 px-4">
         {/* small screen */}
         {/* <div className="sticky block lg:hidden md:pl-4 top-[83px] bg-white z-[30]">
@@ -116,15 +119,15 @@ const MainBody = ({ children }: any) => {
       </div>
       <div className="xl:container mx-auto lg:flex md:my-8 items-start 2xl:px-28 px-4">
         {/* larger screen */}
-        <div className="border-r hidden lg:block lg:w-[25%] sm:h-[380px] ">
+        <div className="border-r hidden lg:block lg:w-[10%] sm:h-[380px] ">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
             <MdOutlineCategory className="text-2xl cursor-pointer" /> Brands
           </div>
           <Brands />
         </div>
 
-        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
-          <Slider {...settings}>
+        <div className="lg:w-[90%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
+          {/* <Slider {...settings}>
             {bannerImages.map((product) => (
               <div key={product.id} className="w-full sm:h-[380px]">
                 <Image
@@ -139,7 +142,8 @@ const MainBody = ({ children }: any) => {
                 />
               </div>
             ))}
-          </Slider>
+          </Slider> */}
+          <BrandSliders />
         </div>
       </div>
 
