@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { toast, ToastContainer } from "react-toastify"
@@ -46,6 +46,7 @@ interface Product {
   blog_id: string
   featured: boolean
   page_title: string
+  tech_rate: number
 }
 
 interface CartItem {
@@ -59,9 +60,15 @@ interface ParsedCartItem {
   item: CartItem
   itemsData: Product[]
 }
+interface CustomerData {
+  name: string
+  type: string
+  // Add other properties as needed
+}
 const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
+  const [data, setData] = useState<CustomerData | null>(null)
 
   const router = useRouter()
 
@@ -116,7 +123,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
 
     const newItem: CartItem = {
       items: [product],
-      total: product.our_rate,
+      total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
       quantity: 1,
       image_url: product.image_name,
     }
@@ -130,6 +137,21 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
       }
     })
   }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("id") ?? "{}"
+
+      const storedData = localStorage.getItem("data") ?? "{}"
+      if (storedData) {
+        try {
+          const parsedData = JSON.parse(storedData)
+          setData(parsedData)
+        } catch (error) {
+          console.error("Failed to parse stored data", error)
+        }
+      }
+    }
+  }, [])
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14">
@@ -173,7 +195,9 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
 
                   <div className="">
                     <span className="text-[18px] text-[#f85606] block">
-                      Rs.{product.our_rate}
+                      {data?.type === "Technician"
+                        ? `Rs.${product?.tech_rate}`
+                        : `Rs.${product.our_rate}`}{" "}
                     </span>
                     <span className="text-[14px] line-through text-[#9e9e9e]">
                       Rs. {product.market_rate}

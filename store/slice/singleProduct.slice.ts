@@ -15,7 +15,7 @@ export interface SingleProduct {
     page_title: string
     page_url: string
     svc_rate: string
-    tech_rate: string
+    tech_rate: number
     model:string
     name:string
     date:string

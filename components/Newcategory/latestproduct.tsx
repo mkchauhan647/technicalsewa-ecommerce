@@ -4,7 +4,11 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { RootState, AppDispatch } from "../../store/store"
-import { addCartItems, editCartItems, fetchCartItems } from "@/store/slice/cart/getcartSlice"
+import {
+  addCartItems,
+  editCartItems,
+  fetchCartItems,
+} from "@/store/slice/cart/getcartSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useRouter } from "next/navigation"
@@ -16,6 +20,7 @@ interface Product {
   name: string
   image_name: string
   our_rate: number
+  tech_rate: number
   market_rate: number
   blog_id: string
   date: string
@@ -35,7 +40,11 @@ interface ParsedCartItem {
   item: CartItem
   itemsData: Product[]
 }
-
+interface CustomerData {
+  name: string
+  type: string
+  // Add other properties as needed
+}
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
@@ -43,7 +52,8 @@ const Home = () => {
   const productsPerPage = 12
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
-  const router = useRouter();
+  const router = useRouter()
+  const [data, setData] = useState<CustomerData | null>(null)
 
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
     const itemsData = JSON.parse(item.items)
@@ -57,9 +67,9 @@ const Home = () => {
   }, [dispatch])
 
   const addToCart = (product: Product) => {
-    const ifloggedIn = localStorage.getItem('id');
-    
-    if(ifloggedIn === null){
+    const ifloggedIn = localStorage.getItem("id")
+
+    if (ifloggedIn === null) {
       router.push("/login")
       return
     }
@@ -71,33 +81,35 @@ const Home = () => {
     )
 
     if (itemExists) {
-      const prevCartItem:any = parsedCartItems.filter((parsedItem) =>
+      const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
         parsedItem.itemsData.some(
           (cartProduct) => cartProduct.blog_name === product.blog_name,
         ),
       )
 
-    const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
-    const updatedItem = {
-      ...prevCartItem[0].item,
-      quantity: updatedQuantity + 1,
-      itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
-    }
-    dispatch(editCartItems({ id: prevCartItem[0].item.id, product: updatedItem })).then((res) => {
-      if (res.meta.requestStatus === "fulfilled") {
-        dispatch(fetchCartItems())
-        toast.success("Added to Cart")
-      } else {
-        toast.error("Error adding to Cart")
+      const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
+      const updatedItem = {
+        ...prevCartItem[0].item,
+        quantity: updatedQuantity + 1,
+        itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
       }
-    })
+      dispatch(
+        editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
+      ).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          dispatch(fetchCartItems())
+          toast.success("Added to Cart")
+        } else {
+          toast.error("Error adding to Cart")
+        }
+      })
 
-    return
+      return
     }
 
     const newItem: CartItem = {
       items: [product],
-      total: product.our_rate,
+      total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
       quantity: 1,
       image_url: product.image_name,
     }
@@ -113,6 +125,19 @@ const Home = () => {
   }
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("id") ?? "{}"
+
+      const storedData = localStorage.getItem("data") ?? "{}"
+      if (storedData) {
+        try {
+          const parsedData = JSON.parse(storedData)
+          setData(parsedData)
+        } catch (error) {
+          console.error("Failed to parse stored data", error)
+        }
+      }
+    }
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(
@@ -144,7 +169,21 @@ const Home = () => {
       </div>
     )
   }
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     const id = localStorage.getItem("id") ?? "{}"
 
+  //     const storedData = localStorage.getItem("data") ?? "{}"
+  //     if (storedData) {
+  //       try {
+  //         const parsedData = JSON.parse(storedData)
+  //         setData(parsedData)
+  //       } catch (error) {
+  //         console.error("Failed to parse stored data", error)
+  //       }
+  //     }
+  //   }
+  // }, [])
   const startIndex = (currentPage - 1) * productsPerPage
   const endIndex = currentPage * productsPerPage
 
@@ -195,7 +234,9 @@ const Home = () => {
 
                     <div className="flex flex-col ">
                       <span className="text-[18px] text-[#f85606] block">
-                        Rs.{product.our_rate}
+                        {data?.type === "Technician"
+                          ? `Rs.${product?.tech_rate}`
+                          : `Rs.${product?.our_rate}`}
                       </span>
                       <span className="text-[14px] line-through text-[#9e9e9e]">
                         Rs. {product.market_rate}
@@ -207,7 +248,7 @@ const Home = () => {
                   onClick={() => addToCart(product)}
                   className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                 >
-                  ADD TO CART 
+                  ADD TO CART
                 </button>
               </div>
             ))}

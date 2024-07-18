@@ -10,6 +10,8 @@ export const CustomTable = ({
   status: string
 }) => {
   const reversedData = [...data].reverse()
+  console.log(reversedData)
+
   return (
     <div className="bg-white">
       <Table className="bg-white">

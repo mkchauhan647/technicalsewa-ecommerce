@@ -7,6 +7,7 @@ interface Product {
   name: string
   image_name: string
   our_rate: number
+  tech_rate: number
   market_rate: number
   blog_id: string
   featured: boolean
