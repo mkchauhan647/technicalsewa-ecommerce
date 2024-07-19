@@ -8,12 +8,10 @@ interface User {
   last_name: string;
   mobile_number: string;
   email: string;
-  photo:string;
-      shipping_address1?: string
+  photo?:string;
+  shipping_address1?: string
   shipping_address2?: string
   shipping_address3?: string
-  photo?:string
-
 }
 
 // Define the UserState interface
