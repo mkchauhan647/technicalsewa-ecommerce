@@ -27,6 +27,7 @@ interface Product {
   latest: boolean
   featured: boolean
   page_title: string
+  is_hot: string
 }
 
 interface CartItem {
@@ -48,7 +49,7 @@ interface CustomerData {
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentProduct,setCurrentProduct] = useState(6);
+  const [currentProduct, setCurrentProduct] = useState(6)
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
@@ -157,12 +158,12 @@ const Home = () => {
   const featuredProducts = trending.filter((product) => product.latest)
 
   const view = (text: string) => {
-    if(text === "more"){
+    if (text === "more") {
       setCurrentProduct(featuredProducts.length)
       return
     }
     setCurrentProduct(6)
-   }
+  }
 
   if (loading) {
     return (
@@ -192,22 +193,25 @@ const Home = () => {
       <div className="featured-products py-5">
         <div className="flex justify-between">
           <h1 className="text-[25px] font-bold mb-8">Latest Products</h1>
-          {currentProduct === 6 ? <button
-            onClick={() => view("more")}
-            className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
-          >
-            View More
-          </button> : 
-          <button
-          onClick={() => view("less")}
-          className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
-        >
-          View Less
-        </button>}
+          {currentProduct === 6 ? (
+            <button
+              onClick={() => view("more")}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+            >
+              View More
+            </button>
+          ) : (
+            <button
+              onClick={() => view("less")}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+            >
+              View Less
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {featuredProducts
-            .slice(0,currentProduct)
+            .slice(0, currentProduct)
             .map((product: Product, index: number) => (
               <div
                 className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
@@ -229,7 +233,7 @@ const Home = () => {
                       -10%
                     </span>
                     <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
-                      HOT
+                      {product?.is_hot}
                     </span>
                   </div>
 

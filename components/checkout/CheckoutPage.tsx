@@ -27,6 +27,8 @@ interface ParsedCartItem {
 }
 export const CheckoutPage = () => {
   const [data, setData] = useState<CustomerData | null>(null)
+  const [type, setType] = useState("Normal")
+
   const itemsArray: ParsedCartItem[] = []
 
   useEffect(() => {
@@ -80,6 +82,9 @@ export const CheckoutPage = () => {
     // Calculate subtotal for each item and add it to total
     subtotalamt += parseFloat(item.total) * item.quantity
   })
+  if (type === "Urgent") {
+    subtotalamt += 50
+  }
   const pdesc = itemsArray.map((item) => item.itemsData[0].blog_desc)
   const pnum = itemsArray.map((item) => item.itemsData[0].blog_name)
   const prate = itemsArray.map((item) => item.itemsData[0].our_rate)
@@ -241,8 +246,24 @@ export const CheckoutPage = () => {
               SubTotal
               <span className="text-gray-600">Rs.{subtotalamt}</span>
             </div>
+            <div className="flex justify-between items-center">
+              <span>Shipping type</span>
+              <span className="text-white">
+                <select
+                  className="border  bg-cyan-400 font-semibold rounded px-2 py-1"
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <option value="Normal">Free Delivery</option>
+                  <option value="Urgent">Fastest Delivery</option>
+                </select>
+              </span>
+            </div>
             <div className="flex justify-between ">
-              Delivery Fee <span className="text-gray-600">Rs.0</span>
+              Delivery Fee{" "}
+              <span className="text-gray-600">
+                {" "}
+                {type === "Urgent" ? `Rs.50` : `Rs.0`}
+              </span>
             </div>
             <div className="flex justify-between ">
               Discount <span className="text-gray-600">Rs.0</span>

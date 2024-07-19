@@ -30,6 +30,7 @@ interface DetailsProps {
 }
 const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [data, setData] = useState<CustomerData | null>(null)
+  const [type, setType] = useState("Normal")
   const itemsArray = product
 
   useEffect(() => {
@@ -80,6 +81,9 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
     data?.type === "Technician"
       ? itemsArray?.tech_rate * quantity
       : itemsArray?.our_rate * quantity
+  if (type === "Urgent") {
+    subtotalamt += 50
+  }
   const pnum = [itemsArray?.blog_name]
   const prate = [itemsArray?.our_rate]
   const img = [itemsArray?.image_name]
@@ -232,8 +236,24 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
               SubTotal
               <span className="text-gray-600">Rs.{subtotalamt}</span>
             </div>
+            <div className="flex justify-between items-center">
+              <span>Shipping type</span>
+              <span className="">
+                <select
+                  className="border bg-white font-semibold rounded px-2 py-1"
+                  onChange={(e) => setType(e.target.value)}
+                >
+                  <option value="Normal">Free Delivery</option>
+                  <option value="Urgent">Fastest Delivery</option>
+                </select>
+              </span>
+            </div>
+
             <div className="flex justify-between ">
-              Delivery Fee <span className="text-gray-600">Rs.0</span>
+              Delivery Fee{" "}
+              <span className="text-gray-600">
+                {type === "Urgent" ? `Rs.50` : `Rs.0`}
+              </span>
             </div>
             <div className="flex justify-between ">
               Discount <span className="text-gray-600">Rs.0</span>
