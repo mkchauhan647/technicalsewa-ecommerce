@@ -8,10 +8,19 @@ import { usePathname } from "next/navigation"
 import { getSingleProduct } from "@/store/action/singleProduct.action"
 import { AppDispatch, RootState } from "@/store/store"
 import { singleItemData } from "@/store/slice/singleProduct.slice"
+import { AxiosCorsInstance } from "@/axios_config/Axios"
 interface CustomerData {
   name: string
   type: string
   // Add other properties as needed
+}
+interface Data {
+  sales_details_id?: string
+  date?: string
+  part_quantity?: number
+  img?: string
+  part_number?: string
+  price?: number
 }
 const page = () => {
   const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
@@ -20,16 +29,31 @@ const page = () => {
   const route = pathname.split("=")
   const [data, setData] = useState<CustomerData | null>(null)
   const [add, setAdd] = useState("")
+  const [value, setValue] = useState<Data[]>([])
 
   const id = route[1]
   const dispatch = useDispatch<AppDispatch>()
   const singleData = useTypedSelector(singleItemData)
 
   useEffect(() => {
-    dispatch(getSingleProduct(id))
+    const fetchData = async () => {
+      try {
+        const response = await AxiosCorsInstance.post(
+          "/publiccontrol/publicsales/getsalesparts",
+          {
+            sales_id: id,
+          },
+        )
+        const alldata = response.data
+        setValue(alldata)
+      } catch (error) {
+        setValue([])
+      }
+    }
+
+    fetchData()
   }, [id])
   const router = useRouter()
-  console.log(singleData.data)
   useEffect(() => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
@@ -85,10 +109,12 @@ const page = () => {
           </button>
         </div>
       </div>
-      <img
-        src={singleData?.data?.image_name}
-        className="w-40 h-40 object-cover border border-black rounded-lg p-2"
-      />
+      {value.map((item: any, index: number) => (
+        <img
+          src={item?.img}
+          className="w-40 h-40 object-cover border border-black rounded-lg p-2"
+        />
+      ))}
     </div>
   )
 }

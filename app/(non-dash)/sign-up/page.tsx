@@ -7,12 +7,12 @@ import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { FaEye, FaEyeSlash } from "react-icons/fa"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 export default function Signup() {
   const router = useRouter()
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -29,8 +29,8 @@ export default function Signup() {
     }))
   }
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+    setShowPassword(!showPassword)
+  }
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -115,8 +115,6 @@ export default function Signup() {
       } else {
         if (response.data.message) {
           toast.error(response.data.message)
-          console.log(response.data.message)
-          console.log(name, email, mobile, address, password)
         } else {
           toast.error("Registration failed. Please try again.")
         }
@@ -174,21 +172,21 @@ export default function Signup() {
             </div>
 
             <div className="relative mb-4">
-  <Input
-    className="text-black pr-10"
-    id="password"
-    placeholder="Enter your password"
-    type={showPassword ? 'text' : 'password'}
-    value={formData.password}
-    onChange={handleChange}
-  />
-  <div
-    className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-    onClick={togglePasswordVisibility}
-  >
-    {showPassword ? <FaEyeSlash /> : <FaEye />}
-  </div>
-</div>
+              <Input
+                className="text-black pr-10"
+                id="password"
+                placeholder="Enter your password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+              />
+              <div
+                className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </div>
+            </div>
 
             <div className="mb-8">
               <Button

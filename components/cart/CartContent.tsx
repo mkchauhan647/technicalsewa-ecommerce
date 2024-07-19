@@ -22,7 +22,6 @@ const CartContent: React.FC<CartContentProps> = ({
   cartdata: any
 }) => {
   const item = cartdata
-  console.log(item)
 
   const shipping = 20.0
   let subtotalamt = 0
@@ -36,7 +35,6 @@ const CartContent: React.FC<CartContentProps> = ({
     subtotalamt += parseFloat(item.total) * item.quantity
   })
   const subtotal = subtotalamt
-  console.log(itemsArray)
 
   // Now, 'total' holds the sum of all subtotals
   const total = subtotal
@@ -90,9 +88,7 @@ const CartContent: React.FC<CartContentProps> = ({
 
   return (
     <div>
-      <div
-        className="cart-items-container"
-      >
+      <div className="cart-items-container">
         {itemsArray.map((item: any, index: number) => (
           <div
             key={index}

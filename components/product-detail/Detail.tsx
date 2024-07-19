@@ -24,6 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import Image from "next/image"
 interface ProductDetails {
   text: string
   value: string
@@ -68,6 +69,12 @@ interface CustomerData {
   type: string
   // Add other properties as needed
 }
+interface Review {
+  avatarSrc?: string
+  username: string
+  timestamp: string
+  text: string
+}
 const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const apiResponse = {
     product_id: "86",
@@ -85,7 +92,9 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       },
     ],
   }
-
+  console.log(product)
+  const [reviews, setReviews] = useState<Review[]>([])
+  const [comment, setComment] = useState<string>("")
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const userProfile = useSelector((state: RootState) => state.user.profile)
@@ -343,6 +352,50 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     setAddress(address)
     setIsOpen(false)
   }
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await AxiosCorsInstance.post(
+          "publiccontrol/publicreview/getPreviewByProduct",
+          {
+            product: product?.blog_name,
+          },
+        )
+        setReviews(response.data)
+      } catch (error) {
+        setReviews([])
+        console.log("Error fetching reviews:", error)
+      }
+    }
+
+    fetchReviews()
+  }, [])
+  console.log(reviews)
+
+  const handleCommentSubmit = async () => {
+    if (comment.trim() === "") {
+      toast.error("Comment cannot be empty")
+      return
+    }
+
+    try {
+      const response = await AxiosCorsInstance.post(
+        "publiccontrol/publicreview/CreateproductReview",
+        {
+          comment,
+        },
+      )
+      if (response.data) {
+        toast.success("Review added successfully")
+        setComment("")
+      } else {
+        toast.error("Failed to add review")
+      }
+    } catch (error) {
+      console.error("Error posting comment:", error)
+      toast.error("Error posting comment")
+    }
+  }
   return (
     <div className="container mt-5 md:mt-10 items-start ">
       <div className=" lg:flex gap-6">
@@ -430,7 +483,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">
                 {product?.blog_name}
                 <span className="text-xs font-normal whitespace-nowrap">
-                  (4 in stock)
+                  ({product?.available_stock} in stock)
                 </span>
               </h1>
               <div className="flex items-center mb-3">
@@ -545,10 +598,8 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               <div className="mt-4">
                 <div className="flex items-start justify-between">
                   <div className="flex flex-col">
-                    <span className="font-semibold text-sm">
-                      Free Delivery 10 Jan - 11 Jan
-                    </span>
-                    <span className="text-sm text-gray-500">1 - 2 day(s)</span>
+                    <span className="font-semibold text-sm">Free Delivery</span>
+                    <span className="text-sm text-gray-500">2 - 3 day(s)</span>
                   </div>
                   <span className="font-semibold text-green-600  text-sm ml-2">
                     Free
@@ -561,7 +612,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                     </span>
                     <span className="text-sm text-gray-500">Tomorrow</span>
                   </div>
-                  <span className="text-sm  ml-2 whitespace-nowrap">Rs. 0</span>
+                  {/* <span className="text-sm  ml-2 whitespace-nowrap">Rs. 0</span> */}
                 </div>
                 <div className="mt-4 flex items-center space-x-2">
                   <span className="text-sm">Cash on Delivery Available</span>
@@ -630,6 +681,52 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <Button type="submit">Submit</Button>
               </div>
             </form>
+          </div>
+          <div className="mt-10">
+            <h2 className="text-2xl font-medium">Customer Reviews</h2>
+            {reviews.length > 0 ? (
+              reviews.map((review: any, index) => (
+                <div key={index} className="border-b border-gray-300 py-4">
+                  <div className="flex gap-4">
+                    <Image
+                      src={img}
+                      alt={review.username}
+                      width={50}
+                      height={50}
+                      className="w-12 h-12 rounded-full"
+                    />
+                    <div>
+                      <div className="flex justify-between">
+                        <span className="font-medium">
+                          {review?.product_name}
+                        </span>
+                        <span className="text-gray-600">{}</span>
+                      </div>
+                      <p className="mt-2">{review?.review}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-gray-600 mt-4">No reviews yet.</p>
+            )}
+            {/* <div className="mt-6">
+            <textarea
+              className="w-full p-3 border border-gray-300 rounded-lg outline-none"
+              placeholder="Add a comment..."
+              rows={4}
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+          </div>
+          <div className="mt-4">
+            <button
+              className="bg-blue-500 text-white p-2 rounded-lg"
+              onClick={handleCommentSubmit}
+            >
+              Send
+            </button>
+          </div> */}
           </div>
         </div>
       </div>

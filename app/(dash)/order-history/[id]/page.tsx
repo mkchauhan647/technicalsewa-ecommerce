@@ -33,7 +33,6 @@ export default function Component(props: { params: { id: string } }) {
   const parsedLocalStorageData = localStorageData
     ? JSON.parse(localStorageData)
     : null
-  console.log(localStorageData)
   const reviewerId = parsedLocalStorageData?.id
   const type = parsedLocalStorageData?.type
 
@@ -47,7 +46,6 @@ export default function Component(props: { params: { id: string } }) {
 
   const date = new Date()
   const formattedDate = formatDate(date)
-  console.log(type, reviewerId, formattedDate, productName, sales_id)
   const formData = new FormData()
   formData.append("done_by", reviewerId)
   formData.append("type", type)
@@ -87,12 +85,10 @@ export default function Component(props: { params: { id: string } }) {
         setReviews(response.data)
       } catch (error) {
         setReviews([])
-        console.log("Error fetching reviews:", error)
       }
     }
 
     fetchData()
-    fetchReviews()
   }, [sales_id])
 
   const handleCommentSubmit = async () => {
@@ -116,21 +112,36 @@ export default function Component(props: { params: { id: string } }) {
         toast.error("Failed to add review")
       }
     } catch (error) {
-      console.error("Error posting comment:", error)
       toast.error("Error posting comment")
     }
   }
 
   // Calculate total price and total quantity
-  const total = data?.reduce(
-    (acc: any, item: any) => {
-      acc.totalPrice += Number(item.price * item?.part_quantity)
-      acc.totalQuantity += parseInt(item.part_quantity)
-      return acc
-    },
-    { totalPrice: 0, totalQuantity: 0 },
-  )
+  const total = Array.isArray(data)
+    ? data?.reduce(
+        (acc: any, item: any) => {
+          acc.totalPrice += Number(item.price * item?.part_quantity)
+          acc.totalQuantity += parseInt(item.part_quantity)
+          return acc
+        },
+        { totalPrice: 0, totalQuantity: 0 },
+      )
+    : { totalPrice: 0, totalQuantity: 0 }
 
+  const handleCancel = async (id: any) => {
+    try {
+      const response = await AxiosCorsInstance.post(
+        "/publiccontrol/publicsales/deletesalesitems",
+        {
+          sales_item_id: id,
+        },
+      )
+      window.location.reload()
+      toast.success("Data fetched successfully")
+    } catch (error) {
+      toast.error("Error fetching data")
+    }
+  }
   return (
     <main className="pt-10 px-40 flex flex-col w-full gap-4">
       <header>
@@ -159,24 +170,31 @@ export default function Component(props: { params: { id: string } }) {
           <div className="flex flex-col w-3/5 gap-2 border-[1px] border-gray-200 rounded-lg p-8">
             <span className="font-bold">Order Details</span>
             <div className="flex flex-col gap-2">
-              {data?.map((item: any, index) => (
-                <div className="flex items-center gap-4 py-2" key={index}>
-                  <Image
-                    src={item.img && item.img.length > 15 ? item.img : img}
-                    width={60}
-                    height={60}
-                    alt="image"
-                    className="w-20 h-20 object-contain"
-                  />
-                  <div className="flex flex-col gap-2 flex-1">
-                    <span>{item.part_number}</span>
-                    <div className="flex justify-between">
-                      <span>Qty: {item.part_quantity}</span>
-                      <span>Total: {item?.price * item?.part_quantity}</span>
+              {data &&
+                data?.map((item: any, index) => (
+                  <div className="flex items-center gap-4 py-2" key={index}>
+                    <Image
+                      src={item.img && item.img.length > 15 ? item.img : img}
+                      width={60}
+                      height={60}
+                      alt="image"
+                      className="w-20 h-20 object-contain"
+                    />
+                    <div className="flex flex-col gap-2 flex-1">
+                      <span>{item.part_number}</span>
+                      <div className="flex justify-between">
+                        <span>Qty: {item.part_quantity}</span>
+                        <span>Total: {item?.price * item?.part_quantity}</span>
+                      </div>
+                      <div
+                        className="text-red-400 text-center underline hover:cursor-pointer"
+                        onClick={() => handleCancel(item?.sales_details_id)}
+                      >
+                        Cancel this product
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
           <div className="flex flex-col w-2/5 gap-5">
@@ -216,14 +234,11 @@ export default function Component(props: { params: { id: string } }) {
                 </div>
               </div>
             </div>
-            <div className="text-red-400 text-center underline">
-              Cancel Order
-            </div>
           </div>
         </div>
-        <div className="mt-10">
-          <h2 className="text-2xl font-medium">Customer Reviews</h2>
-          {reviews.length > 0 ? (
+        {/* <div className="mt-10"> */}
+        {/* <h2 className="text-2xl font-medium">Customer Reviews</h2> */}
+        {/* {reviews.length > 0 ? (
             reviews.map((review: any, index) => (
               <div key={index} className="border-b border-gray-300 py-4">
                 <div className="flex gap-4">
@@ -248,8 +263,8 @@ export default function Component(props: { params: { id: string } }) {
             ))
           ) : (
             <p className="text-gray-600 mt-4">No reviews yet.</p>
-          )}
-          {/* <div className="mt-6">
+          )} */}
+        {/* <div className="mt-6">
             <textarea
               className="w-full p-3 border border-gray-300 rounded-lg outline-none"
               placeholder="Add a comment..."
@@ -266,7 +281,7 @@ export default function Component(props: { params: { id: string } }) {
               Send
             </button>
           </div> */}
-        </div>
+        {/* </div> */}
       </div>
     </main>
   )

@@ -46,13 +46,11 @@ export default function ChangePasswordForm() {
         `https://www.technicalsewa.com/techsewa/publiccontrol/changePassword`,
         data,
       )
-      console.log(response)
 
       if (response.data.status === "Success") {
         toast.success("Password Changed Successfully!")
-        localStorage.clear();
+        localStorage.clear()
         push("/login")
-        console.log("Data updated successfully!")
         // Handle success scenario
       } else {
         toast.error("Password Match not Found.")
@@ -66,7 +64,10 @@ export default function ChangePasswordForm() {
     }
   }
 
-  const isValidForm = input.old_password && input.new_password && input.new_password == input.retype_new_password
+  const isValidForm =
+    input.old_password &&
+    input.new_password &&
+    input.new_password == input.retype_new_password
 
   return (
     <div className="bg-white  pt-10 pb-[79px]">
@@ -80,28 +81,28 @@ export default function ChangePasswordForm() {
         </div>
 
         <form onSubmit={handleChangePassword}>
-            <div className="flex flex-col justify-center relative gap-2">
-              <label className="whitespace-nowrap font-normal">
-                Old Password
-              </label>
-              <input
-                type={showPassword ? "text" : "password"}
-                name="old_password"
-                required
-                onChange={handleChange}
-                placeholder="Old Password"
-                className="border w-full border-[#D9D9D9] py-2 pl-[20px] placeholder:text-[#666666]/[0.4] placeholder:italic placeholder:font-normal rounded-[2px] outline-none"
-                minLength={6}
-              />
+          <div className="flex flex-col justify-center relative gap-2">
+            <label className="whitespace-nowrap font-normal">
+              Old Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="old_password"
+              required
+              onChange={handleChange}
+              placeholder="Old Password"
+              className="border w-full border-[#D9D9D9] py-2 pl-[20px] placeholder:text-[#666666]/[0.4] placeholder:italic placeholder:font-normal rounded-[2px] outline-none"
+              minLength={6}
+            />
 
-              <div
-                className="absolute inset-y-0 top-1/2 right-0 flex items-center pr-3 cursor-pointer"
-                onClick={togglePasswordVisibility}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </div>
+            <div
+              className="absolute inset-y-0 top-1/2 right-0 flex items-center pr-3 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </div>
-    
+          </div>
+
           {input.old_password && input.old_password?.length < 6 && (
             <div
               className="px-4 py-1 my-1 text-orange-700 bg-orange-100 border-l-4 border-orange-500"
@@ -139,7 +140,7 @@ export default function ChangePasswordForm() {
             </div>
           )}
 
-<div className="relative flex  flex-col justify-center gap-2 my-2">
+          <div className="relative flex  flex-col justify-center gap-2 my-2">
             <label className="whitespace-nowrap ">Retype New Password</label>
             <input
               type={showCPassword ? "text" : "password"}
@@ -158,15 +159,15 @@ export default function ChangePasswordForm() {
             </div>
           </div>
 
-          {input.retype_new_password && input.new_password !== input.retype_new_password && (
-            <div
-              className="px-4 py-1 my-1 text-orange-700 bg-orange-100 border-l-4 border-orange-500"
-              role="alert"
-            >
-              <p>New Password and Retype New Password must be same</p>
-            </div>
-          )}
-
+          {input.retype_new_password &&
+            input.new_password !== input.retype_new_password && (
+              <div
+                className="px-4 py-1 my-1 text-orange-700 bg-orange-100 border-l-4 border-orange-500"
+                role="alert"
+              >
+                <p>New Password and Retype New Password must be same</p>
+              </div>
+            )}
 
           <button
             type="submit"

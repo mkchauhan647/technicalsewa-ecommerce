@@ -92,8 +92,6 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
       setError("No model provided")
     }
   }, [model])
-  console.log(grandChildData)
-  console.log(model)
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>{error}</div>

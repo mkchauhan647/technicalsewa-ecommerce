@@ -59,7 +59,7 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
       try {
         const response = await AxiosInstance.post(
           `https://www.technicalsewa.com/techsewa/commerce/PublicProducts/getProductById`,
-          {id:id}
+          { id: id },
         )
         const fetchedProductId = response.data?.product?.id
         setProductId(fetchedProductId)
@@ -78,11 +78,7 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
       ) : (
         <p>Loading...</p> // You can replace this with a loader component if you have one
       )}
-      {productId ? (
-        <ReviewSection productId={productId} />
-      ) : (
-        <></>
-      )}
+      {productId ? <ReviewSection productId={productId} /> : <></>}
     </>
   )
 }

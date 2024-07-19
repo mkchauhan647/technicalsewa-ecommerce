@@ -110,6 +110,17 @@ export default function ManageAddress() {
       toast.error("Address Change Failed!")
     }
   }
+  useEffect(() => {
+    if (
+      data?.shipping_address1 === "" ||
+      data?.shipping_address2 === "" ||
+      data?.shipping_address3 === ""
+    ) {
+      setIsEditing(true)
+    } else {
+      setIsEditing(false)
+    }
+  }, [data])
 
   return (
     <main className="p-4 sm:p-10 lg:p-20 flex flex-col w-full gap-4">

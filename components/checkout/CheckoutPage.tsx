@@ -87,6 +87,10 @@ export const CheckoutPage = () => {
   const img = itemsArray.map((item) => item.item.image_url)
   const sales_details_id = itemsArray.map((item) => "")
   // const sales_details_id = Array(itemsArray.length).fill([""])
+  function extractOrderId(message: any) {
+    const match = message.match(/order id is (\d+)/i)
+    return match ? match[1] : null
+  }
 
   const handleOrder = async () => {
     if (
@@ -122,10 +126,11 @@ export const CheckoutPage = () => {
           sales_details_id: sales_details_id,
         },
       )
+      const rid = extractOrderId(response.data)
 
       if (response.data) {
         await dispatch(deleteAllCartItems({ id }))
-        router.push("/checkout/success")
+        router.push(`/checkout/success/id=${rid}`)
       } else {
         toast.error("Order failed. Please try again.")
       }

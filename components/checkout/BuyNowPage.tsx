@@ -31,7 +31,6 @@ interface DetailsProps {
 const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [data, setData] = useState<CustomerData | null>(null)
   const itemsArray = product
-  console.log(routeid)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -86,7 +85,10 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const img = [itemsArray?.image_name]
   const sales_details_id: string[] = [""]
   // const sales_details_id = Array(itemsArray.length).fill([""])
-
+  function extractOrderId(message: any) {
+    const match = message.match(/order id is (\d+)/i)
+    return match ? match[1] : null
+  }
   const handleOrder = async () => {
     if (
       formData.email === "" ||
@@ -120,9 +122,10 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
           sales_details_id: sales_details_id,
         },
       )
+      const rid = extractOrderId(response.data)
 
       if (response.data) {
-        router.push(`/checkout/success/id=${routeid}`)
+        router.push(`/checkout/success/id=${rid}`)
       } else {
         toast.error("Order failed. Please try again.")
       }

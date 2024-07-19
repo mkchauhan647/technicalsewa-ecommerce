@@ -21,6 +21,7 @@ export interface SingleProduct {
     date:string
     latest:boolean
       featured: boolean
+      available_stock:number
 
 }
 

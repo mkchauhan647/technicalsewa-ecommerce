@@ -33,7 +33,6 @@ export const OrderHistoryPage = () => {
           salesNum: item.sales_number,
           salesStatus: item.sales_status,
         }))
-        console.log(response.data)
         setdata(alldata)
       } catch (error) {
         console.error("Error fetching data:", error)

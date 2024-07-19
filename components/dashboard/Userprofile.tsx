@@ -17,6 +17,9 @@ interface CustomerData {
   mobile_number?: string
   password?: string
   photo?: string
+  shipping_address1?: string
+  shipping_address2?: string
+  shipping_address3?: string
 }
 
 export default function UserProfile() {
@@ -24,6 +27,7 @@ export default function UserProfile() {
   const [initialData, setInitialData] = useState<CustomerData | null>(null)
   const [formData, setFormData] = useState<FormData | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const [editing, setEditing] = useState<boolean>(false) // New state for editing mode
   const dispatch = useDispatch<AppDispatch>()
   const userProfile = useSelector((state: RootState) => state.user.profile)
   console.log(userProfile)
@@ -39,6 +43,9 @@ export default function UserProfile() {
         last_name: userProfile.last_name || "",
         email: userProfile.email || "",
         mobile_number: userProfile.mobile_number || "",
+        shipping_address1: userProfile.shipping_address1 || "",
+        shipping_address2: userProfile.shipping_address2 || "",
+        shipping_address3: userProfile.shipping_address3 || "",
       }
       setData(userData)
       setInitialData(userData)
@@ -55,9 +62,9 @@ export default function UserProfile() {
       form.append("lastname", data.last_name || "")
       form.append("email", data.email || "")
       form.append("phone", data.mobile_number || "")
-      form.append("shipping_address1", "aa")
-      form.append("shipping_address2", "aa")
-      form.append("shipping_address3", "aa")
+      form.append("shipping_address1", data.shipping_address1 || "")
+      form.append("shipping_address2", data.shipping_address2 || "")
+      form.append("shipping_address3", data.shipping_address3 || "")
       setFormData(form)
     }
   }, [data])
@@ -93,12 +100,12 @@ export default function UserProfile() {
           body: formData,
         },
       )
-      // console.log(response)
 
       if (response.ok) {
         dispatch(fetchUserProfile())
 
         console.log("Data updated successfully!")
+        setEditing(false) // Exit editing mode on successful save
         // Handle success scenario
       } else {
         console.error("Failed to update data:", response.statusText)
@@ -139,6 +146,7 @@ export default function UserProfile() {
                     onChange={(e) =>
                       setData({ ...data, first_name: e.target.value })
                     }
+                    disabled={!editing} // Disable input when not editing
                   />
                 </div>
                 <div>
@@ -151,6 +159,7 @@ export default function UserProfile() {
                     onChange={(e) =>
                       setData({ ...data, last_name: e.target.value })
                     }
+                    disabled={!editing} // Disable input when not editing
                   />
                 </div>
                 <div>
@@ -163,6 +172,7 @@ export default function UserProfile() {
                     onChange={(e) =>
                       setData({ ...data, email: e.target.value })
                     }
+                    disabled={!editing} // Disable input when not editing
                   />
                 </div>
                 <div>
@@ -175,16 +185,27 @@ export default function UserProfile() {
                     onChange={(e) =>
                       setData({ ...data, mobile_number: e.target.value })
                     }
+                    disabled={!editing} // Disable input when not editing
                   />
                 </div>
               </div>
               <div className="flex flex-col md:flex-row gap-8 px-10 pt-4">
-                <button
-                  className="bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
-                  type="submit"
-                >
-                  Edit Profile
-                </button>
+                {!editing ? (
+                  <button
+                    type="button"
+                    onClick={() => setEditing(true)}
+                    className="w-40 pt-4 bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
+                  >
+                    Edit
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="w-40 pt-4 bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg"
+                  >
+                    Save
+                  </button>
+                )}
                 <Link href="/changepassword">
                   <button className="bg-[#2591B1] text-white font-semibold px-5 py-3 rounded-lg">
                     Update Password
