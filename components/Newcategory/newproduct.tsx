@@ -45,8 +45,7 @@ interface CustomerData {
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const productsPerPage = 12
+  const [currentProduct,setCurrentProduct] = useState(12);
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
@@ -150,10 +149,13 @@ const Home = () => {
   }, [])
 
   const featuredProducts = trending.filter((product) => product.featured)
-  const totalPages = Math.ceil(featuredProducts.length / productsPerPage)
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
+  const view = (text: string) => {
+   if(text === "more"){
+     setCurrentProduct(featuredProducts.length)
+     return
+   }
+   setCurrentProduct(12)
   }
 
   if (loading) {
@@ -171,19 +173,22 @@ const Home = () => {
           <h1 className="md:text-[25px] font-bold flex items-center justify-center">
             Featured Products
           </h1>
-          <button
-            onClick={() => handlePageChange(totalPages)}
-            className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md hover:bg-blue-700`}
+          {currentProduct === 12 ? <button
+            onClick={() => view("more")}
+            className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
           >
-            View All
-          </button>
+            View More
+          </button> : 
+          <button
+          onClick={() => view("less")}
+          className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+        >
+          View Less
+        </button>}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-6 cursor-pointer">
           {featuredProducts
-            .slice(
-              (currentPage - 1) * productsPerPage,
-              currentPage * productsPerPage,
-            )
+            .slice(0,currentProduct)
             .map((product, index) => (
               <div
                 className="flex flex-col md:h-[400px] product rounded-lg overflow-hidden relative hover:shadow-lg shadow-md cursor-pointer"

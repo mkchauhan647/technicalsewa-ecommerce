@@ -48,8 +48,7 @@ interface CustomerData {
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
-  const productsPerPage = 12
+  const [currentProduct,setCurrentProduct] = useState(6);
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
@@ -156,11 +155,14 @@ const Home = () => {
   }, [])
 
   const featuredProducts = trending.filter((product) => product.latest)
-  const totalPages = Math.ceil(trending.length / productsPerPage)
 
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber)
-  }
+  const view = (text: string) => {
+    if(text === "more"){
+      setCurrentProduct(featuredProducts.length)
+      return
+    }
+    setCurrentProduct(6)
+   }
 
   if (loading) {
     return (
@@ -184,24 +186,28 @@ const Home = () => {
   //     }
   //   }
   // }, [])
-  const startIndex = (currentPage - 1) * productsPerPage
-  const endIndex = currentPage * productsPerPage
 
   return (
     <>
       <div className="featured-products py-5">
         <div className="flex justify-between">
           <h1 className="text-[25px] font-bold mb-8">Latest Products</h1>
-          <button
-            onClick={() => handlePageChange(totalPages)}
-            className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md hover:bg-blue-700`}
+          {currentProduct === 6 ? <button
+            onClick={() => view("more")}
+            className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
           >
-            View All
-          </button>
+            View More
+          </button> : 
+          <button
+          onClick={() => view("less")}
+          className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+        >
+          View Less
+        </button>}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {featuredProducts
-            .slice(startIndex, endIndex)
+            .slice(0,currentProduct)
             .map((product: Product, index: number) => (
               <div
                 className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
