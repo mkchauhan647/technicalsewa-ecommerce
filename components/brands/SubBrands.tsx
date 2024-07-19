@@ -75,7 +75,7 @@ const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
           )}
         </div>
         <div
-          className="hidden lg:block cursor-pointer  flex-col  px-4 py-[1px] bg-white w-full text-black rounded-md"
+          className="hidden lg:block cursor-pointer  flex-col  px-4 py-1 bg-white w-full text-black rounded-md"
           onClick={toggleSubCategories}
         >
           <div className="flex justify-between" onClick={toggleSubCategories}>
