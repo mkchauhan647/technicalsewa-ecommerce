@@ -26,7 +26,7 @@ interface CartContentProps {
 interface DetailsProps {
   product: SingleProduct | null | any
   qty?: any
-  routeid: string
+  routeid?: string
 }
 const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [data, setData] = useState<CustomerData | null>(null)
