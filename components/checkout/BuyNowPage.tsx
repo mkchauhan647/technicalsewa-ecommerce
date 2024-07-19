@@ -238,9 +238,9 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
             </div>
             <div className="flex justify-between items-center">
               <span>Shipping type</span>
-              <span className="">
+              <span className="text-white">
                 <select
-                  className="border bg-white font-semibold rounded px-2 py-1"
+                  className="border bg-cyan-400 font-semibold rounded px-2 py-1"
                   onChange={(e) => setType(e.target.value)}
                 >
                   <option value="Normal">Free Delivery</option>
