@@ -30,7 +30,6 @@ export default function UserProfile() {
   const [editing, setEditing] = useState<boolean>(false) // New state for editing mode
   const dispatch = useDispatch<AppDispatch>()
   const userProfile = useSelector((state: RootState) => state.user.profile)
-  console.log(userProfile)
 
   useEffect(() => {
     dispatch(fetchUserProfile())

@@ -51,7 +51,6 @@ export const Nav: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const userProfile = useSelector((state: RootState) => state.user.profile)
-
   useEffect(() => {
     setId(localStorage.getItem("id"))
   }, [])
@@ -90,6 +89,7 @@ export const Nav: React.FC = () => {
         last_name: userProfile.last_name || "",
         email: userProfile.email || "",
         mobile_number: userProfile.mobile_number || "",
+        photo: userProfile.photo || "",
       }
       setData(userData)
       setInitialData(userData)
@@ -147,16 +147,16 @@ export const Nav: React.FC = () => {
               <div className="flex items-center">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
+                    src={`${data?.photo !== ""? data?.photo : "https://github.com/shadcn.png"}`}
                     alt="@shadcn"
                   />
-                  <AvatarFallback className="text-black">
-                    Loading..
+                  <AvatarFallback className="text-black flex justify-center items-center">
+                    IMG
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex gap-1 text-xs text-white ml-2">
-                  <span>{data?.first_name}</span>
-                  <span>{data?.last_name}</span>
+                  <span>{data?.first_name || "FirstName"}</span>
+                  <span>{data?.last_name || "Last"}</span>
                 </div>
                 <IoIosArrowDown className="text-white ml-2" />
               </div>
