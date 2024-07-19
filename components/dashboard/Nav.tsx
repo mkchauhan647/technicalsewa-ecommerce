@@ -51,7 +51,6 @@ export const Nav: React.FC = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const userProfile = useSelector((state: RootState) => state.user.profile)
- console.log(userProfile)
   useEffect(() => {
     setId(localStorage.getItem("id"))
   }, [])
