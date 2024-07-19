@@ -11,6 +11,7 @@ interface User {
       shipping_address1?: string
   shipping_address2?: string
   shipping_address3?: string
+  photo?:string
 
 }
 
