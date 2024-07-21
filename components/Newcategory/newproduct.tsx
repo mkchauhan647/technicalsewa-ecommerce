@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import Login from "../Login"
 
 interface Product {
   model: string
@@ -47,6 +48,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
   const [currentProduct, setCurrentProduct] = useState(12)
+  const [showPopover, setShowPopover] = useState(false)
+
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
@@ -62,10 +65,10 @@ const Home = () => {
     dispatch(fetchCartItems())
   }, [dispatch])
 
+  const ifloggedIn = localStorage.getItem("id")
   const addToCart = (product: Product) => {
-    const ifloggedIn = localStorage.getItem("id")
     if (ifloggedIn === null) {
-      router.push("/login")
+      setShowPopover(true)
     }
 
     const itemExists = cartItems.some((item: any) => {
@@ -158,6 +161,7 @@ const Home = () => {
     }
     setCurrentProduct(12)
   }
+  const handleClosePopover = () => setShowPopover(false)
 
   if (loading) {
     return (
@@ -218,7 +222,7 @@ const Home = () => {
                 </div>
 
                 <div className=" px-4 bg-white text-[15px] mt-4">
-                  <h3 className="text-[15px] text-[black] pr-[10px] overflow-hidden">
+                  <h3 className="text-[15px] text-[black] pr-[10px] h-11 overflow-hidden">
                     {product.blog_name}
                   </h3>
                   <div className="flex flex-col ">
@@ -233,18 +237,40 @@ const Home = () => {
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-between items-center">
+              {ifloggedIn === null ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowPopover(true)}
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              ) : (
                 <button
-                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                   onClick={() => addToCart(product)}
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                 >
                   Add to Cart
                 </button>
-              </div>
+              )}
             </div>
           ))}
         </div>
       </div>
+      {showPopover && (
+        <div className="fixed h-screen w-screen top-0 left-0 flex items-center justify-center mt-2 bg-black/80 p-4 rounded-lg shadow-lg z-50">
+          <div className="relative h-[500px] w-[800px] rounded-lg flex items-center justify-center bg-white">
+            <Login />
+            <button
+              onClick={handleClosePopover}
+              className="absolute top-0 right-2 p-2 text-black"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -13,6 +13,7 @@ import {
 import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/store/store"
+import Login from "../Login"
 
 export interface GrandChild {
   STATUS: string
@@ -69,6 +70,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const [data, setData] = useState<CustomerData | null>(null)
+  const [showPopover, setShowPopover] = useState(false)
 
   const router = useRouter()
 
@@ -81,10 +83,11 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
     dispatch(fetchCartItems())
   }, [dispatch])
 
+  const ifloggedIn = localStorage.getItem("id")
   const addToCart = (product: Product) => {
-    const ifloggedIn = localStorage.getItem("id")
     if (ifloggedIn === null) {
-      router.push("/login")
+      setShowPopover(true)
+      return
     }
 
     const itemExists = cartItems.some((item: any) => {
@@ -152,6 +155,8 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
       }
     }
   }, [])
+  const handleClosePopover = () => setShowPopover(false)
+
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14">
@@ -205,18 +210,40 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                   </div>
                 </div>
               </Link>
-              <div className="flex justify-between items-center">
+              {ifloggedIn === null ? (
+                <div className="relative">
+                  <button
+                    onClick={() => setShowPopover(true)}
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
+              ) : (
                 <button
-                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                   onClick={() => addToCart(product)}
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                 >
                   Add to Cart
                 </button>
-              </div>
+              )}
             </div>
           ))}
         </div>
       </div>
+      {showPopover && (
+        <div className="fixed h-screen w-screen top-0 left-0 flex items-center justify-center mt-2 bg-black/80 p-4 rounded-lg shadow-lg z-50">
+          <div className="relative h-[500px] w-[800px] rounded-lg flex items-center justify-center bg-white">
+            <Login />
+            <button
+              onClick={handleClosePopover}
+              className="absolute top-0 right-2 p-2 text-black"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
       <ToastContainer />
     </div>
   )

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react"
 import AxiosInstance from "@/axios_config/Axios"
 import Image from "next/image"
 import Link from "next/link"
-
 import { RootState, AppDispatch } from "../../store/store"
 import {
   addCartItems,
@@ -13,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
+import { Footer } from "../dashboard/Footer"
+import Login from "../Login"
 
 interface Product {
   model: string
@@ -41,15 +42,18 @@ interface ParsedCartItem {
   item: CartItem
   itemsData: Product[]
 }
+
 interface CustomerData {
   name: string
   type: string
   // Add other properties as needed
 }
+
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
   const [currentProduct, setCurrentProduct] = useState(6)
+  const [showPopover, setShowPopover] = useState(false)
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
@@ -57,8 +61,6 @@ const Home = () => {
 
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
     const itemsData = JSON.parse(item.items)
-    // console.log(itemsData)
-
     return { item, itemsData }
   })
 
@@ -66,11 +68,11 @@ const Home = () => {
     dispatch(fetchCartItems())
   }, [dispatch])
 
-  const addToCart = (product: Product) => {
-    const ifloggedIn = localStorage.getItem("id")
+  const ifloggedIn = localStorage.getItem("id")
 
+  const addToCart = (product: Product) => {
     if (ifloggedIn === null) {
-      router.push("/login")
+      setShowPopover(true)
       return
     }
 
@@ -87,11 +89,11 @@ const Home = () => {
         ),
       )
 
-      const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
+      const updatedQuantity = Number(prevCartItem[0].item.quantity)
       const updatedItem = {
         ...prevCartItem[0].item,
         quantity: updatedQuantity + 1,
-        itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
+        itemsData: JSON.stringify(prevCartItem[0].itemsData),
       }
       dispatch(
         editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
@@ -127,7 +129,6 @@ const Home = () => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
-
       const storedData = localStorage.getItem("data") ?? "{}"
       if (storedData) {
         try {
@@ -138,6 +139,7 @@ const Home = () => {
         }
       }
     }
+
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(
@@ -165,6 +167,8 @@ const Home = () => {
     setCurrentProduct(6)
   }
 
+  const handleClosePopover = () => setShowPopover(false)
+
   if (loading) {
     return (
       <div className="w-full min-h-screen flex items-center justify-center text-slate-600 animate-bounce">
@@ -172,21 +176,6 @@ const Home = () => {
       </div>
     )
   }
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     const id = localStorage.getItem("id") ?? "{}"
-
-  //     const storedData = localStorage.getItem("data") ?? "{}"
-  //     if (storedData) {
-  //       try {
-  //         const parsedData = JSON.parse(storedData)
-  //         setData(parsedData)
-  //       } catch (error) {
-  //         console.error("Failed to parse stored data", error)
-  //       }
-  //     }
-  //   }
-  // }, [])
 
   return (
     <>
@@ -254,17 +243,40 @@ const Home = () => {
                     </div>
                   </div>
                 </Link>
-                <button
-                  onClick={() => addToCart(product)}
-                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
-                >
-                  ADD TO CART
-                </button>
+                {ifloggedIn === null ? (
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowPopover(true)}
+                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => addToCart(product)}
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  >
+                    Add to Cart
+                  </button>
+                )}
               </div>
             ))}
         </div>
-        <div className="mt-9 flex justify-center"></div>
       </div>
+      {showPopover && (
+        <div className="fixed h-screen w-screen top-0 left-0 flex items-center justify-center mt-2 bg-black/80 p-4 rounded-lg shadow-lg z-50">
+          <div className="relative h-[500px] w-[800px] rounded-lg flex items-center justify-center bg-white">
+            <Login />
+            <button
+              onClick={handleClosePopover}
+              className="absolute top-0 right-2 p-2 text-black"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
     </>
   )
 }
