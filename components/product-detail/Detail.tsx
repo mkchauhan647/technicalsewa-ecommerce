@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import Image from "next/image"
+import Login from "../Login"
 interface ProductDetails {
   text: string
   value: string
@@ -95,6 +96,8 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   console.log(product)
   const [reviews, setReviews] = useState<Review[]>([])
   const [comment, setComment] = useState<string>("")
+  const [showPopover, setShowPopover] = useState(false)
+
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const userProfile = useSelector((state: RootState) => state.user.profile)
@@ -110,11 +113,10 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   }, [dispatch])
 
   let router = useRouter()
+  const ifloggedIn = localStorage.getItem("id")
   const addToCart = (product: Product) => {
-    const ifloggedIn = localStorage.getItem("id")
-
     if (ifloggedIn === null) {
-      router.push("/login")
+      setShowPopover(true)
       return
     }
     const itemExists = cartItems.some((item: any) => {
@@ -396,6 +398,8 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       toast.error("Error posting comment")
     }
   }
+  const handleClosePopover = () => setShowPopover(false)
+
   return (
     <div className="container mt-5 md:mt-10 items-start ">
       <div className=" lg:flex gap-6">
@@ -463,13 +467,30 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 />
               </div>
               <div className="flex justify-between items-center mt-4 gap-2 w-full">
-                <Button
+                {/* <Button
                   className="bg-cyan-400 text-white hover:bg-cyan-500  w-1/2 transition-all duration-300"
                   onClick={() => addToCart(product)}
                 >
                   Add to Cart
                   <span className="ml-2 text-lg"></span>
-                </Button>
+                </Button> */}
+                {ifloggedIn === null ? (
+                  <div className="relative">
+                    <Button
+                      onClick={() => setShowPopover(true)}
+                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                    >
+                      Add to Cart
+                    </Button>
+                  </div>
+                ) : (
+                  <Button
+                    onClick={() => addToCart(product)}
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  >
+                    Add to Cart
+                  </Button>
+                )}
                 <div onClick={buyNow} className="w-1/2">
                   <Button className="bg-transparent text-black/60  hover:bg-gray-100 border border-black/40 w-full transition-all duration-300 ">
                     Buy Now
@@ -730,6 +751,19 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           </div>
         </div>
       </div>
+      {showPopover && (
+        <div className="fixed h-screen w-screen top-0 left-0 flex items-center justify-center mt-2 bg-black/80 p-4 rounded-lg shadow-lg z-50">
+          <div className="relative h-[500px] w-[800px] rounded-lg flex items-center justify-center bg-white">
+            <Login />
+            <button
+              onClick={handleClosePopover}
+              className="absolute top-0 right-2 p-2 text-black"
+            >
+              X
+            </button>
+          </div>
+        </div>
+      )}
       <Toaster />
     </div>
   )

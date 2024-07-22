@@ -47,7 +47,7 @@ interface CustomerData {
 const Home = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentProduct, setCurrentProduct] = useState(12)
+  const [currentProduct, setCurrentProduct] = useState(10)
   const [showPopover, setShowPopover] = useState(false)
 
   const dispatch: AppDispatch = useDispatch()
@@ -159,7 +159,7 @@ const Home = () => {
       setCurrentProduct(featuredProducts.length)
       return
     }
-    setCurrentProduct(12)
+    setCurrentProduct(10)
   }
   const handleClosePopover = () => setShowPopover(false)
 
@@ -178,7 +178,7 @@ const Home = () => {
           <h1 className="md:text-[25px] font-bold flex items-center justify-center">
             Featured Products
           </h1>
-          {currentProduct === 12 ? (
+          {currentProduct === 10 ? (
             <button
               onClick={() => view("more")}
               className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
@@ -194,7 +194,7 @@ const Home = () => {
             </button>
           )}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-6 cursor-pointer">
+        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-6 cursor-pointer">
           {featuredProducts.slice(0, currentProduct).map((product, index) => (
             <div
               className="flex flex-col md:h-[400px] product rounded-lg overflow-hidden relative hover:shadow-lg shadow-md cursor-pointer"
@@ -211,7 +211,7 @@ const Home = () => {
                   <LazyLoadImage
                     alt={product.blog_name}
                     src={product.image_name}
-                    className="w-full h-36 md:h-56"
+                    className="w-full h-36 md:h-52 px-2"
                   />
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%

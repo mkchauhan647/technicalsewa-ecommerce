@@ -20,6 +20,7 @@ import Brands from "./brands/Brands"
 import { MdOutlineCategory } from "react-icons/md"
 import BrandSliders from "./Newcategory/Brands"
 import { Search } from "./navbar/Search"
+import Deals from "./Newcategory/Deals"
 
 interface Product {
   id: string
@@ -146,7 +147,9 @@ const MainBody = ({ children }: any) => {
           <BrandSliders />
         </div>
       </div>
-
+      <div className=" xl:container mx-auto  2xl:px-28 px-4">
+        <Deals />
+      </div>
       <div className=" xl:container mx-auto  2xl:px-28 px-4">
         <Newproduct />
       </div>
