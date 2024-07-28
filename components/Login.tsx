@@ -141,7 +141,7 @@ export default function Login() {
           </div>
         </div>
         <div className="basis-1/2 sm:flex items-center justify-center hidden">
-          <Image src={logo} alt="job logo" className="w-[544px] py-2 " />
+          <Image width={544}  height={300} src={logo} alt="job logo" className="w-[544px] py-2 " />
         </div>
       </div>
       <ToastContainer
