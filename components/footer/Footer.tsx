@@ -3,6 +3,8 @@ import React from "react"
 import { TitleBorder } from "../TitleBorder"
 import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md"
 import { FaGlobe } from "react-icons/fa"
+import Image from "next/image"
+import icon from "../../assets/icon_footer.png"
 
 const categories = [
   {
@@ -59,7 +61,7 @@ const Footer = () => {
       <div className="  xl:container mx-auto px-4  2xl:px-28 py-6 md:py-14">
         <div className="flex  flex-col md:flex-row large_mobile:grid grid-cols-3 md:flex justify-between gap-8 lg:gap-0">
           <div className=" col-span-2 flex flex-col basis-[30%] ">
-            <img src="/icon_footer.png" className="w-[80px] " alt="logo" />
+            <Image width={60} height={60} src={icon} className="w-[80px] " alt="logo" />
             <p className="text-white text-[12px] text-justify mt-4">
               Technical Sewa is committed to delivering top-notch nationwide
               after-sales support for appliances, including Washing Machines,

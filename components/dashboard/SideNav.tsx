@@ -8,7 +8,8 @@ import { RiAdvertisementFill } from "react-icons/ri"
 import { FaUser, FaLocationDot } from "react-icons/fa6"
 import { FaHistory } from "react-icons/fa"
 import Image from "next/image"
-import icon from "../../public/logo.jpg"
+import icon from "../../assets/logo.jpg"
+
 // import {
 //   Accordion,
 //   AccordionContent,
@@ -56,7 +57,7 @@ const SideNav = () => {
         className="flex items-center space-x-4 border-b border-black px-3 h-[72px]"
       >
         {/* <LayoutDashboardIcon className="h-8 w-8" /> */}
-        <Image src={icon} alt="icon" />
+        <Image src={icon} alt="icon" width={150} height={140}/>
       </Link>
       <nav className="mt-8 flex flex-col gap-1 ">
         {navigationItems.map((item, index) => (
