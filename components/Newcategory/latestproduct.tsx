@@ -216,17 +216,14 @@ const Home = () => {
                     <LazyLoadImage
                       alt={product.blog_name}
                       src={product.image_name}
-                      className="w-full h-36 md:h-52 px-2"
+                      className="w-full h-36 md:h-52 p-6"
                     />
                     <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                       -10%
                     </span>
-                    <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
-                      {product?.is_hot}
-                    </span>
                   </div>
 
-                  <div className="px-4 mt-[18px]">
+                  <div className="px-4 mt-[10px]">
                     <h3 className="text-[15px] text-[black] h-[48px] pr-[10px] overflow-hidden">
                       {product.blog_name}
                     </h3>

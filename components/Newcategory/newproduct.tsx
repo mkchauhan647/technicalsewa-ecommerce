@@ -195,13 +195,13 @@ const Home = () => {
           )}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-6 cursor-pointer">
-          {featuredProducts.slice(0, currentProduct).map((product, index) => (
+          {featuredProducts.slice(0, currentProduct)
+          .map((product: Product, index: number) => (
             <div
-              className="flex flex-col md:h-[400px] product rounded-lg overflow-hidden relative hover:shadow-lg shadow-md cursor-pointer"
+              className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
               key={index}
             >
               <Link
-                key={index}
                 href={{
                   pathname: "/detail-beta",
                   query: { id: product.blog_id },
@@ -211,28 +211,26 @@ const Home = () => {
                   <LazyLoadImage
                     alt={product.blog_name}
                     src={product.image_name}
-                    className="w-full h-36 md:h-52 px-2"
+                    className="w-full h-36 md:h-52 p-6"
                   />
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%
                   </span>
-                  <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
-                    {product?.is_hot}
-                  </span>
                 </div>
 
-                <div className=" px-4 bg-white text-[15px] mt-4">
-                  <h3 className="text-[15px] text-[black] pr-[10px] h-11 overflow-hidden">
+                <div className="px-4 mt-[10px]">
+                  <h3 className="text-[15px] text-[black] h-[48px] pr-[10px] overflow-hidden">
                     {product.blog_name}
                   </h3>
+
                   <div className="flex flex-col ">
                     <span className="text-[18px] text-[#f85606] block">
                       {data?.type === "Technician"
                         ? `Rs.${product?.tech_rate}`
-                        : `Rs.${product.our_rate}`}
+                        : `Rs.${product?.our_rate}`}
                     </span>
                     <span className="text-[14px] line-through text-[#9e9e9e]">
-                      Rs.{product.market_rate}
+                      Rs. {product.market_rate}
                     </span>
                   </div>
                 </div>
