@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
-import Timer from "./Timer"
 
 interface Product {
   model: string
@@ -30,10 +29,6 @@ interface Product {
   featured: boolean
   page_title: string
   is_hot: string
-  end_dt: string
-  end_tm: string
-  start_dt: string
-  start_tm: string
 }
 
 interface CartItem {
@@ -54,12 +49,11 @@ interface CustomerData {
   // Add other properties as needed
 }
 
-const Deals = () => {
+const HotProduct = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentProduct, setCurrentProduct] = useState(6)
+  const [currentProduct, setCurrentProduct] = useState(5)
   const [showPopover, setShowPopover] = useState(false)
-  const [timer, setTimer] = useState<string>("")
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
@@ -151,7 +145,7 @@ const Deals = () => {
         const response = await AxiosInstance.get(
           "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
         )
-
+        console.log(response.data)
         setTrending(response.data)
         setLoading(false)
       } catch (error) {
@@ -163,39 +157,7 @@ const Deals = () => {
     fetchData()
   }, [])
 
-  //   useEffect(() => {
-  //     const updateTimer = () => {
-  //       const now = new Date()
-  //       const end = new Date()
-  //       end.setHours(24, 0, 0, 0) // Set end time to midnight
-  //       const timeRemaining = end.getTime() - now.getTime()
-
-  //       const hours = Math.floor(
-  //         (timeRemaining % (1000 * 3600 * 24)) / (1000 * 3600),
-  //       )
-  //       const minutes = Math.floor((timeRemaining % (1000 * 3600)) / (1000 * 60))
-
-  //       setTimer(`${hours}h ${minutes}m`)
-  //     }
-
-  //     updateTimer() // Initial call
-  //     const intervalId = setInterval(updateTimer, 60000) // Update every minute
-
-  //     return () => clearInterval(intervalId) // Cleanup interval on component unmount
-  //   }, [])
-
-  const featuredProducts = trending
-    .filter(
-      (product) =>
-        product.latest &&
-        new Date(product.end_dt) > new Date() &&
-        product.end_tm,
-    )
-    .map((product) => ({
-      ...product,
-      endDateTime: new Date(`${product.end_dt}T${product.end_tm}`),
-    }))
-    .sort((a, b) => a.endDateTime.getTime() - b.endDateTime.getTime())
+  const featuredProducts = trending.filter((product) => product.is_hot)
 
   const view = (text: string) => {
     if (text === "more") {
@@ -218,28 +180,23 @@ const Deals = () => {
   return (
     <>
       <div className="featured-products py-5">
-        <div className="flex flex-col md:flex-row  items-center mb-8 md:gap-10">
-          <div className="flex w-1/3 ">
-            <h1 className="text-[25px] font-bold">Deals of the Day</h1>
-          </div>
-          <div className="flex justify-between items-center w-full md:w-2/3">
-            <Timer />
-            {currentProduct === 5 ? (
-              <button
-                onClick={() => view("more")}
-                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4`}
-              >
-                View More
-              </button>
-            ) : (
-              <button
-                onClick={() => view("less")}
-                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4`}
-              >
-                View Less
-              </button>
-            )}
-          </div>
+        <div className="flex justify-between">
+          <h1 className="text-[25px] font-bold mb-8">You May Like</h1>
+          {currentProduct === 5 ? (
+            <button
+              onClick={() => view("more")}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+            >
+              View More
+            </button>
+          ) : (
+            <button
+              onClick={() => view("less")}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+            >
+              View Less
+            </button>
+          )}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {featuredProducts
@@ -321,4 +278,4 @@ const Deals = () => {
   )
 }
 
-export default Deals
+export default HotProduct

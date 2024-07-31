@@ -5,6 +5,7 @@ import Image from "next/image"
 import Categories from "./category/Categories"
 import Newproduct from "./Newcategory/newproduct"
 import Latestproduct from "./Newcategory/latestproduct"
+import HotProduct from "./Newcategory/HotProduct"
 import latestimage from "@/public/Group 2073.png"
 import trandingimage from "@/public/Group 2096.png"
 import offer from "@/public/Group 2079.png"
@@ -193,6 +194,10 @@ const MainBody = ({ children }: any) => {
       </div>
       <div className="xl:container mx-auto  2xl:px-28 px-4">
         <FeaturedBrands />
+      </div>
+
+      <div className="xl:container mx-auto  2xl:px-28 px-4">
+        <HotProduct />
       </div>
 
       <div className="xl:container mx-auto  2xl:px-28 px-4">
