@@ -1,5 +1,5 @@
 "use client"
-import logo from "@/public/logo.jpg"
+import logo from "../../assets/tslogo-final1.png"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
@@ -112,7 +112,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
       <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-4">
         {/*........ logo......... */}
         <Link href="/">
-          <Image src={logo} alt="logo" className="max-w-[144px] py-2" />
+          <Image src={logo} alt="logo" className="max-w-[144px] py-2" width={150} height={140} />
         </Link>
         {/* ...........Hamburger Menu.......... */}
         <div className="flex items-center gap-4 lg:hidden">

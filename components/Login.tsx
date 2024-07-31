@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import logo from "@/public/login.jpg"
+import logo from "../assets/login.jpg"
 import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
@@ -141,7 +141,7 @@ export default function Login() {
           </div>
         </div>
         <div className="basis-1/2 sm:flex items-center justify-center hidden">
-          <Image src={logo} alt="job logo" className="w-[544px] py-2 " />
+          <Image width={544}  height={300} src={logo} alt="job logo" className="w-[544px] py-2 " />
         </div>
       </div>
       <ToastContainer

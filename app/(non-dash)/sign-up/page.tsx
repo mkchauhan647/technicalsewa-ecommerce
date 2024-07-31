@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import logo from "@/public/login.jpg"
+import logo from "../../../assets/login.jpg"
 import axios from "axios"
 import Image from "next/image"
 import Link from "next/link"
