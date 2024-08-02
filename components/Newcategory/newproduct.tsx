@@ -107,7 +107,7 @@ const Home = () => {
 
     const newItem: CartItem = {
       items: [product],
-      total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
+      total: !(data?.type === "Customer") ? product.tech_rate : product.our_rate,
       quantity: 1,
       image_url: product.image_name,
     }
@@ -225,7 +225,7 @@ const Home = () => {
 
                   <div className="flex flex-col ">
                     <span className="text-[18px] text-[#f85606] block">
-                      {data?.type === "Technician"
+                      {!(data?.type === "Customer")
                         ? `Rs.${product?.tech_rate}`
                         : `Rs.${product?.our_rate}`}
                     </span>

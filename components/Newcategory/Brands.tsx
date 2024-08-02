@@ -112,7 +112,7 @@ const BrandsSliders = () => {
 
     const newItem: CartItem = {
       items: [product],
-      total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
+      total: !(data?.type === "Customer") ? product.tech_rate : product.our_rate,
       quantity: 1,
       image_url: product.image_name,
     }
@@ -209,16 +209,16 @@ const BrandsSliders = () => {
                       {product.blog_name}
                     </h3>
 
-                    {/* <div className="flex flex-col ">
+                    <div className="flex flex-col ">
                       <span className="text-[15px] text-[#f85606] block">
-                        {data?.type === "Technician"
+                        {!(data?.type === "Customer")
                           ? `Rs.${product?.tech_rate}`
                           : `Rs.${product?.our_rate}`}
                       </span>
                       <span className="text-[11px] line-through text-[#9e9e9e]">
                         Rs. {product.market_rate}
                       </span>
-                    </div> */}
+                    </div>
                   </div>
                 </Link>
                 {ifloggedIn === null ? (
