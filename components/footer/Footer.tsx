@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import { ImFacebook } from "react-icons/im";
 import { BiLogoInstagramAlt } from "react-icons/bi";
 import { BsYoutube, BsTwitter } from "react-icons/bs";
@@ -9,13 +10,22 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "../../assets/tslogo-final1.png"
 import Locations from "./Locations";
-const Footer = async () => {
 
- const data =await axios
- .get(
-   "https://www.technicalsewa.com/techsewa/masterconfig/publicmasterconfig/GetContactUs"
- )
- const description = data?.data?.brands[0].description
+const Footer = () => {
+const [description, setDescription] = useState<any>(null);
+
+  useEffect(()=>{
+    const getContactUS = async()=>{
+    const data = await axios
+    .get(
+      "https://www.technicalsewa.com/techsewa/masterconfig/publicmasterconfig/GetContactUs")
+      setDescription(data?.data.brands[0].description)
+    }
+    getContactUS();
+  },[])
+
+
+//  const description = data?.data?.brands[0].description
 
   return (
     <div>

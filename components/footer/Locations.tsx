@@ -1,13 +1,19 @@
+"use client";
 import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const Locations = async () => {
-  const allLocation = await axios
-    .get(
-      "https://www.technicalsewa.com/techsewa/publiccontrol/publicfaq/getLocation"
-    )
-    .then((res) => res.data);
+const Locations = () => {
+  const [allLocation, setallLocation] = useState<any>(null);
+
+  useEffect(()=>{
+    const getLocation = async()=>{
+    const data = await axios
+    .get("https://www.technicalsewa.com/techsewa/publiccontrol/publicfaq/getLocation")
+      setallLocation(data?.data)
+    }
+    getLocation();
+  },[])
 
   return (
     <>
@@ -18,7 +24,7 @@ const Locations = async () => {
       <div className="">
         <div className=" font-Roboto font-normal text-[12px] md:text-base leading-[24px] text-[#FFF] pt-[8px]">
           <div className="grid grid-cols-4 md:grid-cols-9 px-[10px] md:px-[0px] gap-[10px] my-2">
-            {allLocation.map((place:any) => (
+            {allLocation?.map((place:any) => (
               <Link
                 key={place?.id}
                 href={{
