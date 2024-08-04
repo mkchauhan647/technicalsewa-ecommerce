@@ -29,8 +29,8 @@ const [description, setDescription] = useState<any>(null);
 
   return (
     <div>
-      <div className="relative bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700">
-        <div className="py-[10px]   max-w-[1280px] mx-auto">
+      <div className="relative bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 px-14">
+        <div className="py-[10px] xl:container mx-auto px-4 2xl:px-28">
           {/* heading of footer */}
           <Locations />
           

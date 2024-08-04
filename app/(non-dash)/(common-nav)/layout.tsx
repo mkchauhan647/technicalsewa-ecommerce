@@ -14,7 +14,7 @@ export default function CategoryLayout({
       {/* <HeroCarousel /> */}
 
       <MainBody>{children} </MainBody>
-      <SellWithUs />
+   
       <Toaster />
     </>
   )
