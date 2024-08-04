@@ -107,7 +107,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   }, [searchText])
 
   return (
-    <div className="sticky top-0 border-b-2 z-40 bg-white">
+    <div className="sticky top-0 border-b-2 z-40 bg-white px-16">
       {/* a................bigger screens.................. */}
       <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-4">
         {/*........ logo......... */}
