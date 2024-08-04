@@ -37,7 +37,7 @@ const Ncategories: React.FC = () => {
   return (
     <div className="featured-products py-5">
       <div className="flex justify-between">
-        <h1 className="text-[25px] font-bold pt-[15px] ">Feature Brands</h1>
+      <span className="text-xl font-semibold">Feature Brands</span>
       </div>
       <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-4 ">
         {brands.map((brand, index) => (

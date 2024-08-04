@@ -220,7 +220,7 @@ const Deals = () => {
       <div className="featured-products py-5">
         <div className="flex flex-col md:flex-row  items-center mb-8 md:gap-10">
           <div className="flex w-1/3 ">
-            <h1 className="text-[25px] font-bold">Deals of the Day</h1>
+            <span className="text-xl font-semibold">Deals of the Day</span>
           </div>
           <div className="flex justify-between items-center w-full md:w-2/3">
             <Timer />
@@ -267,17 +267,17 @@ const Deals = () => {
                   </div>
 
                   <div className="px-4 mt-[10px]">
-                    <h3 className="text-[15px] text-[black] h-[48px] pr-[10px] overflow-hidden">
+                    <h3 className="text-[13px] text-[black] pr-[10px] overflow-hidden">
                       {product.blog_name}
                     </h3>
 
                     <div className="flex flex-col ">
-                      <span className="text-[18px] text-[#f85606] block">
+                      <span className="text-[15px] text-[#f85606] block">
                         {!(data?.type === "Customer")
                           ? `Rs.${product?.tech_rate}`
                           : `Rs.${product?.our_rate}`}
                       </span>
-                      <span className="text-[14px] line-through text-[#9e9e9e]">
+                      <span className="text-[13px] line-through text-[#9e9e9e]">
                         Rs. {product.market_rate}
                       </span>
                     </div>
