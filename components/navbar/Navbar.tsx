@@ -111,7 +111,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
       {/* a................bigger screens.................. */}
       <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-4">
         {/*........ logo......... */}
-        <Link href="/">
+        <Link href="https://www.technicalsewa.com/">
           <Image src={logo} alt="logo" className="max-w-[144px] py-2" width={150} height={140} />
         </Link>
         {/* ...........Hamburger Menu.......... */}
@@ -156,16 +156,21 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         </div>
         {/* ...........nav links.......... */}
         <div className="hidden lg:flex gap-5 text-sm">
-          {links.map((link, index) => (
+          {/* {links.map((link, index) => (
             <Link key={index} href={link.href}>
               {link.name}
             </Link>
-          ))}
+          ))} */}
+         
         </div>
         {/* ......Registration and Login... */}
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
+           <Link href={"/"} className="text-gray-600">
+            Spare Parts
+          </Link>
+
           <Cart />
           {id ? (
             <Button
