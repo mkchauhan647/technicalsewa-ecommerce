@@ -16,7 +16,7 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
       <div className="flex relative w-full group">
-        <div className="cursor-pointer flex justify-between items-center text-[13px] px-[10px] py-[6px] w-full text-black rounded-md">
+        <div className="cursor-pointer flex justify-between items-center text-xs px-[10px] py-[6px] w-full text-black rounded-md">
           <Link
             href={{
               pathname: "/productlist",

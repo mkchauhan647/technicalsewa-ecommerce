@@ -30,21 +30,21 @@ const Timer = () => {
 
   return (
     <div className="flex space-x-1 md:space-x-4 items-center justify-center">
-      <span className="font-semibold text-sm md:text-xl ">
+      <span className="font-semibold text-sm md:text-base ">
         Ending In :{" "}
       </span>
       <div className="timer-box bg-red-500 text-white flex justify-center items-center px-2 md:px-0 md:w-10 h-10  rounded-sm shadow-md">
-        <span className="text-sm md:text-lg ">
+        <span className="text-sm md:text-base ">
           {String(time.hours).padStart(2, "0")}
         </span>
       </div>
       <div className="timer-box bg-red-500 text-white flex justify-center items-center px-2 md:px-0 md:w-10 h-10  rounded-sm shadow-md">
-        <span className="text-sm md:text-lg">
+        <span className="text-sm md:text-base">
           {String(time.minutes).padStart(2, "0")}
         </span>
       </div>
       <div className="timer-box bg-red-500 text-white flex justify-center items-center px-2 md:px-0 md:w-10 h-10 rounded-sm shadow-md">
-        <span className="text-sm md:text-lg">
+        <span className="text-sm md:text-base">
           {String(time.seconds).padStart(2, "0")}
         </span>
       </div>

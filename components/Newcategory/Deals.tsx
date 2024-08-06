@@ -220,21 +220,21 @@ const Deals = () => {
       <div className="featured-products py-5">
         <div className="flex flex-col md:flex-row  items-center mb-8 md:gap-10">
           <div className="flex w-1/3 ">
-            <span className="text-xl font-semibold">Deals of the Day</span>
+            <span className="text-base font-semibold">Deals of the Day</span>
           </div>
           <div className="flex justify-between items-center w-full md:w-2/3">
             <Timer />
             {currentProduct === 5 ? (
               <button
                 onClick={() => view("more")}
-                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4`}
+                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4 text-sm`}
               >
                 View More
               </button>
             ) : (
               <button
                 onClick={() => view("less")}
-                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4`}
+                className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 ml-4 text-sm`}
               >
                 View Less
               </button>
@@ -267,7 +267,7 @@ const Deals = () => {
                   </div>
 
                   <div className="px-4 mt-[10px]">
-                    <h3 className="text-[13px] text-[black] pr-[10px] overflow-hidden">
+                    <h3 className="text-xs text-[black] pr-[10px] overflow-hidden">
                       {product.blog_name}
                     </h3>
 
@@ -287,7 +287,7 @@ const Deals = () => {
                   <div className="relative">
                     <button
                       onClick={() => setShowPopover(true)}
-                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                     >
                       Add to Cart
                     </button>
@@ -295,7 +295,7 @@ const Deals = () => {
                 ) : (
                   <button
                     onClick={() => addToCart(product)}
-                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                   >
                     Add to Cart
                   </button>

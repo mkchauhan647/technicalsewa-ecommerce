@@ -23,7 +23,7 @@ export default function DashLayout({
   return (
     <div className="flex flex-col min-h-screen">
  <Navbar cart={cart} />
- <main className="flex-1 px-14">{children}</main>
+ <main className="flex-1 md:px-14">{children}</main>
  <Footer />
       <Toaster />
     </div>

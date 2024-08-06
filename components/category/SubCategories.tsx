@@ -82,7 +82,7 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
           onClick={toggleSubCategories}
         >
           <div className="flex justify-between" onClick={toggleSubCategories}>
-            <h2 className="text-[15px]" >{category.title}</h2>
+            <h2 className="text-xs" >{category.title}</h2>
 
             <IoIosArrowForward className="hidden group-hover:block" />
           </div>
