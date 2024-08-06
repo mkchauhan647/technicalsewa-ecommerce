@@ -107,25 +107,25 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   }, [searchText])
 
   return (
-    <div className="sticky top-0 border-b-2 z-40 bg-white px-16">
+    <div className="sticky top-0 border-b-2 z-40 bg-white xl:px-16">
       {/* a................bigger screens.................. */}
-      <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-4">
+      <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-2">
         {/*........ logo......... */}
         <Link href="https://www.technicalsewa.com/">
-          <Image src={logo} alt="logo" className="max-w-[144px] py-2" width={150} height={140} />
+          <Image src={logo} alt="logo" className="max-w-[120px]" width={120} height={120} />
         </Link>
         {/* ...........Hamburger Menu.......... */}
         <div className="flex items-center gap-4 lg:hidden">
-          <div className="text-2xl text-black" onClick={handlecategory}>
+          <div className="text-xl text-black" onClick={handlecategory}>
             <BiCategory />
           </div>
-          <div className="text-2xl text-black" onClick={handlebrand}>
+          <div className="text-xl text-black" onClick={handlebrand}>
             <MdOutlineCategory />
           </div>
           <Cart />
 
           <div
-            className="text-2xl text-black"
+            className="text-xl text-black"
             onClick={() => setShowMenu(!showMenu)}
           >
             <RxHamburgerMenu />
@@ -134,7 +134,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         {/* ........search.......*/}
         <div className="hidden xl:block">
           <div className="relative">
-            <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer">
               <FiSearch />
             </div>
             <input
@@ -167,7 +167,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
-           <Link href={"/"} className="text-gray-600">
+           <Link href={"/"} className="text-gray-600 text-sm">
             Spare Parts
           </Link>
 
@@ -177,17 +177,17 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
               onClick={handleClick}
               className="bg-cyan-500 hover:bg-cyan-600 d-flex flex-col"
             >
-              <FaUserCircle className="text-2xl " />
+              <FaUserCircle className="text-xl " />
             </Button>
           ) : (
             <>
               <Link href="/login">
-                <button className="bg-transparent min-w-[100px] border rounded-md text-xs py-2 border-cyan-500 text-cyan-500 hover:bg-cyan-500 hover:text-white hover:duration-300 transition-all">
+                <button className="bg-transparent min-w-[90px] border rounded-md text-xs py-2 border-cyan-500 text-cyan-500 hover:bg-cyan-500 hover:text-white hover:duration-300 transition-all">
                   Login
                 </button>
               </Link>
               <Link href="/sign-up">
-                <button className="bg-cyan-500 text-white rounded-md min-w-[100px] py-2 text-xs hover:bg-cyan-600 cursor-pointer transition-all hover:duration-300">
+                <button className="bg-cyan-500 text-white rounded-md min-w-[90px] py-2 text-xs hover:bg-cyan-600 cursor-pointer transition-all hover:duration-300">
                   Sign Up
                 </button>
               </Link>
@@ -207,7 +207,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         }}
       >
         <div className="relative">
-          <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
+          <div className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer">
             <FiSearch />
           </div>
           <input
@@ -227,7 +227,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
               </div>
             )}
         </div>
-        {links.map((link, index) => (
+        {/* {links.map((link, index) => (
           <Link
             key={index}
             href={link.href}
@@ -235,7 +235,10 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
           >
             {link.name}
           </Link>
-        ))}
+        ))} */}
+         <Link href={"/"} className="text-gray-600 text-sm">
+            Spare Parts
+          </Link>
         <Link href={"/login"} onClick={() => setShowMenu(!showMenu)}>
           <button className="bg-transparent min-w-[100px] border rounded-md text-xs py-2 border-cyan-500 text-cyan-500 hover:bg-cyan-500 hover:text-white hover:duration-300 transition-all">
             Login

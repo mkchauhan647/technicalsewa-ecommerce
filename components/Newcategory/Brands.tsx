@@ -187,7 +187,7 @@ const BrandsSliders = () => {
             .slice(0, 10)
             .map((product: Product, index: number) => (
               <div
-                className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer h-fit"
+                className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
                 key={index}
               >
                 <Link
@@ -205,7 +205,7 @@ const BrandsSliders = () => {
                   </div>
 
                   <div className="px-4 mt-[2px]">
-                    <h3 className="text-[12px] text-[black] pr-[5px] overflow-hidden">
+                    <h3 className="text-xs text-[black] pr-[5px] overflow-hidden">
                       {product.blog_name}
                     </h3>
 
@@ -225,7 +225,7 @@ const BrandsSliders = () => {
                   <div className="relative">
                     <button
                       onClick={() => setShowPopover(true)}
-                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[90px] py-2 m-4 text-[11px]"
+                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[90px] py-2 m-4 text-xs"
                     >
                       Add to Cart
                     </button>
@@ -233,7 +233,7 @@ const BrandsSliders = () => {
                 ) : (
                   <button
                     onClick={() => addToCart(product)}
-                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[11px]"
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                   >
                     Add to Cart
                   </button>

@@ -175,18 +175,18 @@ const Home = () => {
     <>
       <div className="featured-products py-5 bg-[white]">
         <div className="flex justify-between items-center mb-3">
-        <span className="text-xl font-semibold">Featured Product</span>
+        <span className="text-base font-semibold">Featured Product</span>
           {currentProduct === 10 ? (
             <button
               onClick={() => view("more")}
-              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 text-sm`}
             >
               View More
             </button>
           ) : (
             <button
               onClick={() => view("less")}
-              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95`}
+              className={`h-[40px] p-2 bg-[#0891B2] text-white rounded-md active:scale-x-95 text-sm`}
             >
               View Less
             </button>
@@ -217,7 +217,7 @@ const Home = () => {
                 </div>
 
                 <div className="px-4 mt-[10px]">
-                  <h3 className="text-[13px] text-[black]  pr-[10px] overflow-hidden">
+                  <h3 className="text-xs text-[black]  pr-[10px] overflow-hidden">
                     {product.blog_name}
                   </h3>
 
@@ -237,7 +237,7 @@ const Home = () => {
                 <div className="relative">
                   <button
                     onClick={() => setShowPopover(true)}
-                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                   >
                     Add to Cart
                   </button>
@@ -245,7 +245,7 @@ const Home = () => {
               ) : (
                 <button
                   onClick={() => addToCart(product)}
-                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                 >
                   Add to Cart
                 </button>

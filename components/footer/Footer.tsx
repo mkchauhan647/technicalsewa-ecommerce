@@ -29,7 +29,7 @@ const [description, setDescription] = useState<any>(null);
 
   return (
     <div>
-      <div className="relative bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 px-14">
+      <div className="relative bg-gradient-to-r from-cyan-500 via-cyan-600 to-cyan-700 md:px-14 mt-6">
         <div className="py-[10px] xl:container mx-auto px-4 2xl:px-28">
           {/* heading of footer */}
           <Locations />
@@ -38,26 +38,22 @@ const [description, setDescription] = useState<any>(null);
           {/* Next Foter */}
           <div className="flex flex-col md:flex-row md:items-center justify-between  mt-[10px] gap-4 px-[10px] md:px-[0px]">
             <div className="flex flex-row gap-4 items-center md:flex-col">
-              <Link
-                href="/"
-                className="w-[210px] h-[52px] 2xl:h-[67px] bg-[#FFF] p-[3px] rounded-[3px]"
-              >
+              <Link href="https://www.technicalsewa.com/">
                 <Image
-                height={52}
-                width={210}
                 loading="lazy"
                   src={logo}
                   alt="image of logo"
-                  className="object-contain w-full h-full"
+                  className="max-w-[200px] bg-white p-2" 
+                  width={180} height={160}
                 />
               </Link>
               <Link
                 target="_blank"
                 href="https://maps.app.goo.gl/YgkiRnKFGvErHfRa7"
-                className=" bg-white text-primary flex py-4 items-center justify-center w-[95px] h-[28px] font-Roboto font-normal text-base leading-[24px]  text-center border-[1px] border-solid border-[#E5E7EB]"
+                className="animate-bounce text-white flex py-4 items-center justify-center w-[95px] h-[28px] font-Roboto font-normal text-base leading-[24px]  text-center border-[1px] border-solid border-[#E5E7EB]"
               >
                 Direction
-                <IoLocationSharp className="text-green-500" size={20} />
+                <IoLocationSharp className="text-white" size={20} />
               </Link>
             </div>
             <div className="flex  gap-4 md:gap-[48px] flex-row ">

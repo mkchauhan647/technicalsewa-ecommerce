@@ -17,7 +17,7 @@ const Locations = () => {
 
   return (
     <>
-      <div className=" border border-solid border-white font-semibold text-[12px] md:text-base leading-[19px] text-[#FFF] font-Roboto text-center bg-cyan-600 shadow-xl max-w-[300px] flex justify-center items-center px-[40px] h-[43px] absolute left-[50%] tranform translate-x-[-50%] top-[-4%] md:top-[-9%] rounded-md">
+      <div className=" border border-solid border-white font-semibold whitespace-nowrap text-sm md:text-base leading-[19px] text-[#FFF] font-Roboto text-center bg-cyan-600 shadow-xl max-w-[300px] flex justify-center items-center px-[40px] h-[43px] absolute left-[50%] tranform translate-x-[-50%] top-[-4%] md:top-[-9%] rounded-md">
         We Are Available in
       </div>
       {/* link of location */}

@@ -48,7 +48,7 @@ export function Cart() {
           <div className="flex items-center justify-center absolute w-4 h-4 top-0 right-0 -mt-1 -mr-1 bg-red-500 text-white text-[8px] rounded-full">
             {cart?.length}
           </div>
-          <MdShoppingCartCheckout className="text-2xl text-slate-600" />
+          <MdShoppingCartCheckout className="text-xl text-slate-600" />
         </Button>
       </SheetTrigger>
       <SheetContent className="min-h-fit overflow-y-scroll">

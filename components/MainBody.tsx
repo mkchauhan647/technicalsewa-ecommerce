@@ -94,23 +94,23 @@ const MainBody = ({ children }: any) => {
 
         {/* larger screen */}
         <div className="border-r hidden lg:block lg:w-[25%]">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
-            <BiCategory className="text-2xl cursor-pointer" /> Categories
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+            <BiCategory className="text-xl cursor-pointer" /> Categories
           </div>
           <Categories />
         </div>
 
-        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px] h-full">
+        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px]">
           <Slider {...settings}>
             {bannerImages.map((product) => (
-              <div key={product.id} className="w-full">
+              <div key={product.id} className="w-full h-[280px]">
                 <Image
                   src={product.image_url}
                   alt={product.alt}
                   width={1000}
-                  height={1000}
+                  height={500}
                   // layout="responsive"
-                  className="w-full h-[200px] sm:h-[400px] object-cover object-center"
+                  className="w-full h-full object-cover object-center"
                   quality={100}
                   priority
                 />
@@ -122,8 +122,8 @@ const MainBody = ({ children }: any) => {
       <div className="xl:container mx-auto lg:flex md:my-8 items-start 2xl:px-28 px-4">
         {/* larger screen */}
         <div className="border-r hidden lg:block lg:w-[10%]  ">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
-            <MdOutlineCategory className="text-2xl cursor-pointer" /> Brands
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+            <MdOutlineCategory className="text-xl cursor-pointer" /> Brands
           </div>
           <Brands />
         </div>
