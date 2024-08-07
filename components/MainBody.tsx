@@ -103,7 +103,7 @@ const MainBody = ({ children }: any) => {
         <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px]">
           <Slider {...settings}>
             {bannerImages.map((product) => (
-              <div key={product.id} className="w-full h-[280px]">
+              <div key={product.id} className="w-full md:h-[280px] h-[160px]">
                 <Image
                   src={product.image_url}
                   alt={product.alt}

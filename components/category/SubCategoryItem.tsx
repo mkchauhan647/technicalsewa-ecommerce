@@ -27,7 +27,7 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
               },
             }}
           >
-            <h2>{subcategory.text}</h2>
+            <h2 className="text-xs">{subcategory.text}</h2>
           </Link>
         </div>
       </div>
