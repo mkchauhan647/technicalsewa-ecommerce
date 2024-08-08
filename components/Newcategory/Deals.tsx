@@ -246,61 +246,63 @@ const Deals = () => {
             .slice(0, currentProduct)
             .map((product: Product, index: number) => (
               <div
-                className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
-                key={index}
+              className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
+              key={index}
+            >
+              <Link
+                href={{
+                  pathname: "/detail-beta",
+                  query: { id: product.blog_id },
+                }}
               >
-                <Link
-                  href={{
-                    pathname: "/detail-beta",
-                    query: { id: product.blog_id },
-                  }}
-                >
-                  <div className="">
-                    <LazyLoadImage
-                      alt={product.blog_name}
-                      src={product.image_name}
-                      className="w-full h-36 md:h-52 p-6"
-                    />
-                    <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
-                      -10%
+                <div className="">
+                  <LazyLoadImage
+                    alt={product.blog_name}
+                    src={product.image_name}
+                    className="w-full h-36 md:h-52 md:p-6"
+                  />
+                  <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                  {Math.round(((product.market_rate -( !(data?.type === "Customer")
+                        ? product?.tech_rate
+                        : product?.our_rate)) / product.market_rate) * 100) + "%" } 
+                  </span>
+                </div>
+
+                <div className="md:px-4 px-1 mt-[10px]">
+                  <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
+                    {product.blog_name}
+                  </h3>
+
+                  <div className="flex flex-col ">
+                    <span className="text-[15px] text-[#f85606] block">
+                      {!(data?.type === "Customer")
+                        ? `Rs.${product?.tech_rate}`
+                        : `Rs.${product?.our_rate}`}
+                    </span>
+                    <span className="text-[13px] line-through text-[#9e9e9e]">
+                      Rs. {product.market_rate}
                     </span>
                   </div>
-
-                  <div className="px-4 mt-[10px]">
-                    <h3 className="text-xs text-[black] pr-[10px] overflow-hidden">
-                      {product.blog_name}
-                    </h3>
-
-                    <div className="flex flex-col ">
-                      <span className="text-[15px] text-[#f85606] block">
-                        {!(data?.type === "Customer")
-                          ? `Rs.${product?.tech_rate}`
-                          : `Rs.${product?.our_rate}`}
-                      </span>
-                      <span className="text-[13px] line-through text-[#9e9e9e]">
-                        Rs. {product.market_rate}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-                {ifloggedIn === null ? (
-                  <div className="relative">
-                    <button
-                      onClick={() => setShowPopover(true)}
-                      className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
-                    >
-                      Add to Cart
-                    </button>
-                  </div>
-                ) : (
+                </div>
+              </Link>
+              {ifloggedIn === null ? (
+                <div className="relative">
                   <button
-                    onClick={() => addToCart(product)}
+                    onClick={() => setShowPopover(true)}
                     className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                   >
                     Add to Cart
                   </button>
-                )}
-              </div>
+                </div>
+              ) : (
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
+                >
+                  Add to Cart
+                </button>
+              )}
+            </div>
             ))}
         </div>
       </div>
