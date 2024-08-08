@@ -58,7 +58,6 @@ export default function Login() {
 
       if (response.data.id) {
         toast.success("login successful!")
-        window.location.href = "/"
         const array = response.data
         let value = JSON.stringify(array)
         localStorage.setItem("data", value)
@@ -67,6 +66,7 @@ export default function Login() {
           username: "",
           password: "",
         })
+        window.location.href = "/spareparts"
       } else {
         toast.error("Invalid Credentials")
       }
