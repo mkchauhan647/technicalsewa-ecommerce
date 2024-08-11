@@ -10,10 +10,10 @@ module.exports = {
         source: '/spareparts/:path*', // Match all paths that start with /spareparts
         destination: 'http://localhost:3000/spareparts/:path*', // Forward them to your local server
       },
-      {
-        source: '/:path*', // Catch-all for any other paths
-        destination: 'https://www.technicalsewa.com/:path*', // Forward them to the external server
-      },
+      // {
+      //   source: '/:path*', // Catch-all for any other paths
+      //   destination: 'https://www.technicalsewa.com/:path*', // Forward them to the external server
+      // },
     ];
   },
   images: {

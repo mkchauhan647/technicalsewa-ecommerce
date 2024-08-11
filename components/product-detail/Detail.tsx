@@ -510,7 +510,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               <div className="flex items-center mb-3">
                 <div className="flex gap-4 items-center">
                   <div className="text-2xl font-bold  ">
-                    {product?.meta_desc}
+                    {/* {product?.meta_desc} */}
                   </div>
                 </div>
               </div>
