@@ -191,10 +191,13 @@ const BrandsSliders = () => {
               key={index}
             >
               <Link
-                href={{
-                  pathname: "/detail-beta",
-                  query: { id: product.blog_id },
-                }}
+                // href={{
+                //   pathname: "/detail-beta",
+                //   query: { id: product.blog_id },
+                  // }}
+                  // href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}?id=${product.blog_id}`}
+                  href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                  target="_blank"
               >
                 <div className="">
                   <LazyLoadImage
