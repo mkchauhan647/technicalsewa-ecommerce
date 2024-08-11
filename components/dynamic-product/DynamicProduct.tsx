@@ -1,4 +1,3 @@
-
 "use client"
 import React, { useCallback, useEffect, useState } from "react"
 import Detail from "@/components/product-detail/Detail"
@@ -36,12 +35,12 @@ export interface FilteredItsmInterface {
 //     id: string
 //   }
 // }
-const Page = ({ params }:{params:{slug:string}}) => {
+const DynamicProduct = ({ id }:{id:string}) => {
   const [product, setProduct] = useState<FilteredItsmInterface | null>(null)
   const [productId, setProductId] = useState<string | null>(null)
   const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
   const products = useTypedSelector(subData)
-  const id = params.slug.split('-').at(-1) as string;
+//   const id = params.slug.split('-').at(-1) as string;
   const filterData = useCallback(() => {
     const filterItems = products.data.filter((product) => product.value == id)
     filterItems.length != 0 && setProduct(filterItems[0])
@@ -49,13 +48,22 @@ const Page = ({ params }:{params:{slug:string}}) => {
 
   const dispatch = useDispatch<AppDispatch>()
 
-  const singleData = useTypedSelector(singleItemData)
+    const singleData = useTypedSelector(singleItemData)
+    
+    useEffect(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.delete('id');
+        window.history.replaceState({}, '', url);
+      }, []);
+      
 
   useEffect(() => {
     dispatch(getSingleProduct(id))
     console.log('id', id);
-    console.log('separ', params);
+    // console.log('separ', params);
   }, [id])
+    
+    
 
   useEffect(() => {
     const fetchProductId = async () => {
@@ -87,35 +95,4 @@ const Page = ({ params }:{params:{slug:string}}) => {
   )
 }
 
-export default Page
-
-
-
-
-
-
-
-
-// import DynamicProduct from "@/components/dynamic-product/DynamicProduct";
-// import { headers } from "next/headers"
-
-
-
-// const Page = ({ params }:{params:{slug:string}}) => {
-
-
-//   const productHeaders = headers();
-//   const id = productHeaders.get('x-product-id') as string;
-
-
-//   return (
-//     <DynamicProduct id={id}/>
-//   )
-
-
-// }
-
-
-// export default Page;
-
-
+export default DynamicProduct;
