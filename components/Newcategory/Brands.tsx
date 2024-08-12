@@ -182,7 +182,7 @@ const BrandsSliders = () => {
     <>
       <div className="featured-products">
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 ">
           {featuredProducts
             .slice(0, 10)
             .map((product: Product, index: number) => (
@@ -198,8 +198,9 @@ const BrandsSliders = () => {
                   // href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}?id=${product.blog_id}`}
                   href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
                   target="_blank"
+                  
               >
-                <div className="">
+                <div className=" transition-all duration-500 hover:scale-110">
                   <LazyLoadImage
                     alt={product.blog_name}
                     src={product.image_name}

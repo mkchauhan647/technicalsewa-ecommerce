@@ -79,8 +79,8 @@ const Page = ({ params }:{params:{slug:string}}) => {
 
   return (
     <>
-      <div className="w-[90%] mx-auto flex  justify-between py-5">
-      <div className="lg:flex hidden flex-col lg:w-[25%]">
+      <div className="xl:container mx-auto flex  justify-between py-5 2xl:px-28 px-1  ">
+      <div className="lg:flex hidden flex-col lg:w-[20%]">
         <div className="border-r lg:block ">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
             <BiCategory className="text-xl cursor-pointer" /> Categories

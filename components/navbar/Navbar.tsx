@@ -45,6 +45,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   const [show, setShow] = useState(false)
   const [showbrand, setShowbrand] = useState(false)
   // const id = localStorage.getItem("id") ?? "{}"
+  const [showSearchArea, setSearchArea] = useState(false);
   const router = useRouter()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [id, setId] = useState<string | null>(null)
@@ -86,7 +87,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   // select suggestion.
   const selectSuggestion = (option:any)=>{
     setSearchText(option.label)
-    router.push(`/detail-beta?id=${option.id}`)
+    router.push(`/${option.label.split(" ").map((value: string)=> value.toLowerCase()).join('-')}-${option.id}`)
     setSuggestions([{ label: "", id: "" }])
   }
 
@@ -107,7 +108,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   }, [searchText])
 
   return (
-    <div className="sticky top-0 border-b-2 z-40 bg-white xl:px-16">
+    <div className="sticky top-0 border-b-2 z-40 bg-white xl:px- 16">
       {/* a................bigger screens.................. */}
       <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-2">
         {/*........ logo......... */}
@@ -133,7 +134,10 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         </div>
         {/* ........search.......*/}
         <div className="hidden xl:block">
-          <div className="relative">
+          <div className="relative"
+              onMouseEnter={()=>setSearchArea(true)}
+          onMouseLeave={()=>setSearchArea(false)}
+          >
             <div className="absolute inset-y-0 right-0 flex items-center px-2 cursor-pointer">
               <FiSearch />
             </div>
@@ -143,8 +147,9 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
               className="border border-black/40 rounded-md sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
               placeholder="Search"
             />
-            {suggestions.length > 1 && searchText.length > 1 && (
-              <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
+            <div >
+            { showSearchArea && suggestions.length > 1 && searchText.length > 1 && (
+              <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col cursor-pointer">
                 {suggestions.map((option: any) => (
                   <span onClick={()=>selectSuggestion(option)} className="hover:bg-white border-b-2 border-black/40 sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400">
                     {option.label}
@@ -152,6 +157,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
                 ))}
               </div>
             )}
+            </div>
           </div>
         </div>
         {/* ...........nav links.......... */}
@@ -167,7 +173,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
-          <p className="flex gap-4 items-center justify-center"> <FiPhone/>  9802074445</p>
+          <p className="flex gap-4 items-center justify-center p-2"> <span className="text-red-500 border border-red-500 rounded-full  p-[6px]" ><FiPhone size={24} /></span>  <span className="cursor-pointer text-red-500">9802074445 </span> </p>
            <Link href={"/"} className="text-gray-600 text-sm">
             Spare Parts
           </Link>
@@ -221,7 +227,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
           {suggestions.length > 1 && searchText.length > 1 && (
               <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
                 {suggestions.map((option: any) => (
-                  <span className="hover:bg-white border-b-2 border-black/40 text-xs outline-none p-2 lg:p-3 placeholder:text-gray-400 w-[280px] large_mobile:w-[380px] sm:w-[500px]">
+                  <span className="hover:bg-white border-b-2 border-black/40 text-xs outline-none p-2 lg:p-3 placeholder:text-gray-400 w-[280px] large_mobile:w-[380px] sm:w-[500px] cursor-pointer">
                     {option.label}
                   </span>
                 ))}

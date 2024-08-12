@@ -257,7 +257,7 @@ const Deals = () => {
                    href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
                   target="_blank"
               >
-                <div className="">
+                <div className=" transition-all duration-500 hover:scale-110">
                   <LazyLoadImage
                     alt={product.blog_name}
                     src={product.image_name}
