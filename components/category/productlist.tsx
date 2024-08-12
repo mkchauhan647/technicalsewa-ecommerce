@@ -199,13 +199,14 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                     height={189}
                     className="w-full h-48 md:h-56 p-8"
                   />
+                 
+                </div>
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%
-                  </span>
-                  <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
+                </span>
+                <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
                     HOT
                   </span>
-                </div>
                 <div className="px-4 mt-4">
                   <h3 className="text-[15px] h-12 text-[black]  pr-[10px] overflow-hidden">
                     {product.blog_name}
