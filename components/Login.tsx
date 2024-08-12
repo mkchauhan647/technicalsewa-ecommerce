@@ -114,7 +114,7 @@ export default function Login() {
               </div>
               <Link
                 className="inline-block align-baseline text-xs  text-black mt-4"
-                href="#"
+                href="/account/forgot-password"
               >
                 Forgot password?
               </Link>
