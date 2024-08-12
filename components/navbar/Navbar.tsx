@@ -173,7 +173,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
-          <p className="flex gap-4 items-center justify-center p-2"> <span className="text-red-500 border border-red-500 rounded-full  p-[6px]" ><FiPhone size={24} /></span>  <span className="cursor-pointer text-red-500">9802074445 </span> </p>
+          <p className="flex gap-4 items-center justify-center p-2"> <span className="text-red-500 border border-red-500 rounded-full  p-[6px]" ><FiPhone size={24} /></span>  <a href="tel:+9779802074445" className="cursor-pointer text-red-500">9802074445 </a> </p>
            <Link href={"/"} className="text-gray-600 text-sm">
             Spare Parts
           </Link>

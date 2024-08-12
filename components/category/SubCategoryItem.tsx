@@ -18,14 +18,15 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
       <div className="flex relative w-full group">
         <div className="cursor-pointer flex justify-between items-center text-xs px-[10px] py-[6px] w-full text-black rounded-md">
           <Link
-            href={{
-              pathname: "/productlist",
-              query: {
-                model: subcategory.value,
-                id: product_id,
-                title: subcategory.text,
-              },
-            }}
+            // href={{
+            //   pathname: "/productlist",
+            //   query: {
+            //     model: subcategory.value,
+            //     id: product_id,
+            //     title: subcategory.text,
+            //   },
+            // }}
+            href = {`/productlist/model-${subcategory.value}-${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
           >
             <h2 className="text-xs">{subcategory.text}</h2>
           </Link>
