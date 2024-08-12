@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/store/store"
 import Login from "../Login"
+import Categories from "./Categories"
 
 export interface GrandChild {
   STATUS: string
@@ -160,12 +161,22 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14">
-        <div className="border-r hidden lg:block lg:w-[13%]  ">
+
+        <div className="lg:flex hidden flex-col lg:w-[25%]">
+        <div className="border-r lg:block ">
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+            <BiCategory className="text-xl cursor-pointer" /> Categories
+          </div>
+          <Categories />
+        </div>
+
+        <div className="border-r  lg:block  ">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
             <BiCategory className="text-2xl cursor-pointer" /> Brands
           </div>
           <Brands />
         </div>{" "}
+        </div>
         <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:w-5/6">
           {grandChildData.map((product, index) => (
             <div
@@ -173,10 +184,12 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
               key={index}
             >
               <Link
-                href={{
-                  pathname: "/detail-beta",
-                  query: { id: product.blog_id },
-                }}
+                // href={{
+                //   pathname: "/detail-beta",
+                //   query: { id: product.blog_id },
+                // }}
+                 href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                  target="_blank"
               >
                 <div className="">
                   <Image
