@@ -66,8 +66,12 @@ const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
   }
 }
 
-const Page: React.FC<SearchParams> = ({ searchParams }) => {
-  const { model } = searchParams
+const Page = ({ params }: { params: { slug:string } }) => {
+  
+  // console.log("params", params);
+  // const model = params.model;
+  const model = params.slug.split("-").slice(1, 2);
+  console.log("model", model);
 
   const [grandChildData, setGrandChildData] = useState<GrandChild[]>([])
   const [loading, setLoading] = useState<boolean>(true)
