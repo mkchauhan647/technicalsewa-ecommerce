@@ -402,10 +402,10 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   return (
     <div className="container mt-5 md:mt-10 items-start ">
-      <div className=" lg:flex gap-6">
-        <div className="basis-[70%] ">
+      <div className=" lg:flex gap-6 justify-between">
+        <div className="basis-[80%] grow ">
           <div className=" sm:flex gap-8 sm:gap-4">
-            <div className="flex flex-col relative basis-[40%] w-full ">
+            <div className="flex flex-col relative basis-[50%] w-full ">
               <div className="relative h-[350px]">
                 <img
                   alt="Main Image"
@@ -500,7 +500,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               </div>
             </div>
             {/* Product title and description */}
-            <div className="mt-8 basis-[60%]">
+            <div className="mt-8 basis-[50%]">
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">
                 {product?.blog_name}
                 <span className="text-xs font-normal whitespace-nowrap">
@@ -559,7 +559,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           {/* Product details and specifications */}
         </div>
 
-        <div className="basis-[30%] grid sm:flex lg:flex-col gap-4 items-start">
+        <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
           {/* Delivery and location */}
           <Card className="w-full bg-white p-4 basis-1/2">
             <div className="flex items-center gap-2">

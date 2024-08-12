@@ -160,7 +160,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
 
   return (
     <div className=" py-5">
-      <div className="flex w-full gap-14">
+      <div className="flex w-full gap-14 justify-between">
 
         <div className="lg:flex hidden flex-col lg:w-[25%]">
         <div className="border-r lg:block ">
@@ -191,13 +191,13 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                  href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
                   target="_blank"
               >
-                <div className="">
+                <div className="transition-all duration-500 hover:scale-110">
                   <Image
                     src={product.image_name ?? "/p5.jpg"}
                     alt={product.blog_name}
                     width={189}
                     height={189}
-                    className="w-full h-48 md:h-56"
+                    className="w-full h-48 md:h-56 p-8"
                   />
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%
