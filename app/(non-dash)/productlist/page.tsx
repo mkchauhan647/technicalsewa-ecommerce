@@ -101,7 +101,7 @@ const Page: React.FC<SearchParams> = ({ searchParams }) => {
   return (
     <>
       <div>
-        <div className="container ">
+        <div className="w-[90%] mx-auto ">
           <div className=" relative">
             {/* Product List */}
             <Productlist grandChildData={grandChildData} />

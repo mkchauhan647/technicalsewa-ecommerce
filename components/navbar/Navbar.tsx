@@ -3,7 +3,7 @@ import logo from "../../assets/tslogo-final1.png"
 import Image from "next/image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { FiSearch } from "react-icons/fi"
+import { FiPhone, FiSearch } from "react-icons/fi"
 import { RxHamburgerMenu } from "react-icons/rx"
 import { Cart } from "../cart/Cart"
 // import addToCart from "../cart/addToCart"
@@ -167,6 +167,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
+          <p className="flex gap-4 items-center justify-center"> <FiPhone/>  9802074445</p>
            <Link href={"/"} className="text-gray-600 text-sm">
             Spare Parts
           </Link>

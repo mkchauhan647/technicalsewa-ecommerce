@@ -9,6 +9,9 @@ import { subData } from "@/store/CategoryData.slices"
 import { getSingleProduct } from "@/store/action/singleProduct.action"
 import { singleItemData } from "@/store/slice/singleProduct.slice"
 import AxiosInstance from "@/axios_config/Axios"
+import { BiCategory } from "react-icons/bi"
+import Brands from "@/components/brands/Brands"
+import Categories from "@/components/category/Categories"
 
 export interface FilteredItsmInterface {
   alt: null | string
@@ -76,12 +79,29 @@ const Page = ({ params }:{params:{slug:string}}) => {
 
   return (
     <>
+      <div className="w-[90%] mx-auto flex  justify-between py-5">
+      <div className="lg:flex hidden flex-col lg:w-[25%]">
+        <div className="border-r lg:block ">
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+            <BiCategory className="text-xl cursor-pointer" /> Categories
+          </div>
+          <Categories />
+        </div>
+
+        <div className="border-r  lg:block  ">
+          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
+            <BiCategory className="text-2xl cursor-pointer" /> Brands
+          </div>
+          <Brands />
+        </div>{" "}
+        </div>
       {singleData.data ? (
         <Detail product={singleData.data} id={id} />
       ) : (
         <p>Loading...</p> // You can replace this with a loader component if you have one
       )}
       {productId ? <ReviewSection productId={productId} /> : <></>}
+      </div> 
 
     </>
   )
