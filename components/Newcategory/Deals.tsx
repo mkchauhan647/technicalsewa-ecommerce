@@ -263,12 +263,12 @@ const Deals = () => {
                     src={product.image_name}
                     className="w-full h-36 md:h-52 md:p-6"
                   />
+                </div>
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                   {Math.round(((product.market_rate -( !(data?.type === "Customer")
                         ? product?.tech_rate
                         : product?.our_rate)) / product.market_rate) * 100) + "%" } 
                   </span>
-                </div>
 
                 <div className="md:px-4 px-1 mt-[10px]">
                   <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">

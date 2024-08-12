@@ -27,6 +27,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@tanstack/react-table": "^8.11.2",
     "@types/react-lazy-load-image-component": "^1.6.4",
+    "auto-zustand-selectors-hook": "^2.0.5",
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
