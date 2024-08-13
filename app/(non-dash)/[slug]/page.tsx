@@ -95,7 +95,7 @@ const Page = ({ params }:{params:{slug:string}}) => {
           <Brands />
         </div>{" "}
         </div>
-      {singleData.data ? (
+        {singleData.data ? (
         <Detail product={singleData.data} id={id} />
       ) : (
         <p>Loading...</p> // You can replace this with a loader component if you have one

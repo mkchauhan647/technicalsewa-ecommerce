@@ -28,9 +28,9 @@ const Locations = () => {
               <Link
                 key={place?.id}
                 href={{
-                  pathname: `/location/technicalsewa-service-center-${place?.location?.toLowerCase()} `
+                  pathname: `/location/technicalsewa-service-center-${place?.location?.toLowerCase().split(" ").join("-")} `
                 }}
-                className="hover:underline"
+                className="hover:underline whitespace-nowrap"
               >
                 {place?.location}
               </Link>
