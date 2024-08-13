@@ -9,6 +9,7 @@ import { FaUser, FaLocationDot } from "react-icons/fa6"
 import { FaHistory } from "react-icons/fa"
 import Image from "next/image"
 import icon from "../../assets/logo.jpg"
+import { PiBank } from "react-icons/pi";
 
 // import {
 //   Accordion,
@@ -47,6 +48,11 @@ const navigationItems = [
     label: "Manage Address",
     link: "/manage-address",
   },
+  {
+    label: "Pay Online",
+    link: "/pay-online",
+    icon: <PiBank className="text-2xl" />,
+  }
 ]
 const SideNav = () => {
   const router: any = usePathname()
