@@ -2,13 +2,14 @@
 import React, { useEffect, useMemo, useState } from "react"
 import { CustomTable } from "./CustomTable"
 import { AxiosCorsInstance } from "@/axios_config/Axios"
+import PaymentPage from "@/app/(dash)/pay-online/page"
 
 export const OrderHistoryPage = () => {
   const [data, setdata] = useState<any>([])
   const [filterData, setFilterData] = useState<any>([])
   const [currentState, setCurrentState] = useState("Pending")
   const [localData, setLocalData] = useState<any>()
-
+  const [qrShow, setQrShow] = useState(false);
   useEffect(() => {
     const local = localStorage.getItem("data")
     if (local) {
@@ -42,6 +43,9 @@ export const OrderHistoryPage = () => {
   }, [])
 
   const handleTableTabClick = (state: any, statenum: any = 0) => {
+    if (state !== "Pay Online") {
+      setQrShow(false)
+    }
     setCurrentState(state)
     if (statenum == 0) {
       setFilterData(data)
@@ -97,6 +101,17 @@ export const OrderHistoryPage = () => {
           Cancelled
         </button>
         <button
+          className={`w-24 h-12 p-2 whitespace-nowrap  ${qrShow ? "bg-[#2591B1] border-[1px] rounded-lg text-white font-medium":""} `}
+          onClick={() => {
+            setQrShow(true)
+            handleTableTabClick("Pay Online",7);
+          }
+          }
+          
+        >
+          Pay Online
+        </button>
+        <button
           className={`w-24 h-12 p-2 ${currentState === "All" ? "border-[1px] rounded-lg bg-[#2591B1] text-white font-medium " : ""}`}
           onClick={() => handleTableTabClick("All")}
         >
@@ -104,8 +119,16 @@ export const OrderHistoryPage = () => {
         </button>
       </div>
       <hr className="h-1 bg-black" />
+      
+      <div className="flex justify-center items-center">
+        {qrShow && <PaymentPage />}
+      </div>
 
       <CustomTable data={filterData} status={currentState} />
+
+
+      
+
     </div>
   )
 }

@@ -70,7 +70,7 @@ const Page = ({ params }: { params: { slug:string } }) => {
   
   // console.log("params", params);
   // const model = params.model;
-  const model = params.slug.split("-").slice(1, 2).join('');
+  const model = params.slug.split("-").at(0) as string;
   console.log("model", model);
 
   const [grandChildData, setGrandChildData] = useState<GrandChild[]>([])
