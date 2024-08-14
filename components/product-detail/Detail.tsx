@@ -102,8 +102,19 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const userProfile = useSelector((state: RootState) => state.user.profile)
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
-    const itemsData = JSON.parse(item.items)
-    return { item, itemsData }
+    console.log("item", item);
+    let itemsData = JSON.parse(item.items)
+    if (typeof itemsData === "string") {
+      console.log("itemsDataii", itemsData);
+       itemsData = JSON.parse(itemsData) as Array<any>;
+      console.log("itemsDatai", itemsData);
+      return { item, itemsData }
+    }
+    else {
+      console.log("itemsData", itemsData);
+      
+      return { item, itemsData }
+    }
   })
 
   const [data, setData] = useState<CustomerData | null>(null)
@@ -116,21 +127,96 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const ifloggedIn = localStorage.getItem("id")
   const addToCart = (product: Product) => {
     if (ifloggedIn === null) {
-      setShowPopover(true)
+      // setShowPopover(true)
+
+      console.log("local items");
+
+      const newItem: CartItem = {
+        items: [product],
+        // subtotal: product.subtotal,
+        // tax: product.tax,
+        // discount: product.discount,
+        // total: product.total,
+        // subtotal: 0,
+        // tax: 0,
+        // discount: 0,
+        total: product.our_rate,
+        quantity: quantity,
+        image_url: product.image_name,
+      }
+
+      dispatch(addCartItems(newItem)).then((res) => {
+        console.log("res", res);
+        if (res.meta.requestStatus === "fulfilled") {
+          toast.success("Item Added fTo Cart")
+          dispatch(fetchCartItems())
+        } else {
+          toast.error("Error Added local To Cart")
+  
+        }
+      })
+
+     
+
+      
+
+      if (localStorage.getItem("items") === null) {
+        localStorage.setItem("items", JSON.stringify([newItem]));
+      }
+      else {
+        // const items: Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")
+        
+
+        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
+       
+        const itemExists = items.some((item: any) => {
+          if (typeof item.items === "string") {
+            item.items = JSON.parse(item.items) as Array<any>;
+          }
+          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+        })
+
+        if (itemExists) {
+          console.log("itemExists", itemExists);
+          const updatedItems = items.map((item: any) => {
+
+            if (typeof item.items === "string") {
+              item.items = JSON.parse(item.items) as Array<any>;
+            }
+          
+            if (item.items[0].blog_name === product.blog_name) {
+              item.quantity = item.quantity + 1;
+            }
+            return item;
+          })
+          localStorage.setItem("items", JSON.stringify(updatedItems));
+          return;
+        }
+
+          items.push(newItem)
+          localStorage.setItem("items", JSON.stringify(items));
+      }
       return
     }
+
+      
+
     const itemExists = cartItems.some((item: any) => {
       const parsedItems = JSON.parse(item.items)
+      console.log("parsed",parsedItems)
       return parsedItems.some(
         (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
       )
     })
 
     if (itemExists) {
-      const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
-        parsedItem.itemsData.some(
+      const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
+        console.log("parsedItem", parsedItem);
+        if(parsedItem.itemsData)
+        return parsedItem.itemsData.some(
           (cartProduct) => cartProduct.blog_name === product.blog_name,
-        ),
+        );
+      }
       )
 
       const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
@@ -168,17 +254,38 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
+      console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
       } else {
         toast.error("Error Added To Cart")
+
       }
     })
   }
   useEffect(() => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
+      console.log("cartitmes", cartItems);
+
+      // const items = JSON.parse(localStorage.getItem("items") ?? "[]");
+      // console.log("items useeffect", items);
+      // items.forEach((item: CartItem) => {
+      //   if (typeof item.items === "string") {
+      //     item.items = JSON.parse(item.items) as Array<any>;
+      //   }
+      //       dispatch(addCartItems(item)).then((res) => {
+      //         console.log("res", res);
+      //         if (res.meta.requestStatus === "fulfilled") {
+      //           toast.success("Item Added To Cart")
+      //           dispatch(fetchCartItems())
+      //         } else {
+      //           toast.error("Error Added local To Cart")
+        
+      //         }
+      //       })
+          // })
 
       const storedData = localStorage.getItem("data") ?? "{}"
       if (storedData) {
@@ -474,7 +581,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   Add to Cart
                   <span className="ml-2 text-lg"></span>
                 </Button> */}
-                {ifloggedIn === null ? (
+                {/* {ifloggedIn === null ? (
                   <div className="relative">
                     <Button
                       onClick={() => setShowPopover(true)}
@@ -483,14 +590,14 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                       Add to Cart
                     </Button>
                   </div>
-                ) : (
+                ) : ( */}
                   <Button
                     onClick={() => addToCart(product)}
                     className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
                   >
                     Add to Cart
                   </Button>
-                )}
+                {/* )} */}
                 <div onClick={buyNow} className="w-1/2">
                   <Button className="bg-transparent text-black/60  hover:bg-gray-100 border border-black/40 w-full transition-all duration-300 ">
                     Buy Now

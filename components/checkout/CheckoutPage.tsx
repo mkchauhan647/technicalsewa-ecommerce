@@ -187,7 +187,7 @@ export const CheckoutPage = () => {
                           {item?.itemsData[0]?.blog_name}
                         </span>
                         <span className="font-normal text-sm">
-                          {item?.itemsData[0]?.meta_desc}
+                          {/* {item?.itemsData[0]?.meta_desc} */}
                         </span>
                       </div>
                     </div>
@@ -231,7 +231,7 @@ export const CheckoutPage = () => {
                     {item?.itemsData[0]?.blog_name}
                   </span>
                   <span className="font-normal text-sm">
-                    {item?.itemsData[0]?.meta_desc}
+                    {/* {item?.itemsData[0]?.meta_desc} */}
                   </span>
                 </div>
                 <hr />

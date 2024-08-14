@@ -44,6 +44,8 @@ const Page = ({ params }:{params:{slug:string}}) => {
   const [productId, setProductId] = useState<string | null>(null)
   const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
   const products = useTypedSelector(subData)
+
+  const product_name = params.slug.split('-').join(' ').trim();
   const id = params.slug.split('-').at(-1) as string;
   const filterData = useCallback(() => {
     const filterItems = products.data.filter((product) => product.value == id)
@@ -55,9 +57,10 @@ const Page = ({ params }:{params:{slug:string}}) => {
   const singleData = useTypedSelector(singleItemData)
 
   useEffect(() => {
-    dispatch(getSingleProduct(id))
+    dispatch(getSingleProduct(product_name))
     console.log('id', id);
     console.log('separ', params);
+    console.log('product_name', product_name);
   }, [id])
 
   useEffect(() => {
@@ -95,7 +98,8 @@ const Page = ({ params }:{params:{slug:string}}) => {
           <Brands />
         </div>{" "}
         </div>
-      {singleData.data ? (
+        {singleData.data ? (
+          console.log('singleData', singleData.data),
         <Detail product={singleData.data} id={id} />
       ) : (
         <p>Loading...</p> // You can replace this with a loader component if you have one

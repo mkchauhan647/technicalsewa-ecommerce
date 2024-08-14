@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AxiosCorsInstance } from "@/axios_config/Axios";
+import AxiosInstance, { AxiosCorsInstance } from "@/axios_config/Axios";
 interface Product {
   model: string
   blog_name: string
@@ -22,11 +22,20 @@ export interface CartItem {
   
 }
 
+export interface CartItemLocal{
+  items: any;
+  total: number;
+  quantity: number;
+  image_url: string;
+  
+}
+
 // Define the CartState interface
 interface CartState {
   items: CartItem[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  locallyStored: CartItemLocal[];
 }
 
 // Define the initial state using the CartState interface
@@ -34,6 +43,7 @@ const initialState: CartState = {
   items: [],
   status: 'idle',
   error: null,
+  locallyStored: [],
 };
 
 // Helper function to get the customer ID from localStorage
@@ -42,96 +52,141 @@ const getCustomerId = () => localStorage.getItem('id') ?? '';
 // Define the async thunk for fetching cart items
 export const fetchCartItems = createAsyncThunk<CartItem[]>(
   "cart/fetchItems",
-  async () => {
-    const response = await axios.get(
-      "https://www.technicalsewa.com/techsewa/commerce/PublicCart/getCartList",
-      {
-        params: {
-          customer_id: getCustomerId(),
-        },
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      }
-    );
-    return response.data.list; // Ensure the response data has a list property
+  async (_,{getState}) => {
+    if (getCustomerId() === '') {
+      const state = getState() as { cart: CartState };
+      return state.cart.locallyStored;
+    } 
+    else {
+
+      const response = await axios.get(
+        "https://www.technicalsewa.com/techsewa/commerce/PublicCart/getCartList",
+        {
+          params: {
+            customer_id: getCustomerId(),
+          },
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      return response.data.list; // Ensure the response data has a list property
+    }
   }
 );
 
 export const addCartItems = createAsyncThunk<void, CartItem>(
   "cart/addItems",
-  async (product) => {
-    const { items, quantity, image_url, total } = product;
+  async (product,{getState,dispatch}) => {
 
-    const payload = {
-      customer_id: getCustomerId(),
-      items: JSON.stringify(items), // Convert items array to JSON string
-      quantity,
-      image_url,
-      total,
-    };
+    const state = getState() as { cart: CartState };
 
-    await AxiosCorsInstance.post(
-      "/commerce/PublicCart/createCart",
-      payload,
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded", 
-        },
-      }
-    );
+    if (getCustomerId() === '') {
+      // Dispatch an action to update locallyStored in the reducer
+      dispatch(cartSlice.actions.addLocalItem(product));
+    } else {
+
+      const { items, quantity, image_url, total } = product;
+    
+      console.log("addproduct", product);
+
+      const payload = {
+        customer_id: getCustomerId(),
+        items: JSON.stringify(items), // Convert items array to JSON string
+        quantity,
+        image_url,
+        total,
+      };
+
+      // await AxiosCorsInstance.post(
+      await axios.post(
+
+        "https://www.technicalsewa.com/techsewa/commerce/PublicCart/createCart",
+        // "/commerce/PublicCart/createCart",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+    }
   }
 );
 
 
 export const editCartItems = createAsyncThunk<void, { id: string; product: CartItem }>(
   "cart/editItems",
-  async ({ id, product }) => {
-    await AxiosCorsInstance.post(
+  async ({ id, product }, { getState, dispatch }) => {
+    const state = getState() as { cart: CartState };
+
+    if (getCustomerId() === '') {
+      // Dispatch an action to update locallyStored in the reducer
+      dispatch(cartSlice.actions.addLocalItem(product));
+
+    }
+    else {
+      await AxiosCorsInstance.post(
       "/commerce/PublicCart/createCart",
-      {
-        cart_id: id,
-        customer_id: getCustomerId(),
-        ...product,
-        // Ensure the quantity is updated
-        quantity: product.quantity,
-      },
-    );
+      // await axios.post(
+      //   "https://www.technicalsewa.com/techsewa/commerce/PublicCart/createCart",
+        {
+          cart_id: id,
+          customer_id: getCustomerId(),
+          ...product,
+          // Ensure the quantity is updated
+          quantity: product.quantity,
+        },
+      );
+    }
   }
 );
 
 // Define the async thunk for deleting the entire cart
 export const deleteCartItems = createAsyncThunk<void, { id: string }>(
   "cart/deleteItems",
-  async ({ id }) => {
-    await AxiosCorsInstance.post(
-      "/commerce/PublicCart/deleteCarts",
-      {
-        cart_id: id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+  async ({ id }, { getState, dispatch }) => {
+    if (getCustomerId() === '') {
+
+      dispatch(cartSlice.actions.removeLocalItem(id));
+    }
+    else {
+      // await AxiosCorsInstance.post(
+      // "/commerce/PublicCart/deleteCarts",
+      await axios.post(
+        "https://www.technicalsewa.com/techsewa/commerce/PublicCart/deleteCarts",
+        {
+          cart_id: id,
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+    }
   }
 );
 
 export const deleteAllCartItems = createAsyncThunk<void, { id: string }>(
   "cart/deleteAllItems",
-  async ({ id }) => {
-    await AxiosCorsInstance.post(
-      "/commerce/PublicCart/deleteCarts",
-      {
-        cust_id: id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+  async ({ id }, { dispatch }) => {
+    if (getCustomerId() === '') {
+      dispatch(cartSlice.actions.clearCart());
+    }
+    else {
+      await AxiosCorsInstance.post(
+        "/commerce/PublicCart/deleteCarts",
+        {
+          cust_id: id,
         },
-      }
-    );
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+    }
   }
 );
 
@@ -157,6 +212,29 @@ const cartSlice = createSlice({
     },
     clearCart: (state) => {
       state.items = [];
+    },
+    addLocalItem: (state, action: PayloadAction<CartItemLocal>) => {
+      // state.locallyStored.push(action.payload);
+      const existingItem = state.locallyStored.find(item => {
+        const itemParse = JSON.parse(item.items);
+        return itemParse.some((product: any) => product.blog_name === action.payload.items[0].blog_name)
+      }
+      );
+      if (existingItem) {
+        existingItem.quantity += action.payload.quantity;
+      } else {
+        action.payload.items = JSON.stringify(action.payload.items);
+        state.locallyStored.push(action.payload);
+      }
+    },
+    removeLocalItem: (state, action: PayloadAction<string>) => {
+      state.locallyStored = state.locallyStored.filter(
+        
+        item => {
+          const itemParse = JSON.parse(item.items);
+         return !itemParse.some((product: any) => product.blog_name === action.payload)
+        }
+      );
     },
   },
   extraReducers: (builder) => {

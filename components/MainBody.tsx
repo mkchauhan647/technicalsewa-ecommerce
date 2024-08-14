@@ -22,6 +22,10 @@ import { MdOutlineCategory } from "react-icons/md"
 import BrandSliders from "./Newcategory/Brands"
 import { Search } from "./navbar/Search"
 import Deals from "./Newcategory/Deals"
+import { addCartItems, CartItem, fetchCartItems } from "@/store/slice/cart/getcartSlice"
+import { useDispatch } from "react-redux"
+import { AppDispatch } from "@/store/store"
+import { toast, ToastContainer } from "react-toastify"
 
 interface Product {
   id: string
@@ -35,8 +39,11 @@ const MainBody = ({ children }: any) => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
   const [isOpen, setIsOpen] = useState(false)
+  const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
+
+    
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.post(
@@ -222,6 +229,7 @@ const MainBody = ({ children }: any) => {
           </div>
         ))}
       </div>
+      <ToastContainer/>
     </>
   )
 }
