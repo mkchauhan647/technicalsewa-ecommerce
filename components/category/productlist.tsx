@@ -49,6 +49,7 @@ interface Product {
   featured: boolean
   page_title: string
   tech_rate: number
+  page_url: string
 }
 
 interface CartItem {
@@ -188,7 +189,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                 //   pathname: "/detail-beta",
                 //   query: { id: product.blog_id },
                 // }}
-                 href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                 href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   target="_blank"
               >
                 <div className="transition-all duration-500 hover:scale-110">

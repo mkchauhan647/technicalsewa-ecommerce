@@ -30,6 +30,7 @@ interface Product {
   featured: boolean
   page_title: string
   is_hot: string
+  page_url:string
 }
 
 interface CartItem {
@@ -212,7 +213,7 @@ const HotProduct = () => {
                   //   pathname: "/detail-beta",
                   //   query: { id: product.blog_id },
                   // }}
-                   href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                   href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   target="_blank"
                 >
                   <div className="transition-all duration-500 hover:scale-110">

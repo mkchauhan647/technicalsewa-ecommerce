@@ -15,6 +15,7 @@ import toast from "react-hot-toast"
 import Login from "../Login"
 
 interface Product {
+  page_url: string
   model: string
   blog_name: string
   name: string
@@ -204,7 +205,7 @@ const Home = () => {
               //   pathname: "/detail-beta",
               //   query: { id: product.blog_id },
                 // }}
-                 href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   target="_blank"
             >
               <div className="transition-all duration-500 hover:scale-110">

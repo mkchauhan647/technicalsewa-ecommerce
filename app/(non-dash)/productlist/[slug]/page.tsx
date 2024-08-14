@@ -40,6 +40,7 @@ interface GrandChild {
   featured: boolean
   page_title: string
   tech_rate: number
+  page_url: string
 }
 
 const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {

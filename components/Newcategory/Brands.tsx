@@ -30,6 +30,7 @@ interface Product {
   featured: boolean
   page_title: string
   is_hot: string
+  page_url:string
 }
 
 interface CartItem {
@@ -59,77 +60,107 @@ const BrandsSliders = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
   const [data, setData] = useState<CustomerData | null>(null)
-
+  const [quantity, setQuantity] = useState(1)
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
+    // const itemsData = JSON.parse(item.items)
+    console.log("item", item);
     const itemsData = JSON.parse(item.items)
-    return { item, itemsData }
+    console.log("itemsData", itemsData);
+    if (typeof itemsData === "string") {
+      return { item, itemsData: JSON.parse(itemsData) }
+    }
+    else {
+      
+      return { item, itemsData }
+    }
+    // return { item, itemsData }
   })
 
   useEffect(() => {
     dispatch(fetchCartItems())
   }, [dispatch])
 
-  const ifloggedIn = localStorage.getItem("id")
+  const ifloggedIn = localStorage.getItem("id");
 
-  const addToCart = (product: Product) => {
-    if (ifloggedIn === null) {
-      setShowPopover(true)
-      return
-    }
+  // const addToCart = (product: Product) => {
+  //   // if (ifloggedIn === null) {
+  //   //   setShowPopover(true)
+  //   //   return
+  //   // }
 
-    const itemExists = parsedCartItems.some((parsedItem) =>
-      parsedItem.itemsData.some(
-        (cartProduct) => cartProduct.blog_name === product.blog_name,
-      ),
-    )
+  //   const itemExists = parsedCartItems.some((parsedItem) =>
+  //     parsedItem.itemsData.some(
+  //       (cartProduct) => cartProduct.blog_name === product.blog_name,
+  //     ),
+  //   )
 
-    if (itemExists) {
-      const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
-        parsedItem.itemsData.some(
-          (cartProduct) => cartProduct.blog_name === product.blog_name,
-        ),
-      )
+  //   if (itemExists) {
+  //     const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
+  //       parsedItem.itemsData.some(
+  //         (cartProduct) => cartProduct.blog_name === product.blog_name,
+  //       ),
+  //     )
 
-      const updatedQuantity = Number(prevCartItem[0].item.quantity)
-      const updatedItem = {
-        ...prevCartItem[0].item,
-        quantity: updatedQuantity + 1,
-        itemsData: JSON.stringify(prevCartItem[0].itemsData),
-      }
-      dispatch(
-        editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
-      ).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          dispatch(fetchCartItems())
-          toast.success("Added to Cart")
-        } else {
-          toast.error("Error adding to Cart")
-        }
-      })
+  //     const updatedQuantity = Number(prevCartItem[0].item.quantity)
+  //     const updatedItem = {
+  //       ...prevCartItem[0].item,
+  //       quantity: updatedQuantity + 1,
+  //       itemsData: JSON.stringify(prevCartItem[0].itemsData),
+  //     }
+  //     dispatch(
+  //       editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
+  //     ).then((res) => {
+  //       if (res.meta.requestStatus === "fulfilled") {
+  //         dispatch(fetchCartItems())
+  //         toast.success("Added to Cart")
+  //       } else {
+  //         toast.error("Error adding to Cart")
+  //       }
+  //     })
 
-      return
-    }
+  //     return
+  //   }
 
-    const newItem: CartItem = {
-      items: [product],
-      total: !(data?.type === "Customer") ? product.tech_rate : product.our_rate,
-      quantity: 1,
-      image_url: product.image_name,
-    }
+  //   const newItem: CartItem = {
+  //     items: [product],
+  //     total: !(data?.type === "Customer") ? product.tech_rate : product.our_rate,
+  //     quantity: 1,
+  //     image_url: product.image_name,
+  //   }
 
-    dispatch(addCartItems(newItem)).then((res) => {
-      if (res.meta.requestStatus === "fulfilled") {
-        dispatch(fetchCartItems())
-        toast.success("Added to Cart")
-      } else {
-        toast.error("Error adding to Cart")
-      }
-    })
-  }
+  //   dispatch(addCartItems(newItem)).then((res) => {
+  //     if (res.meta.requestStatus === "fulfilled") {
+  //       dispatch(fetchCartItems())
+  //       toast.success("Added to Cart")
+  //     } else {
+  //       toast.error("Error added to Cart")
+  //     }
+  //   })
+  // }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
+
+      const items = JSON.parse(localStorage.getItem("items") ?? "[]");
+      console.log("items useeffect", items);
+      items.forEach((item: CartItem) => {
+        if (typeof item.items === "string") {
+          item.items = JSON.parse(item.items) as Array<any>;
+        }
+            dispatch(addCartItems(item)).then((res) => {
+              console.log("res", res);
+              if (res.meta.requestStatus === "fulfilled") {
+                toast.success("Item Added To Cart")
+                dispatch(fetchCartItems())
+              } else {
+                toast.error("Error Added local To Cart")
+        
+              }
+            })
+          })
+
+
       const storedData = localStorage.getItem("data") ?? "{}"
       if (storedData) {
         try {
@@ -140,7 +171,6 @@ const BrandsSliders = () => {
         }
       }
     }
-
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.get(
@@ -157,6 +187,152 @@ const BrandsSliders = () => {
 
     fetchData()
   }, [])
+
+  const addToCart = (product: Product) => {
+    if (ifloggedIn === null) {
+      // setShowPopover(true)
+
+      console.log("local items");
+
+      const newItem: CartItem = {
+        items: [product],
+        // subtotal: product.subtotal,
+        // tax: product.tax,
+        // discount: product.discount,
+        // total: product.total,
+        // subtotal: 0,
+        // tax: 0,
+        // discount: 0,
+        total: product.our_rate,
+        quantity: quantity,
+        image_url: product.image_name,
+      }
+
+      dispatch(addCartItems(newItem)).then((res) => {
+        console.log("res", res);
+        if (res.meta.requestStatus === "fulfilled") {
+          toast.success("Item Added fTo Cart")
+          dispatch(fetchCartItems())
+        } else {
+          toast.error("Error Added local To Cart")
+  
+        }
+      })
+
+     
+
+      
+
+      if (localStorage.getItem("items") === null) {
+        localStorage.setItem("items", JSON.stringify([newItem]));
+      }
+      else {
+        // const items: Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")
+        
+
+        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
+       
+        const itemExists = items.some((item: any) => {
+          if (typeof item.items === "string") {
+            item.items = JSON.parse(item.items) as Array<any>;
+          }
+          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+        })
+
+        if (itemExists) {
+          console.log("itemExists", itemExists);
+          const updatedItems = items.map((item: any) => {
+
+            if (typeof item.items === "string") {
+              item.items = JSON.parse(item.items) as Array<any>;
+            }
+          
+            if (item.items[0].blog_name === product.blog_name) {
+              item.quantity = item.quantity + 1;
+            }
+            return item;
+          })
+          localStorage.setItem("items", JSON.stringify(updatedItems));
+          return;
+        }
+
+          items.push(newItem)
+          localStorage.setItem("items", JSON.stringify(items));
+      }
+      return
+    }
+
+      
+
+    const itemExists = cartItems.some((item: any) => {
+      const parsedItems = JSON.parse(item.items)
+      console.log("parsed",parsedItems)
+      return parsedItems.some(
+        (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+      )
+    })
+
+    if (itemExists) {
+      const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
+        console.log("parsedItem", parsedItem);
+        if(parsedItem.itemsData)
+        return parsedItem.itemsData.some(
+          (cartProduct) => cartProduct.blog_name === product.blog_name,
+        );
+      }
+      )
+
+      const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
+      const updatedItem = {
+        ...prevCartItem[0].item,
+        quantity: updatedQuantity + quantity,
+        itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
+      }
+      dispatch(
+        editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
+      ).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          toast.success("Added to Cart")
+          dispatch(fetchCartItems())
+        } else {
+          toast.error("Error adding to Cart")
+        }
+      })
+
+      return
+    }
+
+    const newItem: CartItem = {
+      items: [product],
+      // subtotal: product.subtotal,
+      // tax: product.tax,
+      // discount: product.discount,
+      // total: product.total,
+      // subtotal: 0,
+      // tax: 0,
+      // discount: 0,
+      total: product.our_rate,
+      quantity: quantity,
+      image_url: product.image_name,
+    }
+
+    dispatch(addCartItems(newItem)).then((res) => {
+      console.log("res", res);
+      if (res.meta.requestStatus === "fulfilled") {
+        toast.success("Item Added To Cart")
+        dispatch(fetchCartItems())
+      } else {
+        toast.error("Error Added To Cart")
+
+      }
+    })
+  }
+
+
+
+
+
+
 
   const featuredProducts = trending.filter((product) => product.is_hot)
 
@@ -196,7 +372,7 @@ const BrandsSliders = () => {
                 //   query: { id: product.blog_id },
                   // }}
                   // href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}?id=${product.blog_id}`}
-                  href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}-${product.blog_id}`}
+                  href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   target="_blank"
                   
               >
@@ -230,7 +406,7 @@ const BrandsSliders = () => {
                   </div>
                 </div>
               </Link>
-              {ifloggedIn === null ? (
+              {/* {ifloggedIn === null ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowPopover(true)}
@@ -239,14 +415,14 @@ const BrandsSliders = () => {
                     Add to Cart
                   </button>
                 </div>
-              ) : (
+              ) : ( */}
                 <button
                   onClick={() => addToCart(product)}
                   className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                 >
                   Add to Cart
                 </button>
-              )}
+              {/* )} */}
             </div>
             ))}
         </div>
