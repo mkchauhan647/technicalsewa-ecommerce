@@ -87,7 +87,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   // select suggestion.
   const selectSuggestion = (option:any)=>{
     setSearchText(option.label)
-    router.push(`/${option.label.split(" ").map((value: string)=> value.toLowerCase()).join('-')}-${option.id}`)
+    router.push(`/${option.page_url.split(" ").map((value: string)=> value.toLowerCase()).join('-')}`)
     setSuggestions([{ label: "", id: "" }])
   }
 
@@ -96,11 +96,12 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
     if (searchText.length > 1) {
       const filteredSuggestions = [...allData]
         .filter((item: any) =>
-          item?.blog_name.toLowerCase().includes(searchText.toLowerCase()),
+          item?.blog_name.toLowerCase().includes(searchText.toLowerCase().trim()),
         )
         .map((item: any) => ({
           label: item.blog_name,
           id: item.blog_id,
+          page_url:item.page_url,
         }))
 
       setSuggestions(filteredSuggestions)
@@ -143,12 +144,15 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
             </div>
             <input
               value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={(e) => {
+                console.log(e.target.value);
+                setSearchText(e.target.value);
+              }}
               className="border border-black/40 rounded-md sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
               placeholder="Search"
             />
             <div >
-            { showSearchArea && suggestions.length > 1 && searchText.length > 1 && (
+            { showSearchArea && suggestions.length > 0 && searchText.length > 1 && (
               <div className="absolute bg-gray-200 border border-black/40 rounded-md w-full flex flex-col cursor-pointer">
                 {suggestions.map((option: any) => (
                   <span onClick={()=>selectSuggestion(option)} className="hover:bg-white border-b-2 border-black/40 sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400">
@@ -173,7 +177,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         <div
           className={`hidden lg:flex ${id ? "gap-8" : "gap-x-3"} items-center`}
         >
-          <p className="flex gap-4 items-center justify-center p-2"> <span className="text-red-500 border border-red-500 rounded-full  p-[6px]" ><FiPhone size={24} /></span>  <a href="tel:+9779802074445" className="cursor-pointer text-red-500">9802074445 </a> </p>
+          <p className="flex gap-4 items-center justify-center p-2"> <span className="text-red-500 border border-red-500 rounded-full  p-[6px]" ><FiPhone size={24} /></span>  <a href="tel:+9779802074445" className="cursor-pointer text-red-500">9802074555 </a> </p>
            <Link href={"/"} className="text-gray-600 text-sm">
             Spare Parts
           </Link>
