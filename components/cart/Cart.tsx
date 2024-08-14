@@ -61,7 +61,7 @@ export function Cart() {
             <>
               {cartItems.length > 0 ? (
                 <Link href="/checkout">
-                  <Button type="submit" className="p-2 w-full my-4 flex">
+                  <Button type="submit" className="p-2 w-full my-4 flex" onClick={()=> setIsOpen(false)}>
                     Proceed to Checkout
                   </Button>
                 </Link>
