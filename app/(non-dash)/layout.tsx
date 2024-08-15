@@ -44,7 +44,6 @@ useEffect(() => {
 
     // console.log("id", id);
 
-    // if (id == null) {
       
 
       const items = JSON.parse(localStorage.getItem("items") ?? "[]");
@@ -65,8 +64,10 @@ useEffect(() => {
         })
       
       })
+    if (id != null) {
       localStorage.removeItem("items");
-    // }
+    }
+    
   }
 
 },[])
