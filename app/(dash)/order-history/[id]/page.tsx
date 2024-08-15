@@ -5,6 +5,7 @@ import { CgDanger } from "react-icons/cg"
 import img from "../../../../public/dummy-user.png"
 import { AxiosCorsInstance } from "@/axios_config/Axios"
 import { toast } from "react-toastify"
+import axios from "axios"
 
 interface Review {
   avatarSrc?: string
@@ -28,7 +29,13 @@ export default function Component(props: { params: { id: string } }) {
   const [reviews, setReviews] = useState<Review[]>([])
   const [comment, setComment] = useState<string>("")
 
-  const localStorageData = localStorage.getItem("data")
+  // const localStorageData = typeof window !== undefined ? localStorage.getItem("data") : "";
+  if (typeof window !== 'undefined') {
+    var localStorageData = localStorage.getItem("data")
+  }
+  else {
+     localStorageData = "";
+  }
 
   const parsedLocalStorageData = localStorageData
     ? JSON.parse(localStorageData)
@@ -58,13 +65,20 @@ export default function Component(props: { params: { id: string } }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AxiosCorsInstance.post(
-          "/publiccontrol/publicsales/getsalesparts",
+        // const response = await AxiosCorsInstance.post(
+        // "/publiccontrol/publicsales/getsalesparts",
+        const response = await axios.post(
+          "/spareparts/apiHelper/cors-helper",
+          // "https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/getsalesparts",
           {
             sales_id: sales_id,
-          },
+            
+          }
         )
+    
+        
         const alldata = response.data
+        // console.log('data', alldata);
         setdata(alldata)
         toast.success("Data fetched successfully")
       } catch (error) {

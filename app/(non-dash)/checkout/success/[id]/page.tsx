@@ -9,6 +9,7 @@ import { getSingleProduct } from "@/store/action/singleProduct.action"
 import { AppDispatch, RootState } from "@/store/store"
 import { singleItemData } from "@/store/slice/singleProduct.slice"
 import { AxiosCorsInstance } from "@/axios_config/Axios"
+import PaymentPage from "@/app/(dash)/pay-online/page"
 interface CustomerData {
   name: string
   type: string
@@ -101,6 +102,12 @@ const page = () => {
             VIEW ORDER
           </button>
 
+          {/* <button
+            onClick={() => router.push("/pay-online")}
+            className="bg-gradient-to-tr from-orange-200 to-orange-600 rounded text-white py-2 text-sm font-extrabold px-8 whitespace-nowrap flex-1"
+          >
+            Pay Online
+          </button> */}
           <button
             onClick={() => router.push("/")}
             className="bg-gradient-to-tr from-orange-200 to-orange-600 rounded text-white py-2 text-sm font-extrabold px-8 whitespace-nowrap flex-1"
@@ -115,6 +122,8 @@ const page = () => {
           className="w-40 h-40 object-cover border border-black rounded-lg p-2"
         />
       ))}
+
+      <PaymentPage/>
     </div>
   )
 }

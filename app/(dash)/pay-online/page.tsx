@@ -21,9 +21,8 @@ const PaymentPage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center pt-5 bg-gray-100">
+    <div className="flex flex-col items-center justify-center pt-5 bg- gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center">
-        {/* <QRCode value="https://your-payment-url.com" size={200} /> */}
         {/* <img src="../../../assets/qr/siddhartha.jpg" alt="qr code" /> */}
         <Image src={qr} alt="qr code" width={300} height={300} />
         <h2 className="text-xl font-semibold mt-4">Scan to Pay</h2>
