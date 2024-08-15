@@ -41,8 +41,17 @@ const CartContent: React.FC<CartContentProps> = ({
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
-  const handleDeleteCart = (id: string) => {
-    dispatch(deleteCartItems({ id })).then((res) => {
+  const handleDeleteCart = (id: string, name: string) => {
+    
+    if (localStorage.getItem('items') !== null) {
+      const items = JSON.parse(localStorage.getItem('items') || '[]')
+      const newItems = items.filter((item: any) => item.items[0].blog_name !== name)
+      localStorage.setItem('items', JSON.stringify(newItems))
+    }
+
+
+
+    dispatch(deleteCartItems({ id ,name})).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         dispatch(fetchCartItems())
       } else {
@@ -114,7 +123,7 @@ const CartContent: React.FC<CartContentProps> = ({
                 </div>
                 <button
                   className="text-gray-600 text-sm "
-                  onClick={() => handleDeleteCart(item.item.id)}
+                  onClick={() => handleDeleteCart(item.item.id,item.itemsData[0]?.blog_name)}
                 >
                   <CiCircleRemove className="text-[20px] text-[red]" />
                 </button>

@@ -65,6 +65,7 @@ const Deals = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const router = useRouter()
   const [data, setData] = useState<CustomerData | null>(null)
+  const [quantity, setQuantity] = useState(1);
 
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
     const itemsData = JSON.parse(item.items)
@@ -78,36 +79,99 @@ const Deals = () => {
   const ifloggedIn = localStorage.getItem("id")
 
   const addToCart = (product: Product) => {
+
+    const newItem: CartItem = {
+      items: [product],
+      // subtotal: product.subtotal,
+      // tax: product.tax,
+      // discount: product.discount,
+      // total: product.total,
+      // subtotal: 0,
+      // tax: 0,
+      // discount: 0,
+      total: product.our_rate,
+      quantity: quantity,
+      image_url: product.image_name,
+    }
+
+
     if (ifloggedIn === null) {
-      setShowPopover(true)
+      // setShowPopover(true)
+     
+
+      dispatch(addCartItems(newItem)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          toast.success("Item Added To Cart")
+          dispatch(fetchCartItems())
+        } else {
+          toast.error("Error Added To Cart")
+  
+        }
+      })
+      if (localStorage.getItem("items") === null) {
+        localStorage.setItem("items", JSON.stringify([newItem]));
+      }
+      else {
+        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
+       
+        const itemExists = items.some((item: any) => {
+          if (typeof item.items === "string") {
+            item.items = JSON.parse(item.items) as Array<any>;
+          }
+         
+          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+        })
+
+        if (itemExists) {
+          const updatedItems = items.map((item: any) => {
+
+           
+          
+            if (item.items[0].blog_name === product.blog_name) {
+              item.quantity = item.quantity + 1;
+            }
+            return item;
+          })
+          localStorage.setItem("items", JSON.stringify(updatedItems));
+          return;
+        }
+
+          items.push(newItem)
+          localStorage.setItem("items", JSON.stringify(items));
+      }
       return
     }
 
-    const itemExists = parsedCartItems.some((parsedItem) =>
-      parsedItem.itemsData.some(
-        (cartProduct) => cartProduct.blog_name === product.blog_name,
-      ),
-    )
+      
+
+    const itemExists = cartItems.some((item: any) => {
+      const parsedItems = JSON.parse(item.items)
+      return parsedItems.some(
+        (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+      )
+    })
 
     if (itemExists) {
-      const prevCartItem: any = parsedCartItems.filter((parsedItem) =>
-        parsedItem.itemsData.some(
+      const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
+        if(parsedItem.itemsData)
+        return parsedItem.itemsData.some(
           (cartProduct) => cartProduct.blog_name === product.blog_name,
-        ),
+        );
+      }
       )
 
-      const updatedQuantity = Number(prevCartItem[0].item.quantity)
+      const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
       const updatedItem = {
         ...prevCartItem[0].item,
-        quantity: updatedQuantity + 1,
-        itemsData: JSON.stringify(prevCartItem[0].itemsData),
+        quantity: updatedQuantity + quantity,
+        itemsData: JSON.stringify(prevCartItem[0].itemsData), // Ensure itemsData is stringified
       }
       dispatch(
         editCartItems({ id: prevCartItem[0].item.id, product: updatedItem }),
       ).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
-          dispatch(fetchCartItems())
           toast.success("Added to Cart")
+          dispatch(fetchCartItems())
         } else {
           toast.error("Error adding to Cart")
         }
@@ -116,19 +180,14 @@ const Deals = () => {
       return
     }
 
-    const newItem: CartItem = {
-      items: [product],
-      total: !(data?.type === "Customer") ? product.tech_rate : product.our_rate,
-      quantity: 1,
-      image_url: product.image_name,
-    }
-
     dispatch(addCartItems(newItem)).then((res) => {
+      console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
+        toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
-        toast.success("Added to Cart")
       } else {
-        toast.error("Error adding to Cart")
+        toast.error("Error Added To Cart")
+
       }
     })
   }
@@ -288,7 +347,7 @@ const Deals = () => {
                   </div>
                 </div>
               </Link>
-              {ifloggedIn === null ? (
+              {/* {ifloggedIn === null ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowPopover(true)}
@@ -297,14 +356,14 @@ const Deals = () => {
                     Add to Cart
                   </button>
                 </div>
-              ) : (
+              ) : ( */}
                 <button
                   onClick={() => addToCart(product)}
                   className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
                 >
                   Add to Cart
                 </button>
-              )}
+              {/* )} */}
             </div>
             ))}
         </div>

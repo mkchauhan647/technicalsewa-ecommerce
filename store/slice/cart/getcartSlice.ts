@@ -126,10 +126,10 @@ export const editCartItems = createAsyncThunk<void, { id: string; product: CartI
 
     }
     else {
-      await AxiosCorsInstance.post(
-      "/commerce/PublicCart/createCart",
-      // await axios.post(
-      //   "https://www.technicalsewa.com/techsewa/commerce/PublicCart/createCart",
+      // await AxiosCorsInstance.post(
+      // "/commerce/PublicCart/createCart",
+      await axios.post(
+        "https://www.technicalsewa.com/techsewa/commerce/PublicCart/createCart",
         {
           cart_id: id,
           customer_id: getCustomerId(),
@@ -137,18 +137,23 @@ export const editCartItems = createAsyncThunk<void, { id: string; product: CartI
           // Ensure the quantity is updated
           quantity: product.quantity,
         },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
       );
     }
   }
 );
 
 // Define the async thunk for deleting the entire cart
-export const deleteCartItems = createAsyncThunk<void, { id: string }>(
+export const deleteCartItems = createAsyncThunk<void, { id: string ,name:string}>(
   "cart/deleteItems",
-  async ({ id }, { getState, dispatch }) => {
+  async ({ id ,name}, { getState, dispatch }) => {
     if (getCustomerId() === '') {
 
-      dispatch(cartSlice.actions.removeLocalItem(id));
+      dispatch(cartSlice.actions.removeLocalItem(name));
     }
     else {
       // await AxiosCorsInstance.post(

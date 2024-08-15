@@ -102,17 +102,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const userProfile = useSelector((state: RootState) => state.user.profile)
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
-    console.log("item", item);
     let itemsData = JSON.parse(item.items)
     if (typeof itemsData === "string") {
-      console.log("itemsDataii", itemsData);
-       itemsData = JSON.parse(itemsData) as Array<any>;
-      console.log("itemsDatai", itemsData);
+      itemsData = JSON.parse(itemsData) as Array<any>;
       return { item, itemsData }
     }
-    else {
-      console.log("itemsData", itemsData);
-      
+    else {      
       return { item, itemsData }
     }
   })
@@ -128,9 +123,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const addToCart = (product: Product) => {
     if (ifloggedIn === null) {
       // setShowPopover(true)
-
-      console.log("local items");
-
       const newItem: CartItem = {
         items: [product],
         // subtotal: product.subtotal,
@@ -146,43 +138,32 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       }
 
       dispatch(addCartItems(newItem)).then((res) => {
-        console.log("res", res);
         if (res.meta.requestStatus === "fulfilled") {
-          toast.success("Item Added fTo Cart")
+          toast.success("Item Added To Cart")
           dispatch(fetchCartItems())
         } else {
-          toast.error("Error Added local To Cart")
+          toast.error("Error Added To Cart")
   
         }
       })
-
-     
-
-      
-
       if (localStorage.getItem("items") === null) {
         localStorage.setItem("items", JSON.stringify([newItem]));
       }
       else {
-        // const items: Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")
-        
-
         const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
        
         const itemExists = items.some((item: any) => {
           if (typeof item.items === "string") {
             item.items = JSON.parse(item.items) as Array<any>;
           }
+         
           return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
         })
 
         if (itemExists) {
-          console.log("itemExists", itemExists);
           const updatedItems = items.map((item: any) => {
 
-            if (typeof item.items === "string") {
-              item.items = JSON.parse(item.items) as Array<any>;
-            }
+           
           
             if (item.items[0].blog_name === product.blog_name) {
               item.quantity = item.quantity + 1;
@@ -203,7 +184,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
     const itemExists = cartItems.some((item: any) => {
       const parsedItems = JSON.parse(item.items)
-      console.log("parsed",parsedItems)
       return parsedItems.some(
         (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
       )
@@ -211,7 +191,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
     if (itemExists) {
       const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
-        console.log("parsedItem", parsedItem);
         if(parsedItem.itemsData)
         return parsedItem.itemsData.some(
           (cartProduct) => cartProduct.blog_name === product.blog_name,
@@ -267,26 +246,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
-      console.log("cartitmes", cartItems);
-
-      // const items = JSON.parse(localStorage.getItem("items") ?? "[]");
-      // console.log("items useeffect", items);
-      // items.forEach((item: CartItem) => {
-      //   if (typeof item.items === "string") {
-      //     item.items = JSON.parse(item.items) as Array<any>;
-      //   }
-      //       dispatch(addCartItems(item)).then((res) => {
-      //         console.log("res", res);
-      //         if (res.meta.requestStatus === "fulfilled") {
-      //           toast.success("Item Added To Cart")
-      //           dispatch(fetchCartItems())
-      //         } else {
-      //           toast.error("Error Added local To Cart")
-        
-      //         }
-      //       })
-          // })
-
       const storedData = localStorage.getItem("data") ?? "{}"
       if (storedData) {
         try {
