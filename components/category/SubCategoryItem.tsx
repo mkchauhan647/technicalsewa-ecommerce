@@ -30,7 +30,7 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
             //   },
             // }}
             // href = {`/productlist/${subcategory.value}-${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
-            href = {`/productlist/${type}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
+            href = {`/${type}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
           >
             <h2 className="text-xs">{subcategory.text}</h2>
           </Link>
