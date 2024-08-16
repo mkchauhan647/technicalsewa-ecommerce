@@ -52,7 +52,7 @@ const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `model=${model}`,
+        body: `service_details=${model}`,
       },
     )
 
@@ -71,7 +71,7 @@ const Page = ({ params }: { params: { slug:string } }) => {
   
   // console.log("params", params);
   // const model = params.model;
-  const model = params.slug.split("-").at(0) as string;
+  const model = params.slug.split("-").join(" ") as string;
   console.log("model", model);
 
   const [grandChildData, setGrandChildData] = useState<GrandChild[]>([])
