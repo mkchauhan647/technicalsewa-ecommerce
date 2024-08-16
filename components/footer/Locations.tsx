@@ -27,10 +27,12 @@ const Locations = () => {
             {allLocation?.map((place:any) => (
               <Link
                 key={place?.id}
-                href={{
-                  pathname: `/location/technicalsewa-service-center-${place?.location?.toLowerCase().split(" ").join("-")} `
-                }}
+                // href={{
+                //   pathname: `/location/technicalsewa-service-center-${place?.location?.toLowerCase().split(" ").join("-")} `
+                // }}
+                href={`https://www.technicalsewa.com/location/technicalsewa-service-center-${place?.location?.toLowerCase().split(" ").join("-")}`}
                 className="hover:underline whitespace-nowrap"
+                target="_blank"
               >
                 {place?.location}
               </Link>
