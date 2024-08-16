@@ -69,6 +69,7 @@ const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
                   key={index}
                   subcategory={subcategory}
                   product_id={product_id}
+                  type="brand"
                 />
               ))}
             </ul>
@@ -91,6 +92,7 @@ const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
                 key={index}
                 subcategory={subcategory}
                 product_id={product_id}
+                type={"brands/" + category.title.toLowerCase()}
               />
             ))}
           </ul>
