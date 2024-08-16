@@ -117,4 +117,4 @@ const Page = ({ params }: { params: { slug:string } }) => {
   )
 }
 
-export default Page
+export default Page;

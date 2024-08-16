@@ -3,6 +3,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import axios from 'axios';
+import next from 'next';
 
 export async function POST(req: NextRequest,res: NextResponse) {
 
@@ -20,8 +21,8 @@ export async function POST(req: NextRequest,res: NextResponse) {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: `sales_id=${id.sales_id}`,
-            
-        
+
+            next:{revalidate:3600}
         });
 
         const data = await response.json();
