@@ -210,23 +210,23 @@ const BrandsSliders = () => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
 
-      const items = JSON.parse(localStorage.getItem("items") ?? "[]");
-      console.log("items useeffect", items);
-      items.forEach((item: CartItem) => {
-        if (typeof item.items === "string") {
-          item.items = JSON.parse(item.items) as Array<any>;
-        }
-            dispatch(addCartItems(item)).then((res) => {
-              console.log("res", res);
-              if (res.meta.requestStatus === "fulfilled") {
-                toast.success("Item Added To Cart")
-                dispatch(fetchCartItems())
-              } else {
-                toast.error("Error Added local To Cart")
+      // const items = JSON.parse(localStorage.getItem("items") ?? "[]");
+      // console.log("items useeffect", items);
+      // items.forEach((item: CartItem) => {
+      //   if (typeof item.items === "string") {
+      //     item.items = JSON.parse(item.items) as Array<any>;
+      //   }
+      //       dispatch(addCartItems(item)).then((res) => {
+      //         console.log("res", res);
+      //         if (res.meta.requestStatus === "fulfilled") {
+      //           toast.success("Item Added To Cart")
+      //           dispatch(fetchCartItems())
+      //         } else {
+      //           toast.error("Error Added local To Cart")
         
-              }
-            })
-          })
+      //         }
+      //       })
+      //     })
 
 
       const storedData = localStorage.getItem("data") ?? "{}"
