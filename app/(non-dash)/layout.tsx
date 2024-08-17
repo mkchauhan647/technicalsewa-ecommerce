@@ -47,13 +47,13 @@ useEffect(() => {
       
 
       const items = JSON.parse(localStorage.getItem("items") ?? "[]");
-      console.log("items useeffect", items);
+      // console.log("items useeffect", items);
       items.forEach((item: CartItems) => {
         if (typeof item.items === "string") {
           item.items = JSON.parse(item.items) as Array<any>;
         }
         dispatch(addCartItems(item)).then((res) => {
-          console.log("res", res);
+          // console.log("res", res);
           if (res.meta.requestStatus === "fulfilled") {
             // toast.success("Item Added To Cart")
             dispatch(fetchCartItems())

@@ -12,7 +12,7 @@ import { AppDispatch, RootState } from "../../store/store"
 import ShippingDetailsForm from "./ShippingDetailsForm"
 import CheckoutApiResponseModal from "./CheckoutApiResponseModal"
 import toast, { Toaster } from "react-hot-toast"
-import { useRouter } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 interface CustomerData {
   name: string
   type: string
@@ -35,14 +35,19 @@ export const CheckoutPage = () => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
 
-      const storedData = localStorage.getItem("data") ?? "{}"
+      const storedData = localStorage.getItem("data");
       if (storedData) {
+        console.log("Stored data", storedData);
         try {
           const parsedData = JSON.parse(storedData)
           setData(parsedData)
         } catch (error) {
           console.error("Failed to parse stored data", error)
         }
+      }
+      else {
+        // alert("Please login to continue");
+        router.push("/login");
       }
     }
   }, [])
