@@ -13,6 +13,7 @@ import ShippingDetailsForm from "./ShippingDetailsForm"
 import CheckoutApiResponseModal from "./CheckoutApiResponseModal"
 import toast, { Toaster } from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
+import Login from "@/components/Login"
 interface CustomerData {
   name: string
   type: string
@@ -28,6 +29,11 @@ interface ParsedCartItem {
 export const CheckoutPage = () => {
   const [data, setData] = useState<CustomerData | null>(null)
   const [type, setType] = useState("Normal")
+  const [showPopover, setShowPopover] = useState(false);
+
+  const handleClosePopover = () => {
+    setShowPopover(false);
+  };
 
   const itemsArray: ParsedCartItem[] = []
 
@@ -47,7 +53,7 @@ export const CheckoutPage = () => {
       }
       else {
         // alert("Please login to continue");
-        router.push("/login");
+        // router.push("/login");
       }
     }
   }, [])
@@ -151,6 +157,8 @@ export const CheckoutPage = () => {
   }
 
   return (
+    <>
+  
     <div className="bg-gray-50">
       <div className="container flex md:flex-row flex-col gap-5 py-8 ">
         <div className="bg-white flex flex-col md:w-2/3 md:h-fit overflow-hidden shadow-lg rounded-lg md:p-5 p-2 gap-2 justify-between">
@@ -288,6 +296,9 @@ export const CheckoutPage = () => {
         </div>
       </div>
       <Toaster />
-    </div>
+      </div>
+
+     
+      </>
   )
 }

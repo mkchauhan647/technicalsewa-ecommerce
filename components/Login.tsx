@@ -10,7 +10,8 @@ import { FaEye, FaEyeSlash, FaGoogle, FaLinkedin } from "react-icons/fa"
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 
-export default function Login() {
+
+export default function Login({path = 'login'}:{path?:string}) {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -66,7 +67,14 @@ export default function Login() {
           username: "",
           password: "",
         })
-        window.location.href = "/spareparts"
+        // window.location.href = "/spareparts"
+        if (path == "checkout") {
+          window.location.href = "/spareparts/checkout";
+        }
+        else {
+          window.location.href = "/spareparts";
+        }
+
       } else {
         toast.error("Invalid Credentials")
       }

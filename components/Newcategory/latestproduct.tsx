@@ -84,7 +84,7 @@ const Home = () => {
         // subtotal: 0,
         // tax: 0,
         // discount: 0,
-        total: product.our_rate,
+       total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -179,7 +179,7 @@ const Home = () => {
       // subtotal: 0,
       // tax: 0,
       // discount: 0,
-      total: product.our_rate,
+     total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -282,7 +282,7 @@ const Home = () => {
                 //   query: { id: product.blog_id },
                   // }}
                  href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
-                  target="_blank"
+                  // target="_blank"
               >
                 <div className="transition-all duration-500 hover:scale-110">
                   <LazyLoadImage
@@ -292,7 +292,7 @@ const Home = () => {
                   />
                 </div>
                   <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
-                  {Math.round(((product.market_rate -( !(data?.type === "Customer")
+                  {Math.round(((product.market_rate -(  (data?.type === "Technician")
                         ? product?.tech_rate
                         : product?.our_rate)) / product.market_rate) * 100) + "%" } 
                   </span>
@@ -304,7 +304,7 @@ const Home = () => {
 
                   <div className="flex flex-col ">
                     <span className="text-[15px] text-[#f85606] block">
-                      {!(data?.type === "Customer")
+                      { (data?.type === "Technician")
                         ? `Rs.${product?.tech_rate}`
                         : `Rs.${product?.our_rate}`}
                     </span>

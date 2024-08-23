@@ -18,6 +18,7 @@ import Tolltip from "../Tolltip"
 import Brands from "../brands/Brands"
 import { MdOutlineCategory } from "react-icons/md"
 import AxiosInstance from "@/axios_config/Axios"
+import Login from "@/components/Login"
 interface CartItem {
   id: string
   name: string
@@ -49,11 +50,19 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   const router = useRouter()
   const [isSigningOut, setIsSigningOut] = useState(false)
   const [id, setId] = useState<string | null>(null)
+  const [showPopover, setShowPopover] = useState(false);
+
 
   useEffect(() => {
     const idFromStorage = localStorage.getItem("id")
     setId(idFromStorage) // Set initial state from localStorage
   }, []) // Run effect once on component mount
+
+
+  const handleClosePopover = () => {
+    setShowPopover(false)
+  };
+
 
   const handleClick = () => {
     router.push("/dashboard") // Redirect if necessary
@@ -109,6 +118,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
   }, [searchText])
 
   return (
+    <>
     <div className="sticky top-0 border-b-2 z-40 bg-white xl:px- 16">
       {/* a................bigger screens.................. */}
       <div className="flex items-center justify-between xl:container mx-auto px-4 2xl:px-28 py-2">
@@ -124,7 +134,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
           <div className="text-xl text-black" onClick={handlebrand}>
             <MdOutlineCategory />
           </div>
-          <Cart />
+          <Cart setShowPopover = {setShowPopover} />
 
           <div
             className="text-xl text-black"
@@ -182,7 +192,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
             Spare Parts
           </Link>
 
-          <Cart />
+          <Cart setShowPopover={setShowPopover} />
           {id ? (
             <Button
               onClick={handleClick}
@@ -293,6 +303,20 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         </div>
       </div>
     </div>
+     {showPopover && (
+      <div className="fixed h-screen w-screen top-0 left-0 flex items-center justify-center mt-2 bg-black/80 p-4 rounded-lg shadow-lg z-50">
+        <div className="relative h-[500px] w-[800px] rounded-lg flex items-center justify-center bg-white">
+          <Login path="checkout" />
+          <button
+            onClick={handleClosePopover}
+            className="absolute top-0 right-2 p-2 text-black"
+          >
+            X
+          </button>
+        </div>
+      </div>
+    )}
+    </>
   )
 }
 
