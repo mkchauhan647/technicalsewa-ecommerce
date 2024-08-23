@@ -132,7 +132,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
         // subtotal: 0,
         // tax: 0,
         // discount: 0,
-        total: product.our_rate,
+        total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -227,7 +227,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       // subtotal: 0,
       // tax: 0,
       // discount: 0,
-      total: product.our_rate,
+      total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
       quantity: quantity,
       image_url: product.image_name,
     }

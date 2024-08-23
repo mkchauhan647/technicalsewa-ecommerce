@@ -4,17 +4,45 @@ import { ResponsiveLine } from "@nivo/line"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { IoIosArrowDown } from "react-icons/io"
 import { MdNotificationsActive } from "react-icons/md"
+import { useEffect, useState } from "react"
 
 export default function Component() {
+
+  const [userType, setUserType] = useState("");
+
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const id = localStorage.getItem("id") ?? "{}"
+
+      const storedData = localStorage.getItem("data");
+      if (storedData) {
+        console.log("Stored data", storedData);
+        try {
+          const parsedData = JSON.parse(storedData)
+          // setData(parsedData)
+          console.log("Parsed data", parsedData.type);
+          setUserType(parsedData.type);
+        } catch (error) {
+          console.error("Failed to parse stored data", error)
+        }
+      }
+      else {
+        // alert("Please login to continue");
+        // router.push("/login");
+      }
+    }
+  }, [])
   return (
     <main className=" overflow-y-scroll w-full">
       <section className="h-[248px] bg-[#7ab2c3]">
         <div className="flex justify-between p-12 items-center">
           <header>
             <h1 className="text-3xl font-medium text-white ">
-              My Dashboard
+             My Dashboard
               <div className="w-[70px] border-[2px] border-t border-white mt-1"></div>
             </h1>
+             <h2>{userType}</h2>
           </header>
           {/* <div className="flex items-center gap-4">
             <div className=" p-2 text-xl text-white rounded-full glass">
@@ -41,6 +69,7 @@ export default function Component() {
           <h1 className="text-2xl font-medium text-white pb-6 -mt-44">
             Overview
           </h1>
+         
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-white p-4 rounded-lg shadow-lg">
               <Badge variant="secondary">78%</Badge>

@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import React, { useEffect, useState } from "react"
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react"
 import {
   Sheet,
   SheetClose,
@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCartItems, CartItem } from "../../store/slice/cart/getcartSlice"
 import { RootState, AppDispatch } from "../../store/store"
 
-export function Cart() {
+export function Cart({ setShowPopover }: { setShowPopover: Dispatch<SetStateAction<boolean>> }) {
   const dispatch = useDispatch<AppDispatch>()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const [isOpen, setIsOpen] = useState(false)
@@ -34,6 +34,26 @@ export function Cart() {
   const handleContinueShopping = () => {
     setIsOpen(false)
   }
+
+
+  const handleCheckout = () => {
+    let id = localStorage.getItem("id");
+
+    console.log("id cart", id);
+
+    setIsOpen(false);
+    if (id) {
+      console.log(" I am in ");
+      window.location.href = "/spareparts/checkout";
+      return;
+
+    }
+    else {
+      setShowPopover(true);
+    }
+  }
+
+
 
   const cart = cartItems
 
@@ -60,11 +80,11 @@ export function Cart() {
           <SheetClose asChild>
             <>
               {cartItems.length > 0 ? (
-                <Link href="/checkout">
-                  <Button type="submit" className="p-2 w-full my-4 flex" onClick={()=> setIsOpen(false)}>
+                // <Link href="/checkout" onClick={()=>handleCheckout()}>
+                  <Button type="submit" className="p-2 w-full my-4 flex" onClick={() => handleCheckout()}>
                     Proceed to Checkout
                   </Button>
-                </Link>
+                // </Link>
               ) : (
                 <Button
                   type="button"
