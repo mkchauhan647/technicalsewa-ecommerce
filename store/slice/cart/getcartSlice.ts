@@ -6,9 +6,10 @@ interface Product {
   blog_name: string
   name: string
   image_name: string
-  our_rate: number
+  customer_rate: number
+  customer_discount_rate: number
   tech_rate: number
-  market_rate: number
+  tech_discount_rate: number
   blog_id: string
   featured: boolean
   page_title: string

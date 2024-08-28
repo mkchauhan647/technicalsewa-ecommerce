@@ -9,7 +9,7 @@ import Branddata from "@/components/brandproduct"
 import Category from "@/components/category/Categories"
 import { BiCategory } from "react-icons/bi"
 import Productlist from "@/components/category/productlist"
-
+import { GrandChild } from "@/lib/types"
 interface SearchParams {
   searchParams: {
     category: string
@@ -29,19 +29,19 @@ interface CartItem {
   image: string
 }
 
-interface GrandChild {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  market_rate: number
-  blog_id: string
-  featured: boolean
-  page_title: string
-  tech_rate: number
-  page_url: string
-}
+// interface GrandChild {
+//   model: string
+//   blog_name: string
+//   name: string
+//   image_name: string
+//   our_rate: number
+//   market_rate: number
+//   blog_id: string
+//   featured: boolean
+//   page_title: string
+//   tech_rate: number
+//   page_url: string
+// }
 
 const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
   try {

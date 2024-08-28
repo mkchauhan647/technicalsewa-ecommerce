@@ -9,19 +9,26 @@ export interface SingleProduct {
     features: string
     blog_id: string
     image_name: string
-    market_rate: number
+    // market_rate: number
+    customer_rate: number
     meta_desc: string
-    our_rate: number
+    // our_rate: number
+    customer_discount_rate: number
     page_title: string
     page_url: string
-    svc_rate: string
+    // svc_rate: string
     tech_rate: number
+    tech_discount_rate: number
     model:string
     name:string
     date:string
     latest:boolean
       featured: boolean
-      available_stock:number
+    available_stock: number
+    // end_dt: string
+    // end_tm: string
+    // start_dt: string
+    // start_tm: string
 
 }
 

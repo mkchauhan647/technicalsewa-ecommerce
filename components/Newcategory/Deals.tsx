@@ -15,27 +15,28 @@ import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import Timer from "./Timer"
-
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  tech_rate: number
-  market_rate: number
-  blog_id: string
-  date: string
-  latest: boolean
-  featured: boolean
-  page_title: string
-  is_hot: string
-  end_dt: string
-  end_tm: string
-  start_dt: string
-  start_tm: string
-  page_url:string
-}
+import { Product } from "@/lib/types"
+import { handleDiscount } from "./Brands"
+// interface Product {
+//   model: string
+//   blog_name: string
+//   name: string
+//   image_name: string
+//   our_rate: number
+//   tech_rate: number
+//   market_rate: number
+//   blog_id: string
+//   date: string
+//   latest: boolean
+//   featured: boolean
+//   page_title: string
+//   is_hot: string
+//   end_dt: string
+//   end_tm: string
+//   start_dt: string
+//   start_tm: string
+//   page_url:string
+// }
 
 interface CartItem {
   items: Product[]
@@ -89,7 +90,11 @@ const Deals = () => {
       // subtotal: 0,
       // tax: 0,
       // discount: 0,
-     total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      total: ( (data?.type === "Technician")
+      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+      : product?.customer_rate),
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -248,7 +253,7 @@ const Deals = () => {
     .filter(
       (product) =>
         product.latest &&
-        new Date(product.end_dt) > new Date() &&
+        new Date(product.end_dt || '') > new Date() &&
         product.end_tm,
     )
     .map((product) => ({
@@ -324,18 +329,21 @@ const Deals = () => {
                     className="w-full h-36 md:h-52 md:p-6"
                   />
                 </div>
-                  <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                  {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                   {Math.round(((product.market_rate -(  (data?.type === "Technician")
                         ? product?.tech_rate
                         : product?.our_rate)) / product.market_rate) * 100) + "%" } 
-                  </span>
+                  </span> */}
+                  {
+                    handleDiscount(product,data)
+                  }
 
                 <div className="md:px-4 px-1 mt-[10px]">
                   <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
                     {product.blog_name}
                   </h3>
 
-                  <div className="flex flex-col ">
+                  {/* <div className="flex flex-col ">
                     <span className="text-[15px] text-[#f85606] block">
                       { (data?.type === "Technician")
                         ? `Rs.${product?.tech_rate}`
@@ -343,6 +351,19 @@ const Deals = () => {
                     </span>
                     <span className="text-[13px] line-through text-[#9e9e9e]">
                       Rs. {product.market_rate}
+                    </span>
+                  </div> */}
+                     <div className="flex flex-col ">
+                      <span className="text-[15px] text-[#f85606] block">
+                        
+                        {(data?.type === "Technician")
+                          ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
+                          : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
+                    </span>
+                    <span className="text-[13px] line-through text-[#9e9e9e]">
+                        {
+                        (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
+                      }
                     </span>
                   </div>
                 </div>

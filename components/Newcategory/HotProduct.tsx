@@ -15,41 +15,9 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
+import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
+import { handleDiscount } from "./Brands";
 
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  tech_rate: number
-  market_rate: number
-  blog_id: string
-  date: string
-  latest: boolean
-  featured: boolean
-  page_title: string
-  is_hot: string
-  page_url:string
-}
-
-interface CartItem {
-  items: Product[]
-  quantity: number
-  image_url: string
-  total: number
-}
-
-interface ParsedCartItem {
-  item: CartItem
-  itemsData: Product[]
-}
-
-interface CustomerData {
-  name: string
-  type: string
-  // Add other properties as needed
-}
 
 const HotProduct = () => {
   const [loading, setLoading] = useState(true)
@@ -85,7 +53,11 @@ const HotProduct = () => {
         // subtotal: 0,
         // tax: 0,
         // discount: 0,
-       total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+        //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+        total: ( (data?.type === "Technician")
+        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+        : product?.customer_rate),
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -180,7 +152,11 @@ const HotProduct = () => {
       // subtotal: 0,
       // tax: 0,
       // discount: 0,
-     total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      total: ( (data?.type === "Technician")
+      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+      : product?.customer_rate),
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -292,18 +268,21 @@ const HotProduct = () => {
                       className="w-full h-36 md:h-52 md:p-6"
                     />
                   </div>
-                    <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                    {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     {Math.round(((product.market_rate -(  (data?.type === "Technician")
                           ? product?.tech_rate
                           : product?.our_rate)) / product.market_rate) * 100) + "%" } 
-                    </span>
+                    </span> */}
+                  {
+                    handleDiscount(product,data)
+                  }
 
                   <div className="md:px-4 px-1 mt-[10px]">
                     <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
                       {product.blog_name}
                     </h3>
 
-                    <div className="flex flex-col ">
+                    {/* <div className="flex flex-col ">
                       <span className="text-[15px] text-[#f85606] block">
                         { (data?.type === "Technician")
                           ? `Rs.${product?.tech_rate}`
@@ -312,7 +291,20 @@ const HotProduct = () => {
                       <span className="text-[13px] line-through text-[#9e9e9e]">
                         Rs. {product.market_rate}
                       </span>
-                    </div>
+                    </div> */}
+                     <div className="flex flex-col ">
+                      <span className="text-[15px] text-[#f85606] block">
+                        
+                        {(data?.type === "Technician")
+                          ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
+                          : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
+                    </span>
+                    <span className="text-[13px] line-through text-[#9e9e9e]">
+                        {
+                        (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
+                      }
+                    </span>
+                  </div>
                   </div>
                 </Link>
                 {/* {ifloggedIn === null ? (
