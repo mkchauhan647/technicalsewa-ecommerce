@@ -26,6 +26,9 @@ import {
 } from "@/components/ui/popover"
 import Image from "next/image"
 import Login from "../Login"
+import { Product } from "@/lib/types"
+
+
 interface ProductDetails {
   text: string
   value: string
@@ -36,20 +39,20 @@ interface DetailsProps {
   product: SingleProduct
   id: string
 }
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  market_rate: number
-  blog_id: string
-  date: string
-  latest: boolean
-  featured: boolean
-  page_title: string
-  tech_rate: number
-}
+// interface Product {
+//   model: string
+//   blog_name: string
+//   name: string
+//   image_name: string
+//   our_rate: number
+//   market_rate: number
+//   blog_id: string
+//   date: string
+//   latest: boolean
+//   featured: boolean
+//   page_title: string
+//   tech_rate: number
+// }
 
 interface CartItem {
   items: Product[]
@@ -132,7 +135,11 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
         // subtotal: 0,
         // tax: 0,
         // discount: 0,
-        total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+        // total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+        total: ( (data?.type === "Technician")
+        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+        : product?.customer_rate),
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -227,7 +234,11 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       // subtotal: 0,
       // tax: 0,
       // discount: 0,
-      total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      // total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      total: ( (data?.type === "Technician")
+      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+      : product?.customer_rate),
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -608,12 +619,19 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                     </div>
                     <div className="flex items-center gap-7 justify-between">
                       <span className="text-[16px]  text-[gray] font-semibold  line-through  block">
-                        Rs. {product?.market_rate * quantity}
+                      {data?.type === "Technician"
+                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_rate}` : null
+                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_rate}`
+                          : null}
                       </span>
                       <span className="text-[20px]  text-[black] font-semibold block">
-                        {data?.type === "Technician"
+                        {/* {data?.type === "Technician"
                           ? `Rs. ${product?.tech_rate * quantity}`
-                          : `Rs. ${product?.our_rate * quantity}`}
+                          : `Rs. ${product?.customer_rate * quantity}`} */}
+                        {data?.type === "Technician"
+                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_discount_rate}` : `Rs. ${product?.tech_rate * quantity}`
+                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_discount_rate}`
+                          : `Rs. ${product?.customer_rate * quantity}`}
                       </span>
                     </div>
                   </div>

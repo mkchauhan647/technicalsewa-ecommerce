@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/store/store"
 import Login from "../Login"
 import Categories from "./Categories"
+import { CartItem, CustomerData, ParsedCartItem ,Product} from "@/lib/types"
 
 export interface GrandChild {
   STATUS: string
@@ -23,14 +24,17 @@ export interface GrandChild {
   contact_info: string
   features: string
   image_name: null | string
-  market_rate: string
+  // market_rate: string
+  customer_rate: number 
   meta_desc: string
-  our_rate: string
+  // our_rate: string
+  customer_discount_rate: number
   page_title: string
   page_url: string
   blog_id: string
-  svc_rate: string
-  tech_rate: string
+  // svc_rate: string
+  tech_rate: number
+  tech_discount_rate: number 
   id: string
   topTitle: string
 }
@@ -38,36 +42,7 @@ export interface GrandChild {
 interface ProductProps {
   grandChildData: Product[]
 }
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  market_rate: number
-  blog_id: string
-  featured: boolean
-  page_title: string
-  tech_rate: number
-  page_url: string
-}
 
-interface CartItem {
-  items: Product[]
-  quantity: number
-  image_url: string
-  total: number
-}
-
-interface ParsedCartItem {
-  item: CartItem
-  itemsData: Product[]
-}
-interface CustomerData {
-  name: string
-  type: string
-  // Add other properties as needed
-}
 const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   const dispatch: AppDispatch = useDispatch()
   const cartItems = useSelector((state: RootState) => state.cart.items)
@@ -128,7 +103,11 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
 
     const newItem: CartItem = {
       items: [product],
-      total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
+      // total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
+      total: ( (data?.type === "Technician")
+      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+      : product?.customer_rate),
       quantity: 1,
       image_url: product.image_name,
     }
@@ -213,14 +192,27 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                     {product.blog_name}
                   </h3>
 
-                  <div className="">
+                  {/* <div className="">
                     <span className="text-[18px] text-[#f85606] block">
                       {data?.type === "Technician"
                         ? `Rs.${product?.tech_rate}`
                         : `Rs.${product.our_rate}`}{" "}
                     </span>
                     <span className="text-[14px] line-through text-[#9e9e9e]">
-                      Rs. {product.market_rate}
+                      Rs. {product}
+                    </span>
+                  </div> */}
+                   <div className="flex flex-col ">
+                      <span className="text-[15px] text-[#f85606] block">
+                        
+                        {(data?.type === "Technician")
+                          ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
+                          : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
+                    </span>
+                    <span className="text-[13px] line-through text-[#9e9e9e]">
+                        {
+                        (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
+                      }
                     </span>
                   </div>
                 </div>

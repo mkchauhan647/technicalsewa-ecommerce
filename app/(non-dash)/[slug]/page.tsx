@@ -45,7 +45,8 @@ const Page = ({ params }:{params:{slug:string}}) => {
   const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
   const products = useTypedSelector(subData)
 
-  const product_name = params.slug.split('-').join(' ').trim();
+  // const product_name = params.slug.split('-').join(' ').trim();
+  const product_name = params.slug.trim();
   const id = params.slug.split('-').at(-1) as string;
   const filterData = useCallback(() => {
     const filterItems = products.data.filter((product) => product.value == id)
@@ -77,8 +78,10 @@ const Page = ({ params }:{params:{slug:string}}) => {
       }
     }
 
-    fetchProductId()
-  }, [id])
+    setProductId(singleData.data?.blog_id || '')
+
+    // fetchProductId()
+  }, [singleData.data?.blog_id])
 
   return (
     <>

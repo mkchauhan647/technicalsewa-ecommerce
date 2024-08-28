@@ -15,41 +15,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
-
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  tech_rate: number
-  market_rate: number
-  blog_id: string
-  date: string
-  latest: boolean
-  featured: boolean
-  page_title: string
-  is_hot: string
-  page_url:string
-}
-
-interface CartItem {
-  items: Product[]
-  quantity: number
-  image_url: string
-  total: number
-}
-
-interface ParsedCartItem {
-  item: CartItem
-  itemsData: Product[]
-}
-
-interface CustomerData {
-  name: string
-  type: string
-  // Add other properties as needed
-}
+import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
 
 const BrandsSliders = () => {
   const [loading, setLoading] = useState(true)
@@ -94,7 +60,11 @@ const BrandsSliders = () => {
         // subtotal: 0,
         // tax: 0,
         // discount: 0,
-       total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+        //  total: data?.type === "Technician" ? product?.tech_rate : product?.customer_rate,
+        total: ( (data?.type === "Technician")
+        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+        : product?.customer_rate),
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -190,10 +160,16 @@ const BrandsSliders = () => {
       // tax: 0,
       // discount: 0,
       
-     total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
+      //  total: data?.type === "Technician" ? product?.tech_rate : product?.customer_rate,
+      total: ( (data?.type === "Technician")
+        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
+        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
+        : product?.customer_rate),
       quantity: quantity,
       image_url: product.image_name,
     }
+
+
 
     dispatch(addCartItems(newItem)).then((res) => {
       console.log("res", res);
@@ -245,7 +221,7 @@ const BrandsSliders = () => {
         const response = await AxiosInstance.get(
           "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
         )
-        console.log(response.data)
+        console.log("data",response.data)
         setTrending(response.data)
         setLoading(false)
       } catch (error) {
@@ -278,6 +254,7 @@ const BrandsSliders = () => {
     )
   }
 
+  
   return (
     <>
       <div className="featured-products">
@@ -296,7 +273,7 @@ const BrandsSliders = () => {
                 //   query: { id: product.blog_id },
                   // }}
                   // href={`/${product.blog_name.split(' ').map((value => value.toLocaleLowerCase())).join('-')}?id=${product.blog_id}`}
-                  href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
+                  href={`/${product.page_url.split("/").join(" ").split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   // target="_blank"
                   
               >
@@ -307,11 +284,12 @@ const BrandsSliders = () => {
                     className="w-full h-36 md:h-52 md:p-6"
                   />
                 </div>
-                  <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
-                  {Math.round(((product.market_rate -(  (data?.type === "Technician")
+                  {/* {Math.round(((product.customer_rate - (  (data?.type === "Technician")
                         ? product?.tech_rate
-                        : product?.our_rate)) / product.market_rate) * 100) + "%" } 
-                  </span>
+                        : product?.customer_discount_rate)) / product.customer_rate) * 100) + "%" }  */}
+                    {
+                      handleDiscount(product, data ?? { name: "", type: "" })
+                    }
 
                 <div className="md:px-4 px-1 mt-[10px]">
                   <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
@@ -324,12 +302,14 @@ const BrandsSliders = () => {
                   <div className="flex flex-col ">
                       <span className="text-[15px] text-[#f85606] block">
                         
-                      {(data?.type === "Technician")
-                        ? `Rs.${product?.tech_rate}`
-                        : `Rs.${product?.our_rate}`}
+                        {(data?.type === "Technician")
+                          ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
+                          : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
                     </span>
                     <span className="text-[13px] line-through text-[#9e9e9e]">
-                      Rs. {product.market_rate}
+                        {
+                        (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
+                      }
                     </span>
                   </div>
                 </div>
@@ -373,3 +353,35 @@ const BrandsSliders = () => {
 }
 
 export default BrandsSliders
+
+
+export const handleDiscount = (product: Product,data:CustomerData | null) => {
+  if (data?.type === "Technician") {
+    if (product.tech_discount_rate > 0) {
+      return (
+        <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+          {Math.round(
+            ((product.tech_rate - product.tech_discount_rate) /
+              product.tech_rate) *
+            100,
+          ) + "%"}
+        </span>
+      )
+    }
+  } else {
+    if (product.customer_discount_rate > 0) {
+      return (
+        <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+
+          {
+             Math.round(
+              ((product.customer_rate - product.customer_discount_rate) /
+                product.customer_rate) *
+              100,
+                ) + "%"
+       }
+        </span>
+      )
+    }
+  }
+}

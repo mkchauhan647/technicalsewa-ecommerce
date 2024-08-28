@@ -19,31 +19,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Countdown from "../Countdown"
-
-interface Product {
-  model: string
-  blog_name: string
-  name: string
-  image_name: string
-  our_rate: number
-  market_rate: number
-  blog_id: string
-  featured: boolean
-  page_title: string
-  blog_desc: string
-}
-
-interface CartItem {
-  items: Product[]
-  quantity: number
-  image_url: string
-  total: number
-}
-
-interface ParsedCartItem {
-  item: CartItem
-  itemsData: Product[]
-}
+import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
 
 export function DealCarousel() {
   const [loading, setLoading] = useState(true)
