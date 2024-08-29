@@ -107,7 +107,7 @@ const Page = ({ params }:{params:{slug:string}}) => {
       ) : (
         <p>Loading...</p> // You can replace this with a loader component if you have one
       )}
-      {productId ? <ReviewSection productId={productId} /> : <></>}
+      {/* {productId ? <ReviewSection productId={singleData.data?.blog_id || ''} /> : <></>} */}
       </div> 
 
     </>

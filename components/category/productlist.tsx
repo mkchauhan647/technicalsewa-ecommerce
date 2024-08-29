@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from "@/store/store"
 import Login from "../Login"
 import Categories from "./Categories"
 import { CartItem, CustomerData, ParsedCartItem ,Product} from "@/lib/types"
+import { handleDiscount } from "../Newcategory/Brands"
 
 export interface GrandChild {
   STATUS: string
@@ -181,9 +182,12 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                   />
                  
                 </div>
-                  <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                  {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%
-                </span>
+                </span> */}
+                {
+                  handleDiscount(product,data)
+                }
                 <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
                     HOT
                   </span>
