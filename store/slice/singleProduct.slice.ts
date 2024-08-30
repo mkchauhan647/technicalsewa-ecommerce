@@ -25,6 +25,7 @@ export interface SingleProduct {
     latest:boolean
       featured: boolean
     available_stock: number
+    specification?:string
     // end_dt: string
     // end_tm: string
     // start_dt: string

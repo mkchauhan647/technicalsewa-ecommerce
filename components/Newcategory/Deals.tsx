@@ -354,12 +354,15 @@ const Deals = () => {
                     </span>
                   </div> */}
                      <div className="flex flex-col ">
-                      <span className="text-[15px] text-[#f85606] block">
+                      {/* <span className="text-[15px] text-[#f85606] block">
                         
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
                           : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
-                    </span>
+                    </span> */}
+                      {
+                        handleLineThrough(product,data,false)
+                      }
                     {/* <span className="text-[13px] line-through text-[#9e9e9e]">
                         {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')

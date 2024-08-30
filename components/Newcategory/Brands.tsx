@@ -300,17 +300,15 @@ const BrandsSliders = () => {
                       
                   </h3>
 
-                  <div className="flex flex-col ">
-                      <span className="text-[15px] text-[#f85606] block">
-                        
-                        {(data?.type === "Technician")
-                          ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
-                          : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
-                      </span>
+                  <div className="flex flex-col  ">
+                     
+                      {
+                        handleLineThrough(product, data ?? { name: "", type: "" },false)
+                      }
                       
                       
                       {
-                        handleLineThrough(product, data ?? { name: "", type: "" })
+                        handleLineThrough(product, data ?? { name: "", type: "" },true)
                       }
                   </div>
                 </div>
@@ -387,24 +385,41 @@ export const handleDiscount = (product: Product,data:CustomerData | null) => {
   }
 }
 
-export const handleLineThrough = (product: Product, data: CustomerData | null) => {
+export const handleLineThrough = (product: Product, data: CustomerData | null,lineThrough:boolean = true) => {
   
                                
-  const priceThrough = (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}` : '') : (product.customer_discount_rate > 0 ? `Rs.${product?.customer_rate}` : '')
+  if (lineThrough) {
+    const priceThrough = (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}` : '') : (product.customer_discount_rate > 0 ? `Rs.${product?.customer_rate}` : '')
 
 
-  return (
-    priceThrough && (
-      <span className="text-[13px]">
-      Market Price: {""}
-      <span className="text-[13px] line-through text-[#9e9e9e]">
+    return (
+      priceThrough && (
+        <span className="text-[13px] whitespace-nowrap text-left">
+          Market Price: {""}
+          <span className="text-[13px] line-through text-[#9e9e9e]">
                         
-        {
-          priceThrough
-        }
-      </span>
-    </span>
+            {
+              priceThrough
+            }
+          </span>
+        </span>
+      )
     )
-  )
+  }
+
+  else {
+    const price = (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`) : (product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate}` : `Rs.${product?.customer_rate}`)
+
+    return (
+      <span className="text-[13px] mt-2 whitespace-nowrap text-left">
+       Our Price: {""}
+        <span className="text-[15px] text-[#f85606] ">
+          {
+            price
+          }
+        </span>
+      </span>
+    )
+  }
   
 }

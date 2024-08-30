@@ -19,7 +19,8 @@ export interface Product {
   end_tm?: string
   start_dt?: string
   start_tm?: string
-    page_url:string
+  page_url: string
+  specification?: string
   }
   
   export interface CartItem {
