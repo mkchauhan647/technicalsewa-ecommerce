@@ -27,6 +27,7 @@ import {
 import Image from "next/image"
 import Login from "../Login"
 import { Product } from "@/lib/types"
+import { handleLineThrough } from "../Newcategory/Brands"
 
 
 interface ProductDetails {
@@ -489,9 +490,18 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     <div className="container mt-5 md:mt-10 items-start ">
       <div className=" lg:flex gap-6 justify-between">
         <div className="basis-[80%] grow ">
-          <div className=" sm:flex gap-8 sm:gap-4">
+        <h1 className="text-xl  font-bold mb-5">
+                {product?.page_title}
+                <span className="text-xs font-normal whitespace-nowrap">
+                  ({product?.available_stock} in stock)
+                </span>
+              </h1>
+          <div className=" sm:flex gap-8 sm:gap-5">
+          
             <div className="flex flex-col relative basis-[50%] w-full ">
+            
               <div className="relative h-[350px]">
+
                 <img
                   alt="Main Image"
                   className="rounded-lg cursor-zoom-in h-full w-full cover"
@@ -588,13 +598,13 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               </div>
             </div>
             {/* Product title and description */}
-            <div className="mt-8 basis-[50%]">
-              <h1 className="text-2xl sm:text-3xl font-bold mb-2">
+            <div className="mt-5 md:mt-3 basis-[50%]">
+              {/* <h1 className="text-xl  font-bold mb-2">
                 {product?.page_title}
                 <span className="text-xs font-normal whitespace-nowrap">
                   ({product?.available_stock} in stock)
                 </span>
-              </h1>
+              </h1> */}
               <div className="flex items-center mb-3">
                 <div className="flex gap-4 items-center">
                   <div className="text-2xl font-bold  ">
@@ -602,16 +612,19 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </div>
                 </div>
               </div>
-              <div className="py-5 border-t ">
+              <div className="py- 5 ">
                 <h2 className="font-semibold mb-2">Description</h2>
                 {product?.meta_desc && product.blog_desc && (
                   <>
                     <div
                       dangerouslySetInnerHTML={{ __html: product?.blog_desc }}
+                      className="text-[14px]"
                     />
-                    <div
+                    {/* <div
                       dangerouslySetInnerHTML={{ __html: product?.features }}
-                    />
+                      className="text-[14px]"
+
+                    /> */}
                   </>
                 )}
               </div>
@@ -628,22 +641,26 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                         +
                       </Button>
                     </div>
-                    <div className="flex items-center gap-7 justify-between">
-                      <span className="text-[16px]  text-[gray] font-semibold  line-through  block">
+                    <div className="flex flex-col  gap-2">
+                      {/* <span className="text-[16px]  text-[gray] font-semibold  line-through  block whitespace-nowrap">
                       {data?.type === "Technician"
                           ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_rate}` : null
                           : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_rate}`
                           : null}
                       </span>
-                      <span className="text-[20px]  text-[black] font-semibold block">
-                        {/* {data?.type === "Technician"
-                          ? `Rs. ${product?.tech_rate * quantity}`
-                          : `Rs. ${product?.customer_rate * quantity}`} */}
+                      <span className="text-[16px]  text-[black] font-semibold block whitespace-nowrap">
+                       
                         {data?.type === "Technician"
                           ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_discount_rate}` : `Rs. ${product?.tech_rate * quantity}`
                           : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_discount_rate}`
                           : `Rs. ${product?.customer_rate * quantity}`}
-                      </span>
+                      </span> */}
+                      {
+                        handleLineThrough(product, data, false)
+                      }
+                      {
+                        handleLineThrough(product,data)
+                      }
                     </div>
                   </div>
                 </div>
@@ -652,6 +669,32 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           </div>
 
           {/* Product details and specifications */}
+          {/* <div className="py-5 border-t ">
+              <h2 className="font-semibold mb-2">Product Description</h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: product?.meta_desc }}
+                className="text-[14px]"
+              />
+          </div> */}
+          {/* <div className="py-5 border-t ">
+              <h2 className="font-semibold mb-2">Features</h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: product?.features }}
+                className="text-[14px]"
+            />
+          </div> */}
+          <div className="py-5 border-t ">
+              <h2 className="font-semibold mb-2">Specifications</h2>
+              <div
+                dangerouslySetInnerHTML={{ __html: product?.specification || '' }}
+                className="text-[14px]"
+            />
+          </div>
+          
+
+
+
+
         </div>
 
         <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
