@@ -293,7 +293,8 @@ const BrandsSliders = () => {
 
                 <div className="md:px-4 px-1 mt-[10px]">
                   <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
-                      {product.blog_name
+                     {
+                        product.page_title
                     
                       }
                       
@@ -305,12 +306,12 @@ const BrandsSliders = () => {
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
                           : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
-                    </span>
-                    <span className="text-[13px] line-through text-[#9e9e9e]">
-                        {
-                        (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
+                      </span>
+                      
+                      
+                      {
+                        handleLineThrough(product, data ?? { name: "", type: "" })
                       }
-                    </span>
                   </div>
                 </div>
               </Link>
@@ -384,4 +385,26 @@ export const handleDiscount = (product: Product,data:CustomerData | null) => {
       )
     }
   }
+}
+
+export const handleLineThrough = (product: Product, data: CustomerData | null) => {
+  
+                               
+  const priceThrough = (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}` : '') : (product.customer_discount_rate > 0 ? `Rs.${product?.customer_rate}` : '')
+
+
+  return (
+    priceThrough && (
+      <span className="text-[13px]">
+      Market Price: {""}
+      <span className="text-[13px] line-through text-[#9e9e9e]">
+                        
+        {
+          priceThrough
+        }
+      </span>
+    </span>
+    )
+  )
+  
 }
