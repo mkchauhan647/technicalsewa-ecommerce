@@ -590,7 +590,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
             {/* Product title and description */}
             <div className="mt-8 basis-[50%]">
               <h1 className="text-2xl sm:text-3xl font-bold mb-2">
-                {product?.blog_name}
+                {product?.page_title}
                 <span className="text-xs font-normal whitespace-nowrap">
                   ({product?.available_stock} in stock)
                 </span>

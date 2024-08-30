@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Login from "../Login"
 import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
-import { handleDiscount } from "./Brands"
+import { handleDiscount, handleLineThrough } from "./Brands"
 
 const Home = () => {
   const [loading, setLoading] = useState(true)
@@ -268,7 +268,7 @@ const Home = () => {
 
               <div className="md:px-4 px-1 mt-[10px]">
                 <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
-                  {product.blog_name}
+                  {product.page_title}
                 </h3>
 
                 {/* <div className="flex flex-col ">
@@ -288,11 +288,14 @@ const Home = () => {
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
                           : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
                     </span>
-                    <span className="text-[13px] line-through text-[#9e9e9e]">
+                    {/* <span className="text-[13px] line-through text-[#9e9e9e]">
                         {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
                       }
-                    </span>
+                    </span> */}
+                    {
+                      handleLineThrough(product,data)
+                    }
                   </div>
               </div>
             </Link>

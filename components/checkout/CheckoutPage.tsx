@@ -14,6 +14,7 @@ import CheckoutApiResponseModal from "./CheckoutApiResponseModal"
 import toast, { Toaster } from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
 import Login from "@/components/Login"
+import { handleLineThrough } from "../Newcategory/Brands"
 interface CustomerData {
   name: string
   type: string
@@ -211,12 +212,18 @@ export const CheckoutPage = () => {
                       </div>
                       <div className="w-3/4 flex justify-end items-center gap-3">
                         <span className="line-through text-red-500">
-                          Rs.{item?.itemsData[0]?.market_rate}
+                          {/* Rs.{item?.itemsData[0]?.market_rate} */}
+                          {
+                            handleLineThrough(item.itemsData[0],data)
+                          }
                         </span>
                         <span>
-                          {data?.type === "Technician"
+                          {/* {data?.type === "Technician"
                             ? `Rs.${item?.itemsData[0]?.tech_rate}`
-                            : `Rs.${item?.itemsData[0]?.our_rate}`}
+                            : `Rs.${item?.itemsData[0]?.our_rate}`} */}
+                          {(data?.type === "Technician")
+                          ? item?.itemsData[0]?.tech_discount_rate < item?.itemsData[0]?.tech_rate && item?.itemsData[0]?.tech_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.tech_discount_rate}` : `Rs.${item?.itemsData[0]?.tech_rate}`
+                          : item?.itemsData[0]?.customer_discount_rate < item?.itemsData[0]?.customer_rate && item?.itemsData[0]?.customer_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.customer_discount_rate} ` : `Rs.${item?.itemsData[0]?.customer_rate}`}
                         </span>
                       </div>
                     </div>
@@ -227,14 +234,21 @@ export const CheckoutPage = () => {
                       Qty:{item?.item?.quantity}
                     </div>
                     <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
-                      <span className="line-through text-red-500">
-                        Rs.{item?.itemsData[0]?.market_rate}
-                      </span>
+                      {/* <span className="line-through text-red-500"> */}
+                        {/* Rs.{item?.itemsData[0]?.market_rate} */}
+                        {
+                            handleLineThrough(item.itemsData[0],data)
+                          }
+
+                      {/* </span> */}
                       <span>
-                        {" "}
+                        {/* {" "}
                         {data?.type === "Technician"
                           ? `Rs.${item?.itemsData[0]?.tech_rate}`
-                          : `Rs.${item?.itemsData[0]?.our_rate}`}
+                          : `Rs.${item?.itemsData[0]?.our_rate}`} */}
+                          {(data?.type === "Technician")
+                          ? item?.itemsData[0]?.tech_discount_rate < item?.itemsData[0]?.tech_rate && item?.itemsData[0]?.tech_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.tech_discount_rate}` : `Rs.${item?.itemsData[0]?.tech_rate}`
+                          : item?.itemsData[0]?.customer_discount_rate < item?.itemsData[0]?.customer_rate && item?.itemsData[0]?.customer_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.customer_discount_rate} ` : `Rs.${item?.itemsData[0]?.customer_rate}`}
                       </span>
                     </div>
                   </div>
