@@ -80,6 +80,7 @@ interface Review {
   text: string
 }
 const Detail: React.FC<DetailsProps> = ({ product, id }) => {
+  console.log("product", product);
   const apiResponse = {
     product_id: "86",
     customer_id: "3333",
@@ -302,6 +303,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   const [zoomVisible, setZoomVisible] = useState(false)
   const [mainImage, setMainImage] = useState<string | undefined>()
+  const [image_index, setImageIndex] = useState<number>(0);
   // product?.image_name,
   const [thumbnails, setThumbnails] = useState<string[]>([])
   const [zoomStyles, setZoomStyles] = useState({})
@@ -384,25 +386,27 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   useEffect(() => {
     if (product?.image_name) {
-      const fetchThumbnail = async () => {
-        try {
-          const response = await AxiosCorsInstance.post(
-            `/publicControl/publicCommerce/getimageByitem`,
-            { item_name: product.blog_name },
-          )
-          const images: any = response.data?.list
-          if (images?.length > 1) {
-            const imageUrls = images.map((item: any) => item.image_url)
-            setThumbnails([product.image_name, ...imageUrls])
-          } else {
-            setThumbnails([product.image_name])
-          }
-        } catch (error) {
-          console.error("Error fetching Thumbnail:", error)
-        }
-      }
-      fetchThumbnail()
-      setMainImage(product.image_name)
+      // const fetchThumbnail = async () => {
+      //   try {
+      //     const response = await AxiosCorsInstance.post(
+      //       `/publicControl/publicCommerce/getimageByitem`,
+      //       { item_name: product.blog_name },
+      //     )
+      //     const images: any = response.data?.list
+      //     if (images?.length > 1) {
+      //       const imageUrls = images.map((item: any) => item.image_url)
+      //       setThumbnails([product.image_name, ...imageUrls])
+      //     } else {
+      //       setThumbnails([product.image_name])
+      //     }
+      //   } catch (error) {
+      //     console.error("Error fetching Thumbnail:", error)
+      //   }
+      // }
+      // fetchThumbnail()
+      const image_list = product.image_name.split(",")
+      setThumbnails(image_list);
+      setMainImage(image_list[0])
     }
   }, [product])
   useEffect(() => {
@@ -416,8 +420,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const swipeThumbnail = (side: string) => {
     if (side === "left") {
       thumbnailRef.current.scrollBy({ left: -200, behavior: "smooth" })
+      setImageIndex((image_index - 1) % thumbnails.length);
+      setMainImage(thumbnails[(image_index - 1)% thumbnails.length]);
     } else {
       thumbnailRef?.current.scrollBy({ left: 200, behavior: "smooth" })
+      setImageIndex((image_index + 1) % thumbnails.length);
+      setMainImage(thumbnails[(image_index + 1)% thumbnails.length]);
     }
   }
   useEffect(() => {
@@ -533,7 +541,10 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                         aspectRatio: "70/50",
                         objectFit: "cover",
                       }}
-                      onClick={() => setMainImage(thumbnail)}
+                      onClick={() => {
+                        setMainImage(thumbnail)
+                        setImageIndex(index)
+                      }}
                     />
                   ))}
                 </div>
