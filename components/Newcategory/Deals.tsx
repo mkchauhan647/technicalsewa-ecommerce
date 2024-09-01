@@ -59,7 +59,7 @@ interface CustomerData {
 const Deals = () => {
   const [loading, setLoading] = useState(true)
   const [trending, setTrending] = useState<Product[]>([])
-  const [currentProduct, setCurrentProduct] = useState(6)
+  const [currentProduct, setCurrentProduct] = useState(5)
   const [showPopover, setShowPopover] = useState(false)
   const [timer, setTimer] = useState<string>("")
   const dispatch: AppDispatch = useDispatch()
@@ -252,7 +252,7 @@ const Deals = () => {
   const featuredProducts = trending
     .filter(
       (product) =>
-        product.latest &&
+        product.latest && 
         new Date(product.end_dt || '') > new Date() &&
         product.end_tm,
     )
@@ -267,8 +267,11 @@ const Deals = () => {
       setCurrentProduct(featuredProducts.length)
       return
     }
-    setCurrentProduct(5)
+    setCurrentProduct(5);
+    return;
   }
+
+  console.log("featuredProducts", featuredProducts)
 
   const handleClosePopover = () => setShowPopover(false)
 

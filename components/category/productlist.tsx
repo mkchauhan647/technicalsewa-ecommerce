@@ -16,7 +16,7 @@ import { AppDispatch, RootState } from "@/store/store"
 import Login from "../Login"
 import Categories from "./Categories"
 import { CartItem, CustomerData, ParsedCartItem ,Product} from "@/lib/types"
-import { handleDiscount } from "../Newcategory/Brands"
+import { handleDiscount, handleLineThrough } from "../Newcategory/Brands"
 
 export interface GrandChild {
   STATUS: string
@@ -193,7 +193,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                   </span>
                 <div className="px-4 mt-4">
                   <h3 className="text-[15px] h-12 text-[black]  pr-[10px] overflow-hidden">
-                    {product.blog_name}
+                    {product.page_title}
                   </h3>
 
                   {/* <div className="">
@@ -207,7 +207,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                     </span>
                   </div> */}
                    <div className="flex flex-col ">
-                      <span className="text-[15px] text-[#f85606] block">
+                      {/* <span className="text-[15px] text-[#f85606] block">
                         
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
@@ -217,7 +217,13 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                         {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
                       }
-                    </span>
+                    </span> */}
+                    {
+                      handleLineThrough(product,data,false)
+                    }
+                    {
+                      handleLineThrough(product,data)
+                    }
                   </div>
                 </div>
               </Link>
