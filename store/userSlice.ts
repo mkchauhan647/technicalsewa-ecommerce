@@ -12,6 +12,10 @@ interface User {
   shipping_address1?: string
   shipping_address2?: string
   shipping_address3?: string
+  sc_name?: string
+  sc_email?: string
+  mobile?: string
+  sc_id?: string
 }
 
 // Define the UserState interface
@@ -30,19 +34,37 @@ const initialState: UserState = {
 
 // Helper function to get the customer ID from localStorage
 const getCustomerId = () => localStorage.getItem('id') ?? '';
+const getUserType = () => JSON.parse(localStorage.getItem("data")|| "") ?? '';
 
 // Define the async thunk for fetching user profile
 export const fetchUserProfile = createAsyncThunk<User>(
   "user/fetchProfile",
   async () => {
     try {
-      const response = await AxiosInstance.post(
-        "/getCustomerProfile",
-        {
-          id: getCustomerId(),
-        },
-      
-      );
+      // console.log("getCustomerId()", getCustomerId());
+      const user = getUserType();
+      console.log("user", user);
+      let response;
+      if (user.type.toLowerCase() == 'technician') {
+
+        response = await AxiosInstance.post(
+          "/getTechnicianProfile",
+           {
+             tech_id: getCustomerId(),
+           },
+         
+         );
+        
+      } else {
+         response = await AxiosInstance.post(
+          "/getCustomerProfile",
+           {
+             id: getCustomerId(),
+           },
+         
+         );
+      }
+      console.log("response", response.data);
       return response.data; // Ensure the response data has the user details
     } catch (error) {
       throw Error("Failed to fetch user profile");

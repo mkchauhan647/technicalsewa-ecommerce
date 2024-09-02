@@ -34,6 +34,10 @@ interface CustomerData {
   mobile_number?: string
   password?: string
   photo?: string
+  sc_name?: string
+  sc_email?: string
+  mobile?: string
+  sc_id?: string
 }
 
 interface NavigationItem {
@@ -85,11 +89,11 @@ export const Nav: React.FC = () => {
   useEffect(() => {
     if (userProfile) {
       const userData: CustomerData = {
-        first_name: userProfile.first_name || "",
-        last_name: userProfile.last_name || "",
-        email: userProfile.email || "",
-        mobile_number: userProfile.mobile_number || "",
-        photo: userProfile.photo || "",
+        first_name: userProfile.first_name || userProfile.sc_name?.split(' ')[0] || "",
+        last_name: userProfile.last_name || userProfile.sc_name?.split(' ')[1] || "",
+        email: userProfile.email || userProfile.sc_email || "",
+        mobile_number: userProfile.mobile_number || userProfile.mobile || "",
+        photo: userProfile.photo ||  "",
       }
       setData(userData)
       setInitialData(userData)
