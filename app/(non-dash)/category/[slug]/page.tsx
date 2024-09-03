@@ -70,8 +70,8 @@ const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
 const Page = ({ params }: { params: { slug:string } }) => {
   
   // console.log("params", params);
-  // const model = params.model;
-  const model = params.slug.split("-").join(" ") as string;
+  const model = params.slug.trim();
+  // const model = params.slug.split("-").join(" ") as string;
   console.log("model", model);
 
   const [grandChildData, setGrandChildData] = useState<GrandChild[]>([])

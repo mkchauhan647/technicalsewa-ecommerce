@@ -500,11 +500,11 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           
             <div className="flex flex-col relative basis-[50%] w-full ">
             
-              <div className="relative h-[350px]">
+              <div className="relative w-[300px] h-[300px] lg:w-[350px] lg:h-[350px]">
 
                 <img
                   alt="Main Image"
-                  className="rounded-lg cursor-zoom-in h-full w-full cover"
+                  className="rounded-lg cursor-zoom-in h-full w-full object-cover"
                   src={mainImage}
                   onMouseMove={handleMouseMove}
                   onMouseEnter={() => setZoomVisible(true)}

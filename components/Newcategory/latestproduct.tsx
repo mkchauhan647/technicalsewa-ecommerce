@@ -259,11 +259,11 @@ const Home = () => {
                  href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
                   // target="_blank"
               >
-                <div className="transition-all duration-500 hover:scale-110">
+                <div className="transition-all duration-500 hover:scale-110 rounded-md">
                   <LazyLoadImage
                     alt={product.blog_name}
                     src={product.image_name}
-                    className="w-full h-36 md:h-52 md:p-6"
+                    className="w-96 h-36 md:h-52 md:p-6 "
                   />
                 </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
