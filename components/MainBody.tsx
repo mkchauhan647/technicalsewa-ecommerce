@@ -175,7 +175,7 @@ const MainBody = ({ children }: any) => {
       </div>
 
       <div className="xl:container mx-auto  2xl:px-28 px-4">
-        <Latestproduct />
+        {/* <Latestproduct /> */}
       </div>
 
       <div className="xl:container mx-auto  2xl:px-28 px-4">
