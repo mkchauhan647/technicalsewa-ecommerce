@@ -7,14 +7,14 @@ interface SubCategoryItemProps {
     value: string
   }
   product_id: string
-  type: string
+ urlType: string
 
 }
 
 const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
   subcategory,
   product_id,
-  type,
+  urlType,
 }) => {
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
@@ -30,7 +30,7 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
             //   },
             // }}
             // href = {`/productlist/${subcategory.value}-${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
-            href = {`/${type}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
+            href = {`/${urlType}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
           >
             <h2 className="text-xs">{subcategory.text}</h2>
           </Link>
