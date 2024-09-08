@@ -30,7 +30,7 @@ interface CartItem {
 }
 
 
-const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
+const fetchGrandChildData = async (cat3: string,cat4:string): Promise<GrandChild[]> => {
   try {
     const response = await fetch(
       "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
@@ -39,7 +39,7 @@ const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `service_details=${model}`,
+        body: `service_details=${cat4}&service=${cat3}`,
       },
     )
 
@@ -54,12 +54,15 @@ const fetchGrandChildData = async (model: string): Promise<GrandChild[]> => {
   }
 }
 
-const Page = ({ params }: { params: { slug1:string } }) => {
+const Page = ({ params }: { params: {slug:string, slug1:string } }) => {
   
   // console.log("params", params);
   // const model = params.model;
-  const model = params.slug1.split("-").join(" ") as string;
-  console.log("model", model);
+  // const model = params.slug1.split("-").join(" ") as string;
+  // console.log("model", model);
+
+  const cat3 = params.slug;
+  const cat4 = params.slug1;
 
   const [grandChildData, setGrandChildData] = useState<GrandChild[]>([])
   const [loading, setLoading] = useState<boolean>(true)
@@ -68,7 +71,7 @@ const Page = ({ params }: { params: { slug1:string } }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchGrandChildData(model)
+        const data = await fetchGrandChildData(cat3,cat4)
         setGrandChildData(data)
       } catch (error) {
         setError("Failed to fetch data")
@@ -77,13 +80,13 @@ const Page = ({ params }: { params: { slug1:string } }) => {
       }
     }
 
-    if (model) {
+    if (cat3 && cat4) {
       fetchData()
     } else {
       setLoading(false)
       setError("No model provided")
     }
-  }, [model])
+  }, [cat3,cat4])
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>{error}</div>
