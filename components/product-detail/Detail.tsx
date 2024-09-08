@@ -28,6 +28,7 @@ import Image from "next/image"
 import Login from "../Login"
 import { Product } from "@/lib/types"
 import { handleLineThrough } from "../Newcategory/Brands"
+import SimilarProducts from "@/components/product-detail/SimilarProducts"
 
 interface ProductDetails {
   text: string
@@ -505,15 +506,17 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
             
               <div className="relative w-[300px] h-[300px] lg:w-[350px] lg:h-[350px]">
 
-                <img
-                  alt="Main Image"
-                  className="rounded-lg cursor-zoom-in h-full w-full object-cover"
-                  src={mainImage}
-                  onMouseMove={handleMouseMove}
-                  onMouseEnter={() => setZoomVisible(true)}
-                  onMouseLeave={() => setZoomVisible(false)}
-                  ref={mainImageRef}
-                />
+                <div className="w-[285px] h-[285px] md:h-[310px] md:w-[310px] xl:h-[350px] xl:w-[350px] overflow-hidden">
+                  <img
+                    alt="Product Image"
+                    className="w-full h-full object-cover"
+                    src={mainImage}
+                    ref={mainImageRef}
+                    onMouseMove={handleMouseMove}
+                    onMouseEnter={() => setZoomVisible(true)}
+                    onMouseLeave={() => setZoomVisible(false)}
+                  />
+                </div>
                 <div className="hidden md:block">
                   {zoomVisible && (
                     <div
@@ -689,6 +692,14 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
               className="text-[14px]"
             />
           </div>
+
+
+          <SimilarProducts tags={product.tags} />
+          
+
+
+
+
         </div>
 
         <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
