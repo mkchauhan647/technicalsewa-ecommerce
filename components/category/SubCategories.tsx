@@ -60,7 +60,7 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
           // onClick={toggleSubCategories}
         >
           <div className="flex justify-between" onClick={toggleSubCategories}>
-            <h2 className="text-[15px]"  >{category.title}</h2>
+            <h2 className="text-[15px]">{category.title}</h2>
             {showSubCategories ? <IoIosArrowDown /> : <IoIosArrowForward />}
 
             {/* <IoIosArrowForward className="hidden group-hover:block" /> */}
@@ -72,7 +72,10 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
                   key={index}
                   subcategory={subcategory}
                   product_id={product_id}
-                urlType={`category/` + category.title.trim().split(" ").join("-").toLowerCase()}
+                  urlType={
+                    `category/` +
+                    category.title.trim().split(" ").join("-").toLowerCase()
+                  }
                 />
               ))}
             </ul>
@@ -83,9 +86,9 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
           onClick={toggleSubCategories}
         >
           <div className="flex justify-between" onClick={toggleSubCategories}>
-            <h2 className="text-xs" >{category.title}</h2>
+            <h2 className="text-xs">{category.title}</h2>
 
-            <IoIosArrowForward className="hidden group-hover:block" />
+            <IoIosArrowForward className="hidden group-hover:block absolute right-0" />
           </div>
         </div>
         <div className="hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg">
@@ -95,7 +98,10 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
                 key={index}
                 subcategory={subcategory}
                 product_id={product_id}
-                urlType={`category/` + category.title.trim().split(" ").join("-").toLowerCase()}
+                urlType={
+                  `category/` +
+                  category.title.trim().split(" ").join("-").toLowerCase()
+                }
               />
             ))}
           </ul>

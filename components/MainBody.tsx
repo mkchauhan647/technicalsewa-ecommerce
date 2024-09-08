@@ -22,7 +22,11 @@ import { MdOutlineCategory } from "react-icons/md"
 import BrandSliders from "./Newcategory/Brands"
 import { Search } from "./navbar/Search"
 import Deals from "./Newcategory/Deals"
-import { addCartItems, CartItem, fetchCartItems } from "@/store/slice/cart/getcartSlice"
+import {
+  addCartItems,
+  CartItem,
+  fetchCartItems,
+} from "@/store/slice/cart/getcartSlice"
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "@/store/store"
 import { toast, ToastContainer } from "react-toastify"
@@ -42,8 +46,6 @@ const MainBody = ({ children }: any) => {
   const dispatch: AppDispatch = useDispatch()
 
   useEffect(() => {
-
-    
     const fetchData = async () => {
       try {
         const response = await AxiosInstance.post(
@@ -100,14 +102,14 @@ const MainBody = ({ children }: any) => {
   </div> */}
 
         {/* larger screen */}
-        <div className="border-r hidden lg:block lg:w-[25%]">
+        <div className="border-r hidden lg:block lg:w-[10%]">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
             <BiCategory className="text-xl cursor-pointer" /> Categories
           </div>
           <Categories />
         </div>
 
-        <div className="lg:w-[75%]  ml-[10px] mr-[10px] lg:mx-[30px]">
+        <div className="lg:w-[90%]  ml-[10px] mr-[10px] lg:mx-[30px]">
           <Slider {...settings}>
             {bannerImages.map((product) => (
               <div key={product.id} className="w-full md:h-[280px] h-[160px]">
@@ -153,31 +155,13 @@ const MainBody = ({ children }: any) => {
             ))}
           </Slider> */}
           {/* <BrandSliders /> */}
-          <Latestproduct/>
+          <Latestproduct />
         </div>
       </div>
+
       <div className=" xl:container mx-auto  2xl:px-28 px-4">
         <Deals />
       </div>
-      <div className=" xl:container mx-auto  2xl:px-28 px-4">
-        <Newproduct />
-      </div>
-
-      <div className="xl:container mx-auto  2xl:px-28 px-4">
-        {/* <Image
-          src={offer}
-          alt="ads"
-          className="w-full py-8 pr-4"
-          quality={100}
-          priority
-        /> */}
-        <DealCarousel />
-      </div>
-
-      <div className="xl:container mx-auto  2xl:px-28 px-4">
-        {/* <Latestproduct /> */}
-      </div>
-
       <div className="xl:container mx-auto  2xl:px-28 px-4">
         {middlebanner.map((product) => (
           <div key={product.id} className="w-full h-auto">
@@ -200,12 +184,8 @@ const MainBody = ({ children }: any) => {
           </div>
         ))}
       </div>
-      <div className="xl:container mx-auto  2xl:px-28 px-4">
-        <FeaturedBrands />
-      </div>
-
-      <div className="xl:container mx-auto  2xl:px-28 px-4">
-        <HotProduct />
+      <div className=" xl:container mx-auto  2xl:px-28 px-4">
+        <Newproduct />
       </div>
 
       <div className="xl:container mx-auto  2xl:px-28 px-4">
@@ -230,7 +210,30 @@ const MainBody = ({ children }: any) => {
           </div>
         ))}
       </div>
-      <ToastContainer/>
+      <div className="xl:container mx-auto  2xl:px-28 px-4">
+        {/* <Image
+          src={offer}
+          alt="ads"
+          className="w-full py-8 pr-4"
+          quality={100}
+          priority
+        /> */}
+        <DealCarousel />
+      </div>
+
+      <div className="xl:container mx-auto  2xl:px-28 px-4">
+        {/* <Latestproduct /> */}
+      </div>
+
+      <div className="xl:container mx-auto  2xl:px-28 px-4">
+        <FeaturedBrands />
+      </div>
+
+      <div className="xl:container mx-auto  2xl:px-28 px-4">
+        <HotProduct />
+      </div>
+
+      <ToastContainer />
     </>
   )
 }

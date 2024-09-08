@@ -503,9 +503,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           </h1>
           <div className=" sm:flex gap-8 sm:gap-5">
             <div className="flex flex-col relative basis-[50%] w-full ">
-            
               <div className="relative w-[300px] h-[300px] lg:w-[350px] lg:h-[350px]">
-
                 <div className="w-[285px] h-[285px] md:h-[310px] md:w-[310px] xl:h-[350px] xl:w-[350px] overflow-hidden">
                   <img
                     alt="Product Image"
@@ -693,13 +691,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
             />
           </div>
 
-
           <SimilarProducts tags={product.tags} />
-          
-
-
-
-
         </div>
 
         <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
@@ -763,7 +755,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <div className="flex items-start justify-between">
                   <div className="flex flex-col">
                     <span className="font-semibold text-sm">Free Delivery</span>
-                    <span className="text-sm text-gray-500">2 - 3 day(s)</span>
+                    <span className="text-sm text-gray-500">24 Hours</span>
                   </div>
                   <span className="font-semibold text-green-600  text-sm ml-2">
                     Free
@@ -774,7 +766,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                     <span className="font-semibold text-sm ">
                       Fastest Delivery
                     </span>
-                    <span className="text-sm text-gray-500">Tomorrow</span>
+                    <span className="text-sm text-gray-500">1 Hour</span>
                   </div>
                   {/* <span className="text-sm  ml-2 whitespace-nowrap">Rs. 0</span> */}
                 </div>
