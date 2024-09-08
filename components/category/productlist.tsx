@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/store/store"
 import Login from "../Login"
 import Categories from "./Categories"
-import { CartItem, CustomerData, ParsedCartItem ,Product} from "@/lib/types"
+import { CartItem, CustomerData, ParsedCartItem, Product } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "../Newcategory/Brands"
 
 export interface GrandChild {
@@ -26,7 +26,7 @@ export interface GrandChild {
   features: string
   image_name: null | string
   // market_rate: string
-  customer_rate: number 
+  customer_rate: number
   meta_desc: string
   // our_rate: string
   customer_discount_rate: number
@@ -35,7 +35,7 @@ export interface GrandChild {
   blog_id: string
   // svc_rate: string
   tech_rate: number
-  tech_discount_rate: number 
+  tech_discount_rate: number
   id: string
   topTitle: string
 }
@@ -57,6 +57,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
     return { item, itemsData }
   })
 
+  console.log(parsedCartItems, "PARSED CART ITEM")
   useEffect(() => {
     dispatch(fetchCartItems())
   }, [dispatch])
@@ -105,10 +106,16 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
     const newItem: CartItem = {
       items: [product],
       // total: data?.type === "Technician" ? product.tech_rate : product.our_rate,
-      total: ( (data?.type === "Technician")
-      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-      : product?.customer_rate),
+      total:
+        data?.type === "Technician"
+          ? product.tech_discount_rate < product.tech_rate &&
+            product.tech_discount_rate > 0
+            ? product?.tech_discount_rate
+            : product?.tech_rate
+          : product.customer_discount_rate < product.customer_rate &&
+              product.customer_discount_rate > 0
+            ? product?.customer_discount_rate
+            : product?.customer_rate,
       quantity: 1,
       image_url: product.image_name,
     }
@@ -142,21 +149,19 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14 justify-between">
-
         <div className="lg:flex hidden flex-col lg:w-[25%]">
-        <div className="border-r lg:block ">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
-            <BiCategory className="text-xl cursor-pointer" /> Categories
+          <div className="border-r lg:block ">
+            <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+              <BiCategory className="text-xl cursor-pointer" /> Categories
+            </div>
+            <Categories />
           </div>
-          <Categories />
-        </div>
-
-        <div className="border-r  lg:block  ">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
-            <BiCategory className="text-2xl cursor-pointer" /> Brands
-          </div>
-          <Brands />
-        </div>{" "}
+          <div className="border-r  lg:block  ">
+            <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
+              <BiCategory className="text-2xl cursor-pointer" /> Brands
+            </div>
+            <Brands />
+          </div>{" "}
         </div>
         <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:w-5/6">
           {grandChildData.map((product, index) => (
@@ -169,8 +174,10 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                 //   pathname: "/detail-beta",
                 //   query: { id: product.blog_id },
                 // }}
-                 href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
-                  target="_blank"
+                href={`/${product.page_url
+                  .split(" ")
+                  .map((value) => value.toLocaleLowerCase())
+                  .join("-")}`}
               >
                 <div className="transition-all duration-500 hover:scale-110">
                   <Image
@@ -180,17 +187,14 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                     height={189}
                     className="w-full h-48 md:h-56 p-8"
                   />
-                 
                 </div>
-                  {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
+                {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                     -10%
                 </span> */}
-                {
-                  handleDiscount(product,data)
-                }
+                {handleDiscount(product, data)}
                 <span className="absolute bottom-44 left-0 bg-green-500 text-white px-2 py-1 text-xs font-bold rounded-tl-md uppercase">
-                    HOT
-                  </span>
+                  HOT
+                </span>
                 <div className="px-4 mt-4">
                   <h3 className="text-[15px] h-12 text-[black]  pr-[10px] overflow-hidden">
                     {product.page_title}
@@ -206,8 +210,8 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                       Rs. {product}
                     </span>
                   </div> */}
-                   <div className="flex flex-col ">
-                      {/* <span className="text-[15px] text-[#f85606] block">
+                  <div className="flex flex-col ">
+                    {/* <span className="text-[15px] text-[#f85606] block">
                         
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
@@ -218,12 +222,8 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
                       }
                     </span> */}
-                    {
-                      handleLineThrough(product,data,false)
-                    }
-                    {
-                      handleLineThrough(product,data)
-                    }
+                    {handleLineThrough(product, data, false)}
+                    {handleLineThrough(product, data)}
                   </div>
                 </div>
               </Link>

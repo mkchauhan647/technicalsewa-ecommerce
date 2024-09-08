@@ -18,10 +18,16 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchCartItems, CartItem } from "../../store/slice/cart/getcartSlice"
 import { RootState, AppDispatch } from "../../store/store"
 
-export function Cart({ setShowPopover }: { setShowPopover: Dispatch<SetStateAction<boolean>> }) {
+export function Cart({
+  setShowPopover,
+}: {
+  setShowPopover: Dispatch<SetStateAction<boolean>>
+}) {
   const dispatch = useDispatch<AppDispatch>()
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const [isOpen, setIsOpen] = useState(false)
+
+  console.log(cartItems, "CART ITEMS")
 
   useEffect(() => {
     dispatch(fetchCartItems())
@@ -35,25 +41,20 @@ export function Cart({ setShowPopover }: { setShowPopover: Dispatch<SetStateActi
     setIsOpen(false)
   }
 
-
   const handleCheckout = () => {
-    let id = localStorage.getItem("id");
+    let id = localStorage.getItem("id")
 
-    console.log("id cart", id);
+    console.log("id cart", id)
 
-    setIsOpen(false);
+    setIsOpen(false)
     if (id) {
-      console.log(" I am in ");
-      window.location.href = "/spareparts/checkout";
-      return;
-
-    }
-    else {
-      setShowPopover(true);
+      console.log(" I am in ")
+      window.location.href = "/spareparts/checkout"
+      return
+    } else {
+      setShowPopover(true)
     }
   }
-
-
 
   const cart = cartItems
 
@@ -81,11 +82,15 @@ export function Cart({ setShowPopover }: { setShowPopover: Dispatch<SetStateActi
             <>
               {cartItems.length > 0 ? (
                 // <Link href="/checkout" onClick={()=>handleCheckout()}>
-                  <Button type="submit" className="p-2 w-full my-4 flex" onClick={() => handleCheckout()}>
-                    Proceed to Checkout
-                  </Button>
-                // </Link>
+                <Button
+                  type="submit"
+                  className="p-2 w-full my-4 flex"
+                  onClick={() => handleCheckout()}
+                >
+                  Proceed to Checkout
+                </Button>
               ) : (
+                // </Link>
                 <Button
                   type="button"
                   className="p-2 w-full my-4 flex"

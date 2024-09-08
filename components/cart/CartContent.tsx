@@ -22,10 +22,11 @@ const CartContent: React.FC<CartContentProps> = ({
   cartdata: any
 }) => {
   const item = cartdata
-
+  console.log(item, "CART DATA")
   const shipping = 20.0
   let subtotalamt = 0
   const itemsArray: ParsedCartItem[] = []
+  console.log(item, "CART CONTENT")
 
   // Loop through cartItems and accumulate subtotals
   item.forEach((item: any) => {
@@ -42,16 +43,15 @@ const CartContent: React.FC<CartContentProps> = ({
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
   const handleDeleteCart = (id: string, name: string) => {
-    
-    if (localStorage.getItem('items') !== null) {
-      const items = JSON.parse(localStorage.getItem('items') || '[]')
-      const newItems = items.filter((item: any) => item.items[0].blog_name !== name)
-      localStorage.setItem('items', JSON.stringify(newItems))
+    if (localStorage.getItem("items") !== null) {
+      const items = JSON.parse(localStorage.getItem("items") || "[]")
+      const newItems = items.filter(
+        (item: any) => item.items[0].blog_name !== name,
+      )
+      localStorage.setItem("items", JSON.stringify(newItems))
     }
 
-
-
-    dispatch(deleteCartItems({ id ,name})).then((res) => {
+    dispatch(deleteCartItems({ id, name })).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
         dispatch(fetchCartItems())
       } else {
@@ -118,12 +118,14 @@ const CartContent: React.FC<CartContentProps> = ({
               <div className="flex justify-between">
                 <div className="flex flex-col">
                   <span className="font-semibold text-sm">
-                    {item.itemsData[0]?.blog_name}
+                    {item.itemsData[0]?.page_title}
                   </span>
                 </div>
                 <button
                   className="text-gray-600 text-sm "
-                  onClick={() => handleDeleteCart(item.item.id,item.itemsData[0]?.blog_name)}
+                  onClick={() =>
+                    handleDeleteCart(item.item.id, item.itemsData[0]?.blog_name)
+                  }
                 >
                   <CiCircleRemove className="text-[20px] text-[red]" />
                 </button>

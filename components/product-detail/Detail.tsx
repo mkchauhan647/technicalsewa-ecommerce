@@ -29,7 +29,6 @@ import Login from "../Login"
 import { Product } from "@/lib/types"
 import { handleLineThrough } from "../Newcategory/Brands"
 
-
 interface ProductDetails {
   text: string
   value: string
@@ -81,7 +80,7 @@ interface Review {
   text: string
 }
 const Detail: React.FC<DetailsProps> = ({ product, id }) => {
-  console.log("product", product);
+  console.log("PRODUCT DETAILS", product)
   const apiResponse = {
     product_id: "86",
     customer_id: "3333",
@@ -98,7 +97,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       },
     ],
   }
-  console.log(product)
   const [reviews, setReviews] = useState<Review[]>([])
   const [comment, setComment] = useState<string>("")
   const [showPopover, setShowPopover] = useState(false)
@@ -109,10 +107,9 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
     let itemsData = JSON.parse(item.items)
     if (typeof itemsData === "string") {
-      itemsData = JSON.parse(itemsData) as Array<any>;
+      itemsData = JSON.parse(itemsData) as Array<any>
       return { item, itemsData }
-    }
-    else {      
+    } else {
       return { item, itemsData }
     }
   })
@@ -138,10 +135,16 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
         // tax: 0,
         // discount: 0,
         // total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-        total: ( (data?.type === "Technician")
-        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-        : product?.customer_rate),
+        total:
+          data?.type === "Technician"
+            ? product.tech_discount_rate < product.tech_rate &&
+              product.tech_discount_rate > 0
+              ? product?.tech_discount_rate
+              : product?.tech_rate
+            : product.customer_discount_rate < product.customer_rate &&
+                product.customer_discount_rate > 0
+              ? product?.customer_discount_rate
+              : product?.customer_rate,
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -152,44 +155,41 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           dispatch(fetchCartItems())
         } else {
           toast.error("Error Added To Cart")
-  
         }
       })
       if (localStorage.getItem("items") === null) {
-        localStorage.setItem("items", JSON.stringify([newItem]));
-      }
-      else {
-        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
-       
+        localStorage.setItem("items", JSON.stringify([newItem]))
+      } else {
+        const items: Array<any> = JSON.parse(
+          localStorage.getItem("items") ?? "[]",
+        )
+
         const itemExists = items.some((item: any) => {
           if (typeof item.items === "string") {
-            item.items = JSON.parse(item.items) as Array<any>;
+            item.items = JSON.parse(item.items) as Array<any>
           }
-         
-          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+
+          return item.items.some(
+            (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+          )
         })
 
         if (itemExists) {
           const updatedItems = items.map((item: any) => {
-
-           
-          
             if (item.items[0].blog_name === product.blog_name) {
-              item.quantity = item.quantity + 1;
+              item.quantity = item.quantity + 1
             }
-            return item;
+            return item
           })
-          localStorage.setItem("items", JSON.stringify(updatedItems));
-          return;
+          localStorage.setItem("items", JSON.stringify(updatedItems))
+          return
         }
 
-          items.push(newItem)
-          localStorage.setItem("items", JSON.stringify(items));
+        items.push(newItem)
+        localStorage.setItem("items", JSON.stringify(items))
       }
       return
     }
-
-      
 
     const itemExists = cartItems.some((item: any) => {
       const parsedItems = JSON.parse(item.items)
@@ -200,12 +200,11 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
     if (itemExists) {
       const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
-        if(parsedItem.itemsData)
-        return parsedItem.itemsData.some(
-          (cartProduct) => cartProduct.blog_name === product.blog_name,
-        );
-      }
-      )
+        if (parsedItem.itemsData)
+          return parsedItem.itemsData.some(
+            (cartProduct) => cartProduct.blog_name === product.blog_name,
+          )
+      })
 
       const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
       const updatedItem = {
@@ -237,22 +236,27 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       // tax: 0,
       // discount: 0,
       // total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-      total: ( (data?.type === "Technician")
-      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-      : product?.customer_rate),
+      total:
+        data?.type === "Technician"
+          ? product.tech_discount_rate < product.tech_rate &&
+            product.tech_discount_rate > 0
+            ? product?.tech_discount_rate
+            : product?.tech_rate
+          : product.customer_discount_rate < product.customer_rate &&
+              product.customer_discount_rate > 0
+            ? product?.customer_discount_rate
+            : product?.customer_rate,
       quantity: quantity,
       image_url: product.image_name,
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res);
+      console.log("res", res)
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
       } else {
         toast.error("Error Added To Cart")
-
       }
     })
   }
@@ -304,7 +308,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   const [zoomVisible, setZoomVisible] = useState(false)
   const [mainImage, setMainImage] = useState<string | undefined>()
-  const [image_index, setImageIndex] = useState<number>(0);
+  const [image_index, setImageIndex] = useState<number>(0)
   // product?.image_name,
   const [thumbnails, setThumbnails] = useState<string[]>([])
   const [zoomStyles, setZoomStyles] = useState({})
@@ -406,7 +410,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
       // }
       // fetchThumbnail()
       const image_list = product.image_name.split(",")
-      setThumbnails(image_list);
+      setThumbnails(image_list)
       setMainImage(image_list[0])
     }
   }, [product])
@@ -421,12 +425,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
   const swipeThumbnail = (side: string) => {
     if (side === "left") {
       thumbnailRef.current.scrollBy({ left: -200, behavior: "smooth" })
-      setImageIndex((image_index - 1) % thumbnails.length);
-      setMainImage(thumbnails[(image_index - 1)% thumbnails.length]);
+      setImageIndex((image_index - 1) % thumbnails.length)
+      setMainImage(thumbnails[(image_index - 1) % thumbnails.length])
     } else {
       thumbnailRef?.current.scrollBy({ left: 200, behavior: "smooth" })
-      setImageIndex((image_index + 1) % thumbnails.length);
-      setMainImage(thumbnails[(image_index + 1)% thumbnails.length]);
+      setImageIndex((image_index + 1) % thumbnails.length)
+      setMainImage(thumbnails[(image_index + 1) % thumbnails.length])
     }
   }
   useEffect(() => {
@@ -490,18 +494,15 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     <div className="container mt-5 md:mt-10 items-start ">
       <div className=" lg:flex gap-6 justify-between">
         <div className="basis-[80%] grow ">
-        <h1 className="text-xl  font-bold mb-5">
-                {product?.page_title}
-                <span className="text-xs font-normal whitespace-nowrap">
-                  ({product?.available_stock} in stock)
-                </span>
-              </h1>
+          <h1 className="text-xl  font-bold mb-5">
+            {product?.page_title}
+            <span className="text-xs font-normal whitespace-nowrap">
+              ({product?.available_stock} in stock)
+            </span>
+          </h1>
           <div className=" sm:flex gap-8 sm:gap-5">
-          
             <div className="flex flex-col relative basis-[50%] w-full ">
-            
               <div className="relative h-[350px]">
-
                 <img
                   alt="Main Image"
                   className="rounded-lg cursor-zoom-in h-full w-full cover"
@@ -582,12 +583,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                     </Button>
                   </div>
                 ) : ( */}
-                  <Button
-                    onClick={() => addToCart(product)}
-                    className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
-                  >
-                    Add to Cart
-                  </Button>
+                <Button
+                  onClick={() => addToCart(product)}
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-[14px]"
+                >
+                  Add to Cart
+                </Button>
                 {/* )} */}
                 <div onClick={buyNow} className="w-1/2">
                   <Button className="bg-transparent text-black/60  hover:bg-gray-100 border border-black/40 w-full transition-all duration-300 ">
@@ -655,12 +656,8 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                           : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_discount_rate}`
                           : `Rs. ${product?.customer_rate * quantity}`}
                       </span> */}
-                      {
-                        handleLineThrough(product, data, false)
-                      }
-                      {
-                        handleLineThrough(product,data)
-                      }
+                      {handleLineThrough(product, data, false)}
+                      {handleLineThrough(product, data)}
                     </div>
                   </div>
                 </div>
@@ -684,17 +681,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
             />
           </div> */}
           <div className="py-5 border-t ">
-              <h2 className="font-semibold mb-2">Specifications</h2>
-              <div
-                dangerouslySetInnerHTML={{ __html: product?.specification || '' }}
-                className="text-[14px]"
+            <h2 className="font-semibold mb-2">Specifications</h2>
+            <div
+              dangerouslySetInnerHTML={{ __html: product?.specification || "" }}
+              className="text-[14px]"
             />
           </div>
-          
-
-
-
-
         </div>
 
         <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
