@@ -1,4 +1,3 @@
-
 "use client"
 import React, { useCallback, useEffect, useState } from "react"
 import Detail from "@/components/product-detail/Detail"
@@ -39,15 +38,15 @@ export interface FilteredItsmInterface {
 //     id: string
 //   }
 // }
-const Page = ({ params }:{params:{slug:string}}) => {
+const Page = ({ params }: { params: { slug: string } }) => {
   const [product, setProduct] = useState<FilteredItsmInterface | null>(null)
   const [productId, setProductId] = useState<string | null>(null)
   const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector
   const products = useTypedSelector(subData)
 
   // const product_name = params.slug.split('-').join(' ').trim();
-  const product_name = params.slug.trim();
-  const id = params.slug.split('-').at(-1) as string;
+  const product_name = params.slug.trim()
+  const id = params.slug.split("-").at(-1) as string
   const filterData = useCallback(() => {
     const filterItems = products.data.filter((product) => product.value == id)
     filterItems.length != 0 && setProduct(filterItems[0])
@@ -59,9 +58,9 @@ const Page = ({ params }:{params:{slug:string}}) => {
 
   useEffect(() => {
     dispatch(getSingleProduct(product_name))
-    console.log('id', id);
-    console.log('separ', params);
-    console.log('product_name', product_name);
+    console.log("id", id)
+    console.log("separ", params)
+    console.log("product_name", product_name)
   }, [id])
 
   useEffect(() => {
@@ -78,7 +77,7 @@ const Page = ({ params }:{params:{slug:string}}) => {
       }
     }
 
-    setProductId(singleData.data?.blog_id || '')
+    setProductId(singleData.data?.blog_id || "")
 
     // fetchProductId()
   }, [singleData.data?.blog_id])
@@ -86,63 +85,46 @@ const Page = ({ params }:{params:{slug:string}}) => {
   return (
     <>
       <div className="xl:container mx-auto flex  justify-between py-5 2xl:px-28 px-1  ">
-      <div className="lg:flex hidden flex-col lg:w-[20%]">
-        <div className="border-r lg:block ">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
-            <BiCategory className="text-xl cursor-pointer" /> Categories
+        <div className="lg:flex hidden flex-col lg:w-[20%]">
+          <div className="border-r lg:block ">
+            <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
+              <BiCategory className="text-xl cursor-pointer" /> Categories
+            </div>
+            <Categories />
           </div>
-          <Categories />
-        </div>
-
-        <div className="border-r  lg:block  ">
-          <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
-            <BiCategory className="text-2xl cursor-pointer" /> Brands
-          </div>
-          <Brands />
-        </div>{" "}
+          <div className="border-r  lg:block  ">
+            <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px]">
+              <BiCategory className="text-2xl cursor-pointer" /> Brands
+            </div>
+            <Brands />
+          </div>{" "}
         </div>
         {singleData.data ? (
-          console.log('singleData', singleData.data),
-        <Detail product={singleData.data} id={id} />
-      ) : (
-        <p>Loading...</p> // You can replace this with a loader component if you have one
-      )}
-      {/* {productId ? <ReviewSection productId={singleData.data?.blog_id || ''} /> : <></>} */}
-      </div> 
-
+          (console.log("singleData", singleData.data),
+          (<Detail product={singleData.data} id={id} />))
+        ) : (
+          <p>Loading...</p> // You can replace this with a loader component if you have one
+        )}
+        {/* {productId ? <ReviewSection productId={singleData.data?.blog_id || ''} /> : <></>} */}
+      </div>
     </>
   )
 }
 
 export default Page
 
-
-
-
-
-
-
-
 // import DynamicProduct from "@/components/dynamic-product/DynamicProduct";
 // import { headers } from "next/headers"
 
-
-
 // const Page = ({ params }:{params:{slug:string}}) => {
-
 
 //   const productHeaders = headers();
 //   const id = productHeaders.get('x-product-id') as string;
-
 
 //   return (
 //     <DynamicProduct id={id}/>
 //   )
 
-
 // }
 
-
 // export default Page;
-
-
