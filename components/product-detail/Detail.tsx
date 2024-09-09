@@ -766,7 +766,9 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                     <span className="font-semibold text-sm ">
                       Fastest Delivery
                     </span>
-                    <span className="text-sm text-gray-500">1 Hour</span>
+                    <span className="text-sm text-gray-500">
+                      1 Hour charge Rs. 100
+                    </span>
                   </div>
                   {/* <span className="text-sm  ml-2 whitespace-nowrap">Rs. 0</span> */}
                 </div>

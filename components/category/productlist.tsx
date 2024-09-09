@@ -149,7 +149,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
   return (
     <div className=" py-5">
       <div className="flex w-full gap-14 justify-between">
-        <div className="lg:flex hidden flex-col lg:w-[25%]">
+        <div className="lg:flex hidden flex-col lg:w-[10%]">
           <div className="border-r lg:block ">
             <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
               <BiCategory className="text-xl cursor-pointer" /> Categories
@@ -196,10 +196,9 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                   HOT
                 </span>
                 <div className="px-4 mt-4">
-                  <h3 className="text-[15px] h-12 text-[black]  pr-[10px] overflow-hidden">
+                  <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
                     {product.page_title}
                   </h3>
-
                   {/* <div className="">
                     <span className="text-[18px] text-[#f85606] block">
                       {data?.type === "Technician"
