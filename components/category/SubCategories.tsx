@@ -47,7 +47,6 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
   useEffect(() => {
     fetchSubcategories()
   }, [category.value, product_id])
-
   const toggleSubCategories = () => {
     setShowSubCategories(!showSubCategories)
   }
