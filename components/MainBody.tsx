@@ -187,7 +187,6 @@ const MainBody = ({ children }: any) => {
       <div className=" xl:container mx-auto  2xl:px-28 px-4">
         <Newproduct />
       </div>
-
       <div className="xl:container mx-auto  2xl:px-28 px-4">
         {bannerfooter.map((product) => (
           <div key={product.id} className="w-full h-auto">
