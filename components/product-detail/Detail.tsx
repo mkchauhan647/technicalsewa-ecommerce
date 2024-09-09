@@ -507,7 +507,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <div className="w-[285px] h-[285px] md:h-[310px] md:w-[310px] xl:h-[350px] xl:w-[350px] overflow-hidden">
                   <img
                     alt="Product Image"
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     src={mainImage}
                     ref={mainImageRef}
                     onMouseMove={handleMouseMove}
