@@ -295,16 +295,21 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     if (mainImageRef.current) {
       const { left, top, width, height } =
         mainImageRef.current.getBoundingClientRect()
-      const x = ((e.pageX - left) / width) * 100
-      const y = ((e.pageY - top) / height) * 100
+
+      // Get cursor position relative to the image
+      const x = ((e.nativeEvent.offsetX / width) * 100).toFixed(2)
+      const y = ((e.nativeEvent.offsetY / height) * 100).toFixed(2)
+
+      // Set zoomed styles
       setZoomStyles({
         backgroundImage: `url(${mainImage})`,
         backgroundPosition: `${x}% ${y}%`,
-        backgroundSize: `${width * 3}px ${height * 3}px`,
+        backgroundSize: "200%", // Zoom level
         display: "block",
       })
     }
   }
+
   const img = product?.image_name
 
   const [zoomVisible, setZoomVisible] = useState(false)
@@ -518,7 +523,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <div className="hidden md:block">
                   {zoomVisible && (
                     <div
-                      className={`zoomed-image rounded-lg shadow-xl`}
+                      className="rounded-lg shadow-xl"
                       style={{
                         ...zoomStyles,
                         position: "absolute",
@@ -527,6 +532,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                         width: "500px",
                         height: "400px",
                         backgroundRepeat: "no-repeat",
+                        backgroundSize: "150%", // Prevents stretching
                         border: "1px solid #ccc",
                       }}
                     ></div>
