@@ -67,7 +67,7 @@ const ShippingDetailsForm = ({ setFormData }: any) => {
       try {
         const parsedData = JSON.parse(storedData)
         // setFormData(parsedData)
-        console.log("parsedData", parsedData);
+        // console.log("parsedData", parsedData);
         const { name, mobile, email, address } = parsedData;
         setPreviousDetails({ name, mobile, email, address });
 
@@ -87,7 +87,7 @@ const ShippingDetailsForm = ({ setFormData }: any) => {
     // setFormData(previousDetails);
 
     if (checkRef.current?.checked) {
-      console.log("previousDetails", previousDetails);
+      // console.log("previousDetails", previousDetails);
       setFormData((prevState: any) => ({
         ...prevState,
         name: previousDetails.name,
@@ -114,7 +114,7 @@ const ShippingDetailsForm = ({ setFormData }: any) => {
       detailsRef.current.address.current!.value = userInputDetails.address;
     }
 
-    console.log("previousDetails", previousDetails);
+    // console.log("previousDetails", previousDetails);
 
 
   }

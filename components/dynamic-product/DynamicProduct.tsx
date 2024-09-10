@@ -59,7 +59,7 @@ const DynamicProduct = ({ id }:{id:string}) => {
 
   useEffect(() => {
     dispatch(getSingleProduct(id))
-    console.log('id', id);
+    // console.log('id', id);
     // console.log('separ', params);
   }, [id])
     

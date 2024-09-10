@@ -9,12 +9,13 @@ export const OrderHistoryPage = () => {
   const [filterData, setFilterData] = useState<any>([])
   const [currentState, setCurrentState] = useState("Pending")
   const [localData, setLocalData] = useState<any>()
-  const [qrShow, setQrShow] = useState(false);
+  const [qrShow, setQrShow] = useState(false)
   useEffect(() => {
     const local = localStorage.getItem("data")
     if (local) {
       setLocalData(JSON.parse(local))
     }
+    console.log(local, "LOCAL")
   }, [])
 
   useEffect(() => {
@@ -39,6 +40,7 @@ export const OrderHistoryPage = () => {
         console.error("Error fetching data:", error)
       }
     }
+    console.log(data, "CUST DATA")
     fetchData()
   }, [])
 
@@ -101,13 +103,11 @@ export const OrderHistoryPage = () => {
           Cancelled
         </button>
         <button
-          className={`w-24 h-12 p-2 whitespace-nowrap  ${qrShow ? "bg-[#2591B1] border-[1px] rounded-lg text-white font-medium":""} `}
+          className={`w-24 h-12 p-2 whitespace-nowrap  ${qrShow ? "bg-[#2591B1] border-[1px] rounded-lg text-white font-medium" : ""} `}
           onClick={() => {
             setQrShow(true)
-            handleTableTabClick("Pay Online",7);
-          }
-          }
-          
+            handleTableTabClick("Pay Online", 7)
+          }}
         >
           Pay Online
         </button>
@@ -119,16 +119,12 @@ export const OrderHistoryPage = () => {
         </button>
       </div>
       <hr className="h-1 bg-black" />
-      
+
       <div className="flex justify-center items-center">
         {qrShow && <PaymentPage />}
       </div>
 
       <CustomTable data={filterData} status={currentState} />
-
-
-      
-
     </div>
   )
 }

@@ -12,7 +12,10 @@ export interface Category {
 const Categories: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const product_id = "160"
-
+  const [openCategory, setOpenCategory] = useState<string | null>(null)
+  const handleCategoryToggle = (categoryValue: string) => {
+    setOpenCategory(openCategory === categoryValue ? null : categoryValue)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,14 +40,14 @@ const Categories: React.FC = () => {
 
   return (
     <div>
-      {categories.map((category, index) => (
-        <div key={index}>
-          <SubCategories
-            key={index}
-            category={category}
-            product_id={product_id}
-          />
-        </div>
+      {categories.map((category) => (
+        <SubCategories
+          key={category.value}
+          category={category}
+          product_id="some-product-id"
+          isOpen={openCategory === category.value}
+          onToggle={() => handleCategoryToggle(category.value)}
+        />
       ))}
     </div>
   )

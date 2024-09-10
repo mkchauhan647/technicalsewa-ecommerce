@@ -29,9 +29,9 @@ const BrandsSliders = () => {
   const [quantity, setQuantity] = useState(1)
   const parsedCartItems: ParsedCartItem[] = cartItems.map((item: any) => {
     // const itemsData = JSON.parse(item.items)
-    console.log("item", item);
+    // console.log("item", item);
     const itemsData = JSON.parse(item.items)
-    console.log("itemsData", itemsData);
+    // console.log("itemsData", itemsData);
     if (typeof itemsData === "string") {
       return { item, itemsData: JSON.parse(itemsData) }
     }
@@ -172,7 +172,7 @@ const BrandsSliders = () => {
 
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())

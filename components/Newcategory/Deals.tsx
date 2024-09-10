@@ -186,7 +186,7 @@ const Deals = () => {
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
@@ -271,7 +271,7 @@ const Deals = () => {
     return;
   }
 
-  console.log("featuredProducts", featuredProducts)
+  // console.log("featuredProducts", featuredProducts)
 
   const handleClosePopover = () => setShowPopover(false)
 

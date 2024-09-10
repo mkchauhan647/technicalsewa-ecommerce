@@ -81,7 +81,7 @@ interface Review {
   text: string
 }
 const Detail: React.FC<DetailsProps> = ({ product, id }) => {
-  console.log("PRODUCT DETAILS", product)
+  // console.log("PRODUCT DETAILS", product)
   const apiResponse = {
     product_id: "86",
     customer_id: "3333",
@@ -252,7 +252,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res)
+      // console.log("res", res)
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
@@ -368,12 +368,12 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({
-      cust_name: formData.name,
-      cust_mobile: formData.mobile,
-      cust_email: formData.email,
-      cust_query: formData.query,
-    })
+    // console.log({
+    //   cust_name: formData.name,
+    //   cust_mobile: formData.mobile,
+    //   cust_email: formData.email,
+    //   cust_query: formData.query,
+    // })
     try {
       const response = await AxiosCorsInstance.post(
         "publiccontrol/publicreview/getcallbackrequest",
@@ -384,7 +384,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
           cust_query: formData.query,
         },
       )
-      console.log(response)
+      // console.log(response)
 
       if (response.status === 200) {
         toast.success("Our sales team will contact you soon!")
@@ -462,13 +462,13 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
         setReviews(response.data)
       } catch (error) {
         setReviews([])
-        console.log("Error fetching reviews:", error)
+        // console.log("Error fetching reviews:", error)
       }
     }
 
     fetchReviews()
   }, [])
-  console.log(reviews)
+  // console.log(reviews)
 
   const handleCommentSubmit = async () => {
     if (comment.trim() === "") {
@@ -512,7 +512,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <div className="w-[285px] h-[285px] md:h-[310px] md:w-[310px] xl:h-[350px] xl:w-[350px] overflow-hidden">
                   <img
                     alt="Product Image"
-                    className="w-full h-full object-contain"
+                    className="w-full h-full lg:object-contain sm:object-cover"
                     src={mainImage}
                     ref={mainImageRef}
                     onMouseMove={handleMouseMove}

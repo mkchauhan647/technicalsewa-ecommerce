@@ -98,7 +98,7 @@ export default function ManageAddress() {
 
       if (response.ok) {
         dispatch(fetchUserProfile())
-        console.log("Data updated successfully!")
+        // console.log("Data updated successfully!")
         window.location.reload()
         toast.success("Address Changed successfully!")
       } else {

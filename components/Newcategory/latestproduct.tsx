@@ -160,7 +160,7 @@ const Home = () => {
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())

@@ -14,13 +14,16 @@ interface SubCategoriesProps {
     value: string
   }
   product_id: string
+  isOpen: boolean
+  onToggle: () => void
 }
 
 const SubCategories: React.FC<SubCategoriesProps> = ({
   category,
   product_id,
+  isOpen,
+  onToggle,
 }) => {
-  const [showSubCategories, setShowSubCategories] = useState(false)
   const [subcategories, setSubcategories] = useState<SubCategory[]>([])
 
   const fetchSubcategories = async () => {
@@ -47,60 +50,50 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
   useEffect(() => {
     fetchSubcategories()
   }, [category.value, product_id])
-  const toggleSubCategories = () => {
-    setShowSubCategories(!showSubCategories)
-  }
 
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
       <div className="flex relative w-full group">
         <div
-          className="lg:hidden cursor-pointer flex flex-col  px-4 py-[8px] bg-white w-full text-black rounded-md"
-          // onClick={toggleSubCategories}
+          className="lg:hidden cursor-pointer flex flex-col px-4 py-[8px] bg-white w-full text-black rounded-md"
+          onClick={onToggle}
         >
-          <div className="flex justify-between" onClick={toggleSubCategories}>
+          <div className="flex justify-between">
             <h2 className="text-[15px]">{category.title}</h2>
-            {showSubCategories ? <IoIosArrowDown /> : <IoIosArrowForward />}
-
-            {/* <IoIosArrowForward className="hidden group-hover:block" /> */}
+            {isOpen ? <IoIosArrowDown /> : <IoIosArrowForward />}
           </div>
-          {showSubCategories && (
-            <ul className={`w-52`}>
+          {isOpen && (
+            <ul className="w-52">
               {subcategories.map((subcategory, index) => (
                 <SubCategoryItem
                   key={index}
                   subcategory={subcategory}
                   product_id={product_id}
-                  urlType={
-                    `category/` +
-                    category.title.trim().split(" ").join("-").toLowerCase()
-                  }
+                  urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
                 />
               ))}
             </ul>
           )}
         </div>
         <div
-          className="hidden lg:block cursor-pointer  flex-col  px-4 py-[8px] bg-white w-full text-black rounded-md"
-          onClick={toggleSubCategories}
+          className="hidden lg:block cursor-pointer flex-col px-4 py-[8px] bg-white w-full text-black rounded-md"
+          onClick={onToggle}
         >
-          <div className="flex justify-between" onClick={toggleSubCategories}>
+          <div className="flex justify-between">
             <h2 className="text-xs">{category.title}</h2>
-
             <IoIosArrowForward className="hidden group-hover:block absolute right-0" />
           </div>
         </div>
-        <div className="hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg">
+        <div
+          className={`hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg ${isOpen ? "block" : "hidden"}`}
+        >
           <ul className="w-52">
             {subcategories.map((subcategory, index) => (
               <SubCategoryItem
                 key={index}
                 subcategory={subcategory}
                 product_id={product_id}
-                urlType={
-                  `category/` +
-                  category.title.trim().split(" ").join("-").toLowerCase()
-                }
+                urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
               />
             ))}
           </ul>

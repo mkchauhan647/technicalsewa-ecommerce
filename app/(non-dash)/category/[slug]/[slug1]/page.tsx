@@ -48,8 +48,8 @@ const fetchGrandChildData = async (cat3: string,cat4:string): Promise<GrandChild
 
     // const params = cat3 ? { service_details: model, service: cat3 } : { service_details: model };
 
-    console.log("cat3", cat3);
-    console.log("cat4", cat4);
+    // console.log("cat3", cat3);
+    // console.log("cat4", cat4);
 
     const formData = new FormData();
     // formData.append("service_details", cat4.trim());
@@ -72,7 +72,7 @@ const fetchGrandChildData = async (cat3: string,cat4:string): Promise<GrandChild
     }
 
     const data: GrandChild[] = await response.json()
-    console.log("data",data);
+    // console.log("data",data);
     return data
   } catch (error) {
     throw new Error("Failed to fetch grandChild data")
@@ -81,7 +81,7 @@ const fetchGrandChildData = async (cat3: string,cat4:string): Promise<GrandChild
 
 const Page = ({ params }: { params: { slug:string,slug1:string } }) => {
   
-  console.log("params", params);
+  // console.log("params", params);
   // const model = params.slug.trim();
   const cat3 = params.slug;
   const cat4 = params.slug1;
