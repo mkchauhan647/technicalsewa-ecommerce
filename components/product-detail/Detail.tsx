@@ -358,7 +358,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
 
   const buyNow = () => {
     const ifloggedIn = localStorage.getItem("id")
-
+    console.log(ifloggedIn, "USER ID")
     if (ifloggedIn === null) {
       router.push("/login")
       return
