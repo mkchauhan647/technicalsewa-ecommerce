@@ -185,7 +185,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
                     alt={product.blog_name}
                     width={189}
                     height={189}
-                    className="w-full h-48 md:h-56 p-8 object-contain"
+                    className="w-full h-48 md:h-56 p-8 lg:object-contain sm:object-cover"
                   />
                 </div>
                 {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">

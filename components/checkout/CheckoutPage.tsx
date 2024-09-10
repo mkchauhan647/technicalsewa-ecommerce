@@ -44,7 +44,7 @@ export const CheckoutPage = () => {
 
       const storedData = localStorage.getItem("data")
       if (storedData) {
-        console.log("Stored data", storedData)
+        // console.log("Stored data", storedData)
         try {
           const parsedData = JSON.parse(storedData)
           setData(parsedData)

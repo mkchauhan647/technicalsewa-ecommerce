@@ -17,14 +17,14 @@ export default function Component() {
 
       const storedData = localStorage.getItem("data");
       if (storedData) {
-        console.log("Stored data", storedData);
+        // console.log("Stored data", storedData);
         try {
           const parsedData = JSON.parse(storedData)
           // setData(parsedData)
-          console.log("Parsed data", parsedData.type);
+          // console.log("Parsed data", parsedData.type);
           setUserType(parsedData.type);
         } catch (error) {
-          console.error("Failed to parse stored data", error)
+          // console.error("Failed to parse stored data", error)
         }
       }
       else {

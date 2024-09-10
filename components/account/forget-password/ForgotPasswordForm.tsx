@@ -36,7 +36,7 @@ export default function ForgotPasswordForm() {
             data?.msg ?? `New password has been sent to your mobile number.`
           );
             //   push("/login");
-            console.log("pushing to login");
+            // console.log("pushing to login");
         }
       });
   };

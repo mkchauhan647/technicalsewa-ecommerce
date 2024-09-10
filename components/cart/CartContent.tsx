@@ -22,11 +22,11 @@ const CartContent: React.FC<CartContentProps> = ({
   cartdata: any
 }) => {
   const item = cartdata
-  console.log(item, "CART DATA")
+  // console.log(item, "CART DATA")
   const shipping = 20.0
   let subtotalamt = 0
   const itemsArray: ParsedCartItem[] = []
-  console.log(item, "CART CONTENT")
+  // console.log(item, "CART CONTENT")
 
   // Loop through cartItems and accumulate subtotals
   item.forEach((item: any) => {

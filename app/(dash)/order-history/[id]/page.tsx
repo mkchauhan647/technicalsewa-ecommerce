@@ -30,11 +30,10 @@ export default function Component(props: { params: { id: string } }) {
   const [comment, setComment] = useState<string>("")
 
   // const localStorageData = typeof window !== undefined ? localStorage.getItem("data") : "";
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     var localStorageData = localStorage.getItem("data")
-  }
-  else {
-     localStorageData = "";
+  } else {
+    localStorageData = ""
   }
 
   const parsedLocalStorageData = localStorageData
@@ -72,11 +71,9 @@ export default function Component(props: { params: { id: string } }) {
           // "https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/getsalesparts",
           {
             sales_id: sales_id,
-            
-          }
+          },
         )
-    
-        
+
         const alldata = response.data
         // console.log('data', alldata);
         setdata(alldata)
@@ -192,7 +189,7 @@ export default function Component(props: { params: { id: string } }) {
                       width={60}
                       height={60}
                       alt="image"
-                      className="w-20 h-20 object-contain"
+                      className="w-20 h-20 lg:object-contain sm:object-cover"
                     />
                     <div className="flex flex-col gap-2 flex-1">
                       <span>{item.part_number}</span>

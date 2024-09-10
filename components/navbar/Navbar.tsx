@@ -155,7 +155,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
             <input
               value={searchText}
               onChange={(e) => {
-                console.log(e.target.value);
+                // console.log(e.target.value);
                 setSearchText(e.target.value);
               }}
               className="border border-black/40 rounded-md sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"

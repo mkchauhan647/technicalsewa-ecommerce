@@ -58,9 +58,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   useEffect(() => {
     dispatch(getSingleProduct(product_name))
-    console.log("id", id)
-    console.log("separ", params)
-    console.log("product_name", product_name)
+    // console.log("id", id)
+    // console.log("separ", params)
+    // console.log("product_name", product_name)
   }, [id])
 
   useEffect(() => {

@@ -82,7 +82,7 @@ export default function UserProfile() {
     event.preventDefault()
 
     if (!hasChanges()) {
-      console.log("No changes to save.")
+      // console.log("No changes to save.")
       return
     }
 

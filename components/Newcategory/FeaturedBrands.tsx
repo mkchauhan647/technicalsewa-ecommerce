@@ -21,7 +21,7 @@ const Ncategories: React.FC = () => {
         const brand76Data = data?.brands.filter(
           (brand: any) => brand.brand_id === "76",
         )
-        console.log(brand76Data)
+        // console.log(brand76Data)
         const processedBrandsData = brand76Data.map((brand: any) => ({
           image_url: brand.image_url,
           alt: brand.alt,

@@ -43,7 +43,7 @@ export const fetchUserProfile = createAsyncThunk<User>(
     try {
       // console.log("getCustomerId()", getCustomerId());
       const user = getUserType();
-      console.log("user", user);
+      // console.log("user", user);
       let response;
       if (user.type.toLowerCase() == 'technician') {
 
@@ -64,7 +64,7 @@ export const fetchUserProfile = createAsyncThunk<User>(
          
          );
       }
-      console.log("response", response.data);
+      // console.log("response", response.data);
       return response.data; // Ensure the response data has the user details
     } catch (error) {
       throw Error("Failed to fetch user profile");

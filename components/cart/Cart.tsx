@@ -27,7 +27,7 @@ export function Cart({
   const cartItems = useSelector((state: RootState) => state.cart.items)
   const [isOpen, setIsOpen] = useState(false)
 
-  console.log(cartItems, "CART ITEMS")
+  // console.log(cartItems, "CART ITEMS")
 
   useEffect(() => {
     dispatch(fetchCartItems())
@@ -44,11 +44,11 @@ export function Cart({
   const handleCheckout = () => {
     let id = localStorage.getItem("id")
 
-    console.log("id cart", id)
+    // console.log("id cart", id)
 
     setIsOpen(false)
     if (id) {
-      console.log(" I am in ")
+      // console.log(" I am in ")
       window.location.href = "/spareparts/checkout"
       return
     } else {

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import { SingleProduct } from "../slice/singleProduct.slice"
 
 export const getSingleProduct = createAsyncThunk("/singleDetails", async (id: string) => {
-    console.log("this id ", id);
+    // console.log("this id ", id);
     const response = await fetch(
         "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurjaNumber",
         {

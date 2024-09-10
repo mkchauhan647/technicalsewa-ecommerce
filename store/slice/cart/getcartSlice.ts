@@ -89,7 +89,7 @@ export const addCartItems = createAsyncThunk<void, CartItem>(
 
       const { items, quantity, image_url, total } = product;
     
-      console.log("addproduct", product);
+      // console.log("addproduct", product);
 
       const payload = {
         customer_id: getCustomerId(),

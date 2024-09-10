@@ -162,7 +162,7 @@ const HotProduct = () => {
     }
 
     dispatch(addCartItems(newItem)).then((res) => {
-      console.log("res", res);
+      // console.log("res", res);
       if (res.meta.requestStatus === "fulfilled") {
         toast.success("Item Added To Cart")
         dispatch(fetchCartItems())
@@ -192,7 +192,7 @@ const HotProduct = () => {
         const response = await AxiosInstance.get(
           "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
         )
-        console.log(response.data)
+        // console.log(response.data)
         setTrending(response.data)
         setLoading(false)
       } catch (error) {
