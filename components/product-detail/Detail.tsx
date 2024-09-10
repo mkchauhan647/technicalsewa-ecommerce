@@ -632,6 +632,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </>
                 )}
               </div>
+
               <div className="py-5 border-t ">
                 <div className="flex flex-col space-y-4">
                   <div className="flex flex-col gap-2 md:flex-row items-center lg:gap-12">
@@ -665,6 +666,15 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </div>
                 </div>
               </div>
+              <div className="py-5 border-t ">
+                <h2 className="font-semibold mb-2">Specifications</h2>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product?.specification || "",
+                  }}
+                  className="text-[14px]"
+                />
+              </div>
             </div>
           </div>
 
@@ -683,18 +693,13 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 className="text-[14px]"
             />
           </div> */}
-          <div className="py-5 border-t ">
-            <h2 className="font-semibold mb-2">Specifications</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: product?.specification || "" }}
-              className="text-[14px]"
-            />
-          </div>
 
-          <SimilarProducts tags={product.tags} />
+          <div className="border-t">
+            <SimilarProducts tags={product.tags} />
+          </div>
         </div>
 
-        <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
+        <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start ">
           {/* Delivery and location */}
           <Card className="w-full bg-white p-4 basis-1/2">
             <div className="flex items-center gap-2">
