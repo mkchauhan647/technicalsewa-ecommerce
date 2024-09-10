@@ -30,11 +30,11 @@ interface ParsedCartItem {
 export const CheckoutPage = () => {
   const [data, setData] = useState<CustomerData | null>(null)
   const [type, setType] = useState("Normal")
-  const [showPopover, setShowPopover] = useState(false);
+  const [showPopover, setShowPopover] = useState(false)
 
   const handleClosePopover = () => {
-    setShowPopover(false);
-  };
+    setShowPopover(false)
+  }
 
   const itemsArray: ParsedCartItem[] = []
 
@@ -42,17 +42,16 @@ export const CheckoutPage = () => {
     if (typeof window !== "undefined") {
       const id = localStorage.getItem("id") ?? "{}"
 
-      const storedData = localStorage.getItem("data");
+      const storedData = localStorage.getItem("data")
       if (storedData) {
-        console.log("Stored data", storedData);
+        console.log("Stored data", storedData)
         try {
           const parsedData = JSON.parse(storedData)
           setData(parsedData)
         } catch (error) {
           console.error("Failed to parse stored data", error)
         }
-      }
-      else {
+      } else {
         // alert("Please login to continue");
         // router.push("/login");
       }
@@ -159,160 +158,169 @@ export const CheckoutPage = () => {
 
   return (
     <>
-  
-    <div className="bg-gray-50">
-      <div className="container flex md:flex-row flex-col gap-5 py-8 ">
-        <div className="bg-white flex flex-col md:w-2/3 md:h-fit overflow-hidden shadow-lg rounded-lg md:p-5 p-2 gap-2 justify-between">
-          <div className="flex flex-col gap-3">
-            <hr />
-            <div className="flex justify-start">
-              <ShippingDetailsForm setFormData={setFormData} />
+      <div className="bg-gray-50">
+        <div className="container flex md:flex-row flex-col gap-5 py-8 ">
+          <div className="bg-white flex flex-col md:w-2/3 md:h-fit overflow-hidden shadow-lg rounded-lg md:p-5 p-2 gap-2 justify-between">
+            <div className="flex flex-col gap-3">
+              <hr />
+              <div className="flex justify-start">
+                <ShippingDetailsForm setFormData={setFormData} />
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="bg-white flex flex-col md:w-1/3 shadow-lg rounded-lg p-5 gap-2">
-          <span className="md:max-h-[320px] md:overflow-auto">
-            {itemsArray.map((item: any, index: number) => (
-              <span key={index}>
-                <div className="flex md:flex-row flex-col gap-4">
-                  <div className="flex flex-col gap-4">
-                    <div className="flex gap-4">
-                      <Image
-                        src={item?.itemsData[0]?.image_name ?? ""}
-                        alt="img"
-                        width={150}
-                        height={150}
-                        // layout="responsive"
-                        className="hidden md:flex"
-                      />
+          <div className="bg-white flex flex-col md:w-1/3 shadow-lg rounded-lg p-5 gap-2">
+            <span className="md:max-h-[320px] md:overflow-auto">
+              {itemsArray.map((item: any, index: number) => (
+                <span key={index}>
+                  <div className="flex md:flex-row flex-col gap-4">
+                    <div className="flex flex-col gap-4">
+                      <div className="flex gap-4">
+                        <Image
+                          src={item?.itemsData[0]?.image_name ?? ""}
+                          alt="img"
+                          width={150}
+                          height={150}
+                          // layout="responsive"
+                          className="hidden md:flex"
+                        />
 
-                      <Image
-                        src={item?.itemsData[0]?.image_name ?? ""}
-                        alt="img"
-                        width={80}
-                        className="md:hidden flex object-cover"
-                        height={80}
-                        // layout="responsive"
-                      />
+                        <Image
+                          src={item?.itemsData[0]?.image_name ?? ""}
+                          alt="img"
+                          width={80}
+                          className="md:hidden flex object-cover"
+                          height={80}
+                          // layout="responsive"
+                        />
 
-                      <div className="md:hidden flex flex-col flex-3 gap-1 justify-center">
-                        <span className="font-semibold">
-                          {item?.itemsData[0]?.blog_name}
-                        </span>
-                        <span className="font-normal text-sm">
-                          {/* {item?.itemsData[0]?.meta_desc} */}
-                        </span>
+                        <div className="md:hidden flex flex-col flex-3 gap-1 justify-center">
+                          <span className="font-semibold">
+                            {item.itemsData[0]?.page_title}
+                          </span>
+                          <span className="font-normal text-sm">
+                            {/* {item?.itemsData[0]?.meta_desc} */}
+                          </span>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="md:hidden flex">
-                      <div className="w-1/4 flex justify-center items-center text-green-700">
-                        Qty:{item?.item?.quantity}
-                      </div>
-                      <div className="w-3/4 flex justify-end items-center gap-3">
-                        <span className="line-through text-red-500">
-                          {/* Rs.{item?.itemsData[0]?.market_rate} */}
-                          {
-                            handleLineThrough(item.itemsData[0],data)
-                          }
-                        </span>
-                        <span>
-                          {/* {data?.type === "Technician"
+                      <div className="md:hidden flex">
+                        <div className="w-1/4 flex justify-center items-center text-green-700">
+                          Qty:{item?.item?.quantity}
+                        </div>
+                        <div className="w-3/4 flex justify-end items-center gap-3">
+                          <span className="line-through text-red-500">
+                            {/* Rs.{item?.itemsData[0]?.market_rate} */}
+                            {handleLineThrough(item.itemsData[0], data)}
+                          </span>
+                          <span>
+                            {/* {data?.type === "Technician"
                             ? `Rs.${item?.itemsData[0]?.tech_rate}`
                             : `Rs.${item?.itemsData[0]?.our_rate}`} */}
-                          {(data?.type === "Technician")
-                          ? item?.itemsData[0]?.tech_discount_rate < item?.itemsData[0]?.tech_rate && item?.itemsData[0]?.tech_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.tech_discount_rate}` : `Rs.${item?.itemsData[0]?.tech_rate}`
-                          : item?.itemsData[0]?.customer_discount_rate < item?.itemsData[0]?.customer_rate && item?.itemsData[0]?.customer_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.customer_discount_rate} ` : `Rs.${item?.itemsData[0]?.customer_rate}`}
-                        </span>
+                            {data?.type === "Technician"
+                              ? item?.itemsData[0]?.tech_discount_rate <
+                                  item?.itemsData[0]?.tech_rate &&
+                                item?.itemsData[0]?.tech_discount_rate > 0
+                                ? `Rs.${item?.itemsData[0]?.tech_discount_rate}`
+                                : `Rs.${item?.itemsData[0]?.tech_rate}`
+                              : item?.itemsData[0]?.customer_discount_rate <
+                                    item?.itemsData[0]?.customer_rate &&
+                                  item?.itemsData[0]?.customer_discount_rate > 0
+                                ? `Rs.${item?.itemsData[0]?.customer_discount_rate} `
+                                : `Rs.${item?.itemsData[0]?.customer_rate}`}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="w-full flex">
-                    <div className="hidden flex-1 md:flex justify-center items-center">
-                      Qty:{item?.item?.quantity}
-                    </div>
-                    <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
-                      {/* <span className="line-through text-red-500"> */}
+                    <div className="w-full flex">
+                      <div className="hidden flex-1 md:flex justify-center items-center">
+                        Qty:{item?.item?.quantity}
+                      </div>
+                      <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
+                        {/* <span className="line-through text-red-500"> */}
                         {/* Rs.{item?.itemsData[0]?.market_rate} */}
-                        {
-                            handleLineThrough(item.itemsData[0],data)
-                          }
+                        {handleLineThrough(item.itemsData[0], data)}
 
-                      {/* </span> */}
-                      <span>
-                        {/* {" "}
+                        {/* </span> */}
+                        <span>
+                          {/* {" "}
                         {data?.type === "Technician"
                           ? `Rs.${item?.itemsData[0]?.tech_rate}`
                           : `Rs.${item?.itemsData[0]?.our_rate}`} */}
-                          {(data?.type === "Technician")
-                          ? item?.itemsData[0]?.tech_discount_rate < item?.itemsData[0]?.tech_rate && item?.itemsData[0]?.tech_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.tech_discount_rate}` : `Rs.${item?.itemsData[0]?.tech_rate}`
-                          : item?.itemsData[0]?.customer_discount_rate < item?.itemsData[0]?.customer_rate && item?.itemsData[0]?.customer_discount_rate > 0 ? `Rs.${item?.itemsData[0]?.customer_discount_rate} ` : `Rs.${item?.itemsData[0]?.customer_rate}`}
-                      </span>
+                          {data?.type === "Technician"
+                            ? item?.itemsData[0]?.tech_discount_rate <
+                                item?.itemsData[0]?.tech_rate &&
+                              item?.itemsData[0]?.tech_discount_rate > 0
+                              ? `Rs.${item?.itemsData[0]?.tech_discount_rate}`
+                              : `Rs.${item?.itemsData[0]?.tech_rate}`
+                            : item?.itemsData[0]?.customer_discount_rate <
+                                  item?.itemsData[0]?.customer_rate &&
+                                item?.itemsData[0]?.customer_discount_rate > 0
+                              ? `Rs.${item?.itemsData[0]?.customer_discount_rate} `
+                              : `Rs.${item?.itemsData[0]?.customer_rate}`}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="hidden md:flex flex-col w-full gap-1 justify-center">
-                  <span className="font-semibold">
-                    {item?.itemsData[0]?.blog_name}
-                  </span>
-                  <span className="font-normal text-sm">
-                    {/* {item?.itemsData[0]?.meta_desc} */}
-                  </span>
-                </div>
-                <hr />
-              </span>
-            ))}
+                  <div className="hidden md:flex flex-col w-full gap-1 justify-center">
+                    <span className="font-semibold">
+                      {item.itemsData[0]?.page_title}
+                    </span>
+                    <span className="font-normal text-sm">
+                      {/* {item?.itemsData[0]?.meta_desc} */}
+                    </span>
+                  </div>
+                  <hr />
+                </span>
+              ))}
 
+              <hr />
+            </span>
+            <div className="font-semibold">Order Summary</div>
+            <div className="flex flex-col justify-between gap-1">
+              <div className="flex justify-between ">
+                SubTotal
+                <span className="text-gray-600">Rs.{subtotalamt}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span>Shipping type</span>
+                <span className="text-white">
+                  <select
+                    className="border  bg-cyan-400 font-semibold rounded px-2 py-1"
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option value="Normal">Free Delivery</option>
+                    <option value="Urgent">Fastest Delivery</option>
+                  </select>
+                </span>
+              </div>
+              <div className="flex justify-between ">
+                Delivery Fee{" "}
+                <span className="text-gray-600">
+                  {" "}
+                  {type === "Urgent" ? `Rs.50` : `Rs.0`}
+                </span>
+              </div>
+              <div className="flex justify-between ">
+                Discount <span className="text-gray-600">Rs.0</span>
+              </div>
+              <div className="flex justify-between ">
+                Total Payment{" "}
+                <span className="text-gray-600">Rs.{subtotalamt}</span>
+              </div>
+            </div>{" "}
             <hr />
-          </span>
-          <div className="font-semibold">Order Summary</div>
-          <div className="flex flex-col justify-between gap-1">
-            <div className="flex justify-between ">
-              SubTotal
-              <span className="text-gray-600">Rs.{subtotalamt}</span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span>Shipping type</span>
-              <span className="text-white">
-                <select
-                  className="border  bg-cyan-400 font-semibold rounded px-2 py-1"
-                  onChange={(e) => setType(e.target.value)}
-                >
-                  <option value="Normal">Free Delivery</option>
-                  <option value="Urgent">Fastest Delivery</option>
-                </select>
-              </span>
-            </div>
-            <div className="flex justify-between ">
-              Delivery Fee{" "}
-              <span className="text-gray-600">
-                {" "}
-                {type === "Urgent" ? `Rs.50` : `Rs.0`}
-              </span>
-            </div>
-            <div className="flex justify-between ">
-              Discount <span className="text-gray-600">Rs.0</span>
-            </div>
-            <div className="flex justify-between ">
-              Total Payment{" "}
-              <span className="text-gray-600">Rs.{subtotalamt}</span>
-            </div>
-          </div>{" "}
-          <hr />
-          <button
-            className="bg-cyan-500 text-white min-w-[100px] border rounded-md text-xs py-2 "
-            onClick={handleOrder}
-          >
-            Place Order
-          </button>
+            <button
+              className="bg-cyan-500 text-white min-w-[100px] border rounded-md text-xs py-2 "
+              onClick={handleOrder}
+            >
+              Place Order
+            </button>
+          </div>
         </div>
+        <Toaster />
       </div>
-      <Toaster />
-      </div>
-
-     
-      </>
+    </>
   )
 }

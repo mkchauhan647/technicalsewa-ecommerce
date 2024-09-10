@@ -135,8 +135,6 @@ body {
   }
 }
 
-
-
 .glass {
   background: rgba(255, 255, 255, 0.065);
 
@@ -147,12 +145,12 @@ body {
 .zoomed-image {
   position: absolute;
   top: 0;
-  right: -115%; /* Position it to the left of the main image */
+  /* right: -115%; */
   width: 400px; /* Zoom it 200% */
-  height: 100%; /* Zoom it 200% */
+  height: 100px; /* Zoom it 200% */
   z-index: 10;
 
-  background-size: 200%; /* Zoom the background image 200% */
+  background-size: 100%; /* Zoom the background image 200% */
 }
 /* width */
 ::-webkit-scrollbar {
@@ -161,7 +159,7 @@ body {
 
 div.md\:pl-4:nth-child(4) {
   display: none;
-  }
+}
 
 /* Track */
 
@@ -199,6 +197,6 @@ div.md\:pl-4:nth-child(4) {
   }
 }
 
-.thumbnail::-webkit-scrollbar{
+.thumbnail::-webkit-scrollbar {
   display: none;
 }

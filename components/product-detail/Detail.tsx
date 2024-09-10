@@ -295,16 +295,21 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
     if (mainImageRef.current) {
       const { left, top, width, height } =
         mainImageRef.current.getBoundingClientRect()
-      const x = ((e.pageX - left) / width) * 100
-      const y = ((e.pageY - top) / height) * 100
+
+      // Get cursor position relative to the image
+      const x = ((e.nativeEvent.offsetX / width) * 100).toFixed(2)
+      const y = ((e.nativeEvent.offsetY / height) * 100).toFixed(2)
+
+      // Set zoomed styles
       setZoomStyles({
         backgroundImage: `url(${mainImage})`,
         backgroundPosition: `${x}% ${y}%`,
-        backgroundSize: `${width * 3}px ${height * 3}px`,
+        backgroundSize: "200%", // Zoom level
         display: "block",
       })
     }
   }
+
   const img = product?.image_name
 
   const [zoomVisible, setZoomVisible] = useState(false)
@@ -518,7 +523,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 <div className="hidden md:block">
                   {zoomVisible && (
                     <div
-                      className={`zoomed-image rounded-lg shadow-xl`}
+                      className="rounded-lg shadow-xl"
                       style={{
                         ...zoomStyles,
                         position: "absolute",
@@ -527,6 +532,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                         width: "500px",
                         height: "400px",
                         backgroundRepeat: "no-repeat",
+                        backgroundSize: "150%", // Prevents stretching
                         border: "1px solid #ccc",
                       }}
                     ></div>
@@ -632,6 +638,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </>
                 )}
               </div>
+
               <div className="py-5 border-t ">
                 <div className="flex flex-col space-y-4">
                   <div className="flex flex-col gap-2 md:flex-row items-center lg:gap-12">
@@ -665,6 +672,15 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </div>
                 </div>
               </div>
+              <div className="py-5 border-t ">
+                <h2 className="font-semibold mb-2">Specifications</h2>
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: product?.specification || "",
+                  }}
+                  className="text-[14px]"
+                />
+              </div>
             </div>
           </div>
 
@@ -683,18 +699,13 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 className="text-[14px]"
             />
           </div> */}
-          <div className="py-5 border-t ">
-            <h2 className="font-semibold mb-2">Specifications</h2>
-            <div
-              dangerouslySetInnerHTML={{ __html: product?.specification || "" }}
-              className="text-[14px]"
-            />
-          </div>
 
-          <SimilarProducts tags={product.tags} />
+          <div className="border-t">
+            <SimilarProducts tags={product.tags} />
+          </div>
         </div>
 
-        <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start">
+        <div className="basis-[20%] grid sm:flex lg:flex-col gap-4 items-start ">
           {/* Delivery and location */}
           <Card className="w-full bg-white p-4 basis-1/2">
             <div className="flex items-center gap-2">
