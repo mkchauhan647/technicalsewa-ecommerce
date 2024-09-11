@@ -30,6 +30,7 @@ interface CartItem {
 interface NavbarProps {
   cart: CartItem[]
 }
+
 const links = [
   { href: "/", name: "Training" },
   { href: "/", name: "Blogs" },
@@ -117,6 +118,14 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
     }
   }, [searchText])
 
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    if (searchText.length > 1) {
+      router.push(`/search?name=${searchText}`)
+    }
+  }
+
   return (
     <>
     <div className="sticky top-0 border-b-2 z-40 bg-white xl:px- 16">
@@ -145,7 +154,8 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
         </div>
         {/* ........search.......*/}
         <div className="hidden xl:block">
-          <div className="relative"
+          <form className="" onSubmit={handleSubmit}>
+            <div className="relative"
               onMouseEnter={()=>setSearchArea(true)}
           onMouseLeave={()=>setSearchArea(false)}
           >
@@ -159,7 +169,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
                 setSearchText(e.target.value);
               }}
               className="border border-black/40 rounded-md sm:min-w-[300px] xl:min-w-[400px] text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
-              placeholder="Search"
+                  placeholder="Search"
             />
             <div >
             { showSearchArea && suggestions.length > 0 && searchText.length > 1 && (
@@ -172,7 +182,8 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
               </div>
             )}
             </div>
-          </div>
+              </div>
+          </form>
         </div>
         {/* ...........nav links.......... */}
         <div className="hidden lg:flex gap-5 text-sm">
