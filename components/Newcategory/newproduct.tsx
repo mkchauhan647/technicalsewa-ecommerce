@@ -230,7 +230,7 @@ const Home = () => {
     <>
       <div className="featured-products py-5 bg-[white]">
         <div className="flex justify-between items-center mb-3">
-          <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold w-full">
+          <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold">
             Featured Product
           </span>
           {currentProduct === 10 ? (
