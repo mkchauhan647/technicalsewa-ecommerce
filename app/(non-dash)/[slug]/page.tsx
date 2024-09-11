@@ -101,7 +101,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         </div>
         {singleData.data ? (
           (console.log("singleData", singleData.data),
-          (<Detail product={singleData.data} id={id} />))
+          (<Detail product={singleData.data} id={product_name} />))
         ) : (
           <p>Loading...</p> // You can replace this with a loader component if you have one
         )}

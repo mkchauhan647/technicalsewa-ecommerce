@@ -14,6 +14,7 @@ import CheckoutApiResponseModal from "./CheckoutApiResponseModal"
 import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { SingleProduct } from "@/store/slice/singleProduct.slice"
+import { handleLineThrough } from "../Newcategory/Brands"
 interface CustomerData {
   name: string
   type: string
@@ -32,6 +33,8 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [data, setData] = useState<CustomerData | null>(null)
   const [type, setType] = useState("Normal")
   const itemsArray = product
+
+  console.log("product", product);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -190,15 +193,19 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                       Qty:{pqty}
                     </div>
                     <div className="w-3/4 flex justify-end items-center gap-3">
-                      <span className="line-through text-red-500">
+                      {/* <span className="line-through text-red-500">
                         Rs.{product?.market_rate * quantity}
-                      </span>
-                      <span>
+                      </span> */}
+                      {handleLineThrough(product,data,true)}
+                      {/* <span>
                         {" "}
                         {data?.type === "Technician"
                           ? `Rs.${product?.tech_rate * quantity}`
                           : `Rs.${product?.our_rate * quantity}`}
-                      </span>
+                      </span> */}
+                      {
+                        handleLineThrough(product,data,false)
+                      }
                     </div>
                   </div>
                 </div>
@@ -208,14 +215,20 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                     Qty:{pqty}
                   </div>
                   <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
-                    <span className="line-through text-red-500">
+                    {/* <span className="line-through text-red-500">
                       Rs.{product?.market_rate * quantity}
-                    </span>
-                    <span>
+                    </span> */}
+                    {
+                      handleLineThrough(product,data,true)
+                    }
+                    {/* <span>
                       {data?.type === "Technician"
                         ? `Rs.${product?.tech_rate * quantity}`
                         : `Rs.${product?.our_rate * quantity}`}
-                    </span>
+                    </span> */}
+                    {
+                      handleLineThrough(product,data,false)
+                    }
                   </div>
                 </div>
               </div>
