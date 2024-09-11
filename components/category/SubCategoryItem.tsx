@@ -7,8 +7,9 @@ interface SubCategoryItemProps {
     value: string
   }
   product_id: string
- urlType: string
-
+  urlType: string
+  onClick: () => void
+  isSelected: boolean
 }
 
 const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
@@ -30,7 +31,7 @@ const SubCategoryItem: React.FC<SubCategoryItemProps> = ({
             //   },
             // }}
             // href = {`/productlist/${subcategory.value}-${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
-            href = {`/${urlType}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
+            href={`/${urlType}/${subcategory.text.trim().split(" ").join("-").toLowerCase()}`}
           >
             <h2 className="text-xs">{subcategory.text}</h2>
           </Link>

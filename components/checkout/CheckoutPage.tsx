@@ -204,16 +204,16 @@ export const CheckoutPage = () => {
                         </div>
                       </div>
 
-                      <div className="md:hidden flex">
-                        <div className="w-1/4 flex justify-center items-center text-green-700">
+                      <div className="md:hidden flex flex-col">
+                        <div className="w-1/4  text-green-700">
                           Qty:{item?.item?.quantity}
                         </div>
-                        <div className="w-3/4 flex justify-end items-center gap-3">
+                        <div className="w-3/4  gap-3 flex flex-col">
                           <span className="line-through text-red-500">
                             {/* Rs.{item?.itemsData[0]?.market_rate} */}
                             {handleLineThrough(item.itemsData[0], data)}
                           </span>
-                          <span>
+                          <span className="">
                             {/* {data?.type === "Technician"
                             ? `Rs.${item?.itemsData[0]?.tech_rate}`
                             : `Rs.${item?.itemsData[0]?.our_rate}`} */}
