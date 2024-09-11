@@ -16,6 +16,7 @@ interface SubCategoriesProps {
   product_id: string
   isOpen: boolean
   onToggle: () => void
+  onSubCategorySelect: () => void
 }
 
 const SubBrands: React.FC<SubCategoriesProps> = ({
@@ -23,10 +24,13 @@ const SubBrands: React.FC<SubCategoriesProps> = ({
   product_id,
   isOpen,
   onToggle,
+  onSubCategorySelect,
 }) => {
   const [showSubCategories, setShowSubCategories] = useState(false)
   const [subcategories, setSubcategories] = useState<SubCategory[]>([])
-
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null,
+  )
   const fetchSubcategories = async () => {
     try {
       const response = await fetch(
@@ -51,6 +55,10 @@ const SubBrands: React.FC<SubCategoriesProps> = ({
   useEffect(() => {
     fetchSubcategories()
   }, [category.value, product_id])
+  const handleSubCategoryClick = (value: string) => {
+    setSelectedSubcategory(value)
+    onSubCategorySelect() // Close the menu
+  }
 
   return (
     <div className="pt-1 flex flex-col gap-2 justify-center items-center">
@@ -86,6 +94,8 @@ const SubBrands: React.FC<SubCategoriesProps> = ({
                     "brands/" +
                     category.title.toLowerCase().split(" ").join("-")
                   }
+                  onClick={() => handleSubCategoryClick(subcategory.value)}
+                  isSelected={subcategory.value === selectedSubcategory}
                 />
               ))}
             </ul>
@@ -113,6 +123,8 @@ const SubBrands: React.FC<SubCategoriesProps> = ({
                 urlType={
                   "brands/" + category.title.toLowerCase().split(" ").join("-")
                 }
+                onClick={() => handleSubCategoryClick(subcategory.value)}
+                isSelected={subcategory.value === selectedSubcategory}
               />
             ))}
           </ul>

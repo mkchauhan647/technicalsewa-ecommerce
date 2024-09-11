@@ -18,6 +18,10 @@ const Brands: React.FC = () => {
   const handleBrandToggle = (brandValue: string) => {
     setOpenBrand(openBrand === brandValue ? null : brandValue)
   }
+
+  const handleSubCategorySelect = () => {
+    setOpenBrand(null) // Close the menu when a subcategory is selected
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,6 +54,7 @@ const Brands: React.FC = () => {
             product_id={product_id}
             isOpen={openBrand === category.value}
             onToggle={() => handleBrandToggle(category.value)}
+            onSubCategorySelect={handleSubCategorySelect} // Pass the handler
           />
         </div>
       ))}
