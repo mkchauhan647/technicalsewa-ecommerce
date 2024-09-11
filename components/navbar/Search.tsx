@@ -46,7 +46,7 @@ export const Search = () => {
   }, [searchText])
   return (
     <div className="flex justify-center w-full py-3 xl:hidden ">
-      {/* <div className="fixed w-full container z-20 bg-white top-14 py-3">
+      <div className="fixed w-full container z-20 bg-white top-14 py-3">
         <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
           <FiSearch />
         </div>
@@ -68,7 +68,7 @@ export const Search = () => {
             ))}
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   )
 }
