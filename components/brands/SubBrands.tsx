@@ -14,9 +14,16 @@ interface SubCategoriesProps {
     value: string
   }
   product_id: string
+  isOpen: boolean
+  onToggle: () => void
 }
 
-const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
+const SubBrands: React.FC<SubCategoriesProps> = ({
+  category,
+  product_id,
+  isOpen,
+  onToggle,
+}) => {
   const [showSubCategories, setShowSubCategories] = useState(false)
   const [subcategories, setSubcategories] = useState<SubCategory[]>([])
 
@@ -45,31 +52,40 @@ const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
     fetchSubcategories()
   }, [category.value, product_id])
 
-  const toggleSubCategories = () => {
-    setShowSubCategories(!showSubCategories)
-  }
-
   return (
     <div className="pt-1 flex flex-col gap-2 justify-center items-center">
       <div className="flex relative w-full group ">
         <div
           className="lg:hidden cursor-pointer flex flex-col  px-4 py-[8px] bg-white w-full text-black rounded-md"
-          // onClick={toggleSubCategories}
+          onClick={onToggle}
         >
-          <div className="flex justify-between" onClick={toggleSubCategories}>
-            <h2 className="text-xs" >{category.title}</h2>
-            {showSubCategories ? <IoIosArrowDown /> : <IoIosArrowForward />}
+          <div className="flex justify-between">
+            <h2 className="text-xs">{category.title}</h2>
+            {isOpen ? <IoIosArrowDown /> : <IoIosArrowForward />}
 
             {/* <IoIosArrowForward className="hidden group-hover:block" /> */}
           </div>
-          {showSubCategories && (
-            <ul className={`w-52`}>
+          {/* 
+          {subcategories.map((subcategory, index) => (
+            <SubCategoryItem
+              key={index}
+              subcategory={subcategory}
+              product_id={product_id}
+              urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
+            />
+          ))} */}
+
+          {isOpen && (
+            <ul className="w-52">
               {subcategories.map((subcategory, index) => (
                 <SubCategoryItem
                   key={index}
                   subcategory={subcategory}
                   product_id={product_id}
-                  urlType={"brands/" + category.title.toLowerCase().split(" ").join("-")}
+                  urlType={
+                    "brands/" +
+                    category.title.toLowerCase().split(" ").join("-")
+                  }
                 />
               ))}
             </ul>
@@ -77,23 +93,26 @@ const SubBrands: React.FC<SubCategoriesProps> = ({ category, product_id }) => {
         </div>
         <div
           className="hidden lg:block cursor-pointer  flex-col  px-4 py-1 bg-white w-full text-black rounded-md"
-          onClick={toggleSubCategories}
+          onClick={onToggle}
         >
-          <div className="flex justify-between" onClick={toggleSubCategories}>
-            <h2 className="text-xs" >{category.title}</h2>
+          <div className="flex justify-between">
+            <h2 className="text-xs">{category.title}</h2>
 
             <IoIosArrowForward className="hidden group-hover:block" />
           </div>
         </div>
-        <div className="hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg">
+        <div
+          className={`hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg${isOpen ? "block" : "hidden"}`}
+        >
           <ul className="w-52">
             {subcategories.map((subcategory, index) => (
               <SubCategoryItem
                 key={index}
                 subcategory={subcategory}
                 product_id={product_id}
-                urlType={"brands/" + category.title.toLowerCase().split(" ").join("-")}
-
+                urlType={
+                  "brands/" + category.title.toLowerCase().split(" ").join("-")
+                }
               />
             ))}
           </ul>

@@ -93,7 +93,10 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
                 key={index}
                 subcategory={subcategory}
                 product_id={product_id}
-                urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
+                urlType={
+                  `category/` +
+                  category.title.trim().split(" ").join("-").toLowerCase()
+                }
               />
             ))}
           </ul>

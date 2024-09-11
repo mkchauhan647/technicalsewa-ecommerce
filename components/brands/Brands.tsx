@@ -14,7 +14,10 @@ export interface Category {
 const Brands: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const product_id = "160"
-
+  const [openBrand, setOpenBrand] = useState<string | null>(null)
+  const handleBrandToggle = (brandValue: string) => {
+    setOpenBrand(openBrand === brandValue ? null : brandValue)
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,7 +44,13 @@ const Brands: React.FC = () => {
     <div>
       {categories.map((category, index) => (
         <div key={index}>
-          <SubBrands key={index} category={category} product_id={product_id} />
+          <SubBrands
+            key={index}
+            category={category}
+            product_id={product_id}
+            isOpen={openBrand === category.value}
+            onToggle={() => handleBrandToggle(category.value)}
+          />
         </div>
       ))}
     </div>

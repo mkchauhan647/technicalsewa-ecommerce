@@ -13,7 +13,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component"
 import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import Login from "../Login"
-import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
+import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
 
 const Home = () => {
@@ -52,10 +52,16 @@ const Home = () => {
         // tax: 0,
         // discount: 0,
         //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-        total: ( (data?.type === "Technician")
-        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-        : product?.customer_rate),
+        total:
+          data?.type === "Technician"
+            ? product.tech_discount_rate < product.tech_rate &&
+              product.tech_discount_rate > 0
+              ? product?.tech_discount_rate
+              : product?.tech_rate
+            : product.customer_discount_rate < product.customer_rate &&
+                product.customer_discount_rate > 0
+              ? product?.customer_discount_rate
+              : product?.customer_rate,
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -66,44 +72,41 @@ const Home = () => {
           dispatch(fetchCartItems())
         } else {
           toast.error("Error Added To Cart")
-  
         }
       })
       if (localStorage.getItem("items") === null) {
-        localStorage.setItem("items", JSON.stringify([newItem]));
-      }
-      else {
-        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
-       
+        localStorage.setItem("items", JSON.stringify([newItem]))
+      } else {
+        const items: Array<any> = JSON.parse(
+          localStorage.getItem("items") ?? "[]",
+        )
+
         const itemExists = items.some((item: any) => {
           if (typeof item.items === "string") {
-            item.items = JSON.parse(item.items) as Array<any>;
+            item.items = JSON.parse(item.items) as Array<any>
           }
-         
-          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+
+          return item.items.some(
+            (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+          )
         })
 
         if (itemExists) {
           const updatedItems = items.map((item: any) => {
-
-           
-          
             if (item.items[0].blog_name === product.blog_name) {
-              item.quantity = item.quantity + 1;
+              item.quantity = item.quantity + 1
             }
-            return item;
+            return item
           })
-          localStorage.setItem("items", JSON.stringify(updatedItems));
-          return;
+          localStorage.setItem("items", JSON.stringify(updatedItems))
+          return
         }
 
-          items.push(newItem)
-          localStorage.setItem("items", JSON.stringify(items));
+        items.push(newItem)
+        localStorage.setItem("items", JSON.stringify(items))
       }
       return
     }
-
-      
 
     const itemExists = cartItems.some((item: any) => {
       const parsedItems = JSON.parse(item.items)
@@ -114,12 +117,11 @@ const Home = () => {
 
     if (itemExists) {
       const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
-        if(parsedItem.itemsData)
-        return parsedItem.itemsData.some(
-          (cartProduct) => cartProduct.blog_name === product.blog_name,
-        );
-      }
-      )
+        if (parsedItem.itemsData)
+          return parsedItem.itemsData.some(
+            (cartProduct) => cartProduct.blog_name === product.blog_name,
+          )
+      })
 
       const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
       const updatedItem = {
@@ -151,10 +153,16 @@ const Home = () => {
       // tax: 0,
       // discount: 0,
       //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-      total: ( (data?.type === "Technician")
-      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-      : product?.customer_rate),
+      total:
+        data?.type === "Technician"
+          ? product.tech_discount_rate < product.tech_rate &&
+            product.tech_discount_rate > 0
+            ? product?.tech_discount_rate
+            : product?.tech_rate
+          : product.customer_discount_rate < product.customer_rate &&
+              product.customer_discount_rate > 0
+            ? product?.customer_discount_rate
+            : product?.customer_rate,
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -166,7 +174,6 @@ const Home = () => {
         dispatch(fetchCartItems())
       } else {
         toast.error("Error Added To Cart")
-
       }
     })
   }
@@ -223,7 +230,9 @@ const Home = () => {
     <>
       <div className="featured-products py-5 bg-[white]">
         <div className="flex justify-between items-center mb-3">
-        <span className="text-base font-semibold">Featured Product</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold">
+            Featured Product
+          </span>
           {currentProduct === 10 ? (
             <button
               onClick={() => view("more")}
@@ -241,37 +250,39 @@ const Home = () => {
           )}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-5 gap-6 cursor-pointer">
-          {featuredProducts.slice(0, currentProduct)
-          .map((product: Product, index: number) => (
-            <div
-            className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
-            key={index}
-          >
-            <Link
-              // href={{
-              //   pathname: "/detail-beta",
-              //   query: { id: product.blog_id },
-                // }}
-                href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
+          {featuredProducts
+            .slice(0, currentProduct)
+            .map((product: Product, index: number) => (
+              <div
+                className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
+                key={index}
+              >
+                <Link
+                  // href={{
+                  //   pathname: "/detail-beta",
+                  //   query: { id: product.blog_id },
+                  // }}
+                  href={`/${product.page_url
+                    .split(" ")
+                    .map((value) => value.toLocaleLowerCase())
+                    .join("-")}`}
                   // target="_blank"
-            >
-              <div className="transition-all duration-500 hover:scale-110">
-                <LazyLoadImage
-                  alt={product.blog_name}
-                  src={product.image_name}
-                  className="w-full h-36 md:h-52 md:p-6"
-                />
-              </div>
-                {
-                  handleDiscount(product,data)
-               }
+                >
+                  <div className="transition-all duration-500 hover:scale-110">
+                    <LazyLoadImage
+                      alt={product.blog_name}
+                      src={product.image_name}
+                      className="w-full h-36 md:h-52 md:p-6"
+                    />
+                  </div>
+                  {handleDiscount(product, data)}
 
-              <div className="md:px-4 px-1 mt-[10px]">
-                <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
-                  {product.page_title}
-                </h3>
+                  <div className="md:px-4 px-1 mt-[10px]">
+                    <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
+                      {product.page_title}
+                    </h3>
 
-                {/* <div className="flex flex-col ">
+                    {/* <div className="flex flex-col ">
                   <span className="text-[15px] text-[#f85606] block">
                     { (data?.type === "Technician")
                       ? `Rs.${product?.tech_rate}`
@@ -281,28 +292,24 @@ const Home = () => {
                     Rs. {product.market_rate}
                   </span>
                 </div> */}
-                   <div className="flex flex-col ">
+                    <div className="flex flex-col ">
                       {/* <span className="text-[15px] text-[#f85606] block">
                         
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
                           : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
                     </span> */}
-                     {
-                        handleLineThrough(product,data,false)
-                      }
-                    {/* <span className="text-[13px] line-through text-[#9e9e9e]">
+                      {handleLineThrough(product, data, false)}
+                      {/* <span className="text-[13px] line-through text-[#9e9e9e]">
                         {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
                       }
                     </span> */}
-                    {
-                      handleLineThrough(product,data)
-                    }
+                      {handleLineThrough(product, data)}
+                    </div>
                   </div>
-              </div>
-            </Link>
-            {/* {ifloggedIn === null ? (
+                </Link>
+                {/* {ifloggedIn === null ? (
               <div className="relative">
                 <button
                   onClick={() => setShowPopover(true)}
@@ -312,15 +319,15 @@ const Home = () => {
                 </button>
               </div>
             ) : ( */}
-              <button
-                onClick={() => addToCart(product)}
-                className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
-              >
-                Add to Cart
-              </button>
-            {/* )} */}
-          </div>
-          ))}
+                <button
+                  onClick={() => addToCart(product)}
+                  className="bg-[#0891B2] text-white rounded-md hover:bg-blue-700 w-[110px] py-2 m-4 text-xs"
+                >
+                  Add to Cart
+                </button>
+                {/* )} */}
+              </div>
+            ))}
         </div>
       </div>
       {showPopover && (

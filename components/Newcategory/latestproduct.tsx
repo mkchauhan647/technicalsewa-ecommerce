@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
-import { CustomerData,Product,CartItem,ParsedCartItem } from "@/lib/types";
+import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
 
 const Home = () => {
@@ -52,10 +52,16 @@ const Home = () => {
         // tax: 0,
         // discount: 0,
         //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-        total: ( (data?.type === "Technician")
-        ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-        : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-        : product?.customer_rate),
+        total:
+          data?.type === "Technician"
+            ? product.tech_discount_rate < product.tech_rate &&
+              product.tech_discount_rate > 0
+              ? product?.tech_discount_rate
+              : product?.tech_rate
+            : product.customer_discount_rate < product.customer_rate &&
+                product.customer_discount_rate > 0
+              ? product?.customer_discount_rate
+              : product?.customer_rate,
         quantity: quantity,
         image_url: product.image_name,
       }
@@ -66,44 +72,41 @@ const Home = () => {
           dispatch(fetchCartItems())
         } else {
           toast.error("Error Added  To Cart")
-  
         }
       })
       if (localStorage.getItem("items") === null) {
-        localStorage.setItem("items", JSON.stringify([newItem]));
-      }
-      else {
-        const items:Array<any> = JSON.parse(localStorage.getItem("items") ?? "[]")        
-       
+        localStorage.setItem("items", JSON.stringify([newItem]))
+      } else {
+        const items: Array<any> = JSON.parse(
+          localStorage.getItem("items") ?? "[]",
+        )
+
         const itemExists = items.some((item: any) => {
           if (typeof item.items === "string") {
-            item.items = JSON.parse(item.items) as Array<any>;
+            item.items = JSON.parse(item.items) as Array<any>
           }
-         
-          return item.items.some((parsedItem: Product) => parsedItem.blog_name === product.blog_name);
+
+          return item.items.some(
+            (parsedItem: Product) => parsedItem.blog_name === product.blog_name,
+          )
         })
 
         if (itemExists) {
           const updatedItems = items.map((item: any) => {
-
-           
-          
             if (item.items[0].blog_name === product.blog_name) {
-              item.quantity = item.quantity + 1;
+              item.quantity = item.quantity + 1
             }
-            return item;
+            return item
           })
-          localStorage.setItem("items", JSON.stringify(updatedItems));
-          return;
+          localStorage.setItem("items", JSON.stringify(updatedItems))
+          return
         }
 
-          items.push(newItem)
-          localStorage.setItem("items", JSON.stringify(items));
+        items.push(newItem)
+        localStorage.setItem("items", JSON.stringify(items))
       }
       return
     }
-
-      
 
     const itemExists = cartItems.some((item: any) => {
       const parsedItems = JSON.parse(item.items)
@@ -114,12 +117,11 @@ const Home = () => {
 
     if (itemExists) {
       const prevCartItem: any = parsedCartItems.filter((parsedItem) => {
-        if(parsedItem.itemsData)
-        return parsedItem.itemsData.some(
-          (cartProduct) => cartProduct.blog_name === product.blog_name,
-        );
-      }
-      )
+        if (parsedItem.itemsData)
+          return parsedItem.itemsData.some(
+            (cartProduct) => cartProduct.blog_name === product.blog_name,
+          )
+      })
 
       const updatedQuantity = Number(prevCartItem[0].item.quantity) // Ensure it's parsed as a number
       const updatedItem = {
@@ -151,10 +153,16 @@ const Home = () => {
       // tax: 0,
       // discount: 0,
       //  total: data?.type === "Technician" ? product?.tech_rate : product?.our_rate,
-      total: ( (data?.type === "Technician")
-      ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? product?.tech_discount_rate : product?.tech_rate
-      : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? product?.customer_discount_rate
-      : product?.customer_rate),
+      total:
+        data?.type === "Technician"
+          ? product.tech_discount_rate < product.tech_rate &&
+            product.tech_discount_rate > 0
+            ? product?.tech_discount_rate
+            : product?.tech_rate
+          : product.customer_discount_rate < product.customer_rate &&
+              product.customer_discount_rate > 0
+            ? product?.customer_discount_rate
+            : product?.customer_rate,
       quantity: quantity,
       image_url: product.image_name,
     }
@@ -166,7 +174,6 @@ const Home = () => {
         dispatch(fetchCartItems())
       } else {
         toast.error("Error Added To Cart")
-
       }
     })
   }
@@ -226,7 +233,9 @@ const Home = () => {
     <>
       <div className="featured-products py-5">
         <div className="flex justify-between">
-        <span className="text-base font-semibold">Latest Product</span>
+          <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold ">
+            Latest Product
+          </span>
           {currentProduct === 5 ? (
             <button
               onClick={() => view("more")}
@@ -248,60 +257,57 @@ const Home = () => {
             .slice(0, currentProduct)
             .map((product: Product, index: number) => (
               <div
-              className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
-              key={index}
-            >
-              <Link
-                // href={{
-                //   pathname: "/detail-beta",
-                //   query: { id: product.blog_id },
-                  // }}
-                 href={`/${product.page_url.split(' ').map((value => value.toLocaleLowerCase())).join('-')}`}
-                  // target="_blank"
+                className="product rounded-lg overflow-hidden relative  hover:shadow-lg  shadow-md cursor-pointer"
+                key={index}
               >
-                <div className="transition-all duration-500 hover:scale-110 rounded-md">
-                  <LazyLoadImage
-                    alt={product.blog_name}
-                    src={product.image_name}
-                    className="w-96 h-36 md:h-52 md:p-6 "
-                  />
-                </div>
+                <Link
+                  // href={{
+                  //   pathname: "/detail-beta",
+                  //   query: { id: product.blog_id },
+                  // }}
+                  href={`/${product.page_url
+                    .split(" ")
+                    .map((value) => value.toLocaleLowerCase())
+                    .join("-")}`}
+                  // target="_blank"
+                >
+                  <div className="transition-all duration-500 hover:scale-110 rounded-md">
+                    <LazyLoadImage
+                      alt={product.blog_name}
+                      src={product.image_name}
+                      className="w-96 h-36 md:h-52 md:p-6 "
+                    />
+                  </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
                   {Math.round(((product.market_rate -(  (data?.type === "Technician")
                         ? product?.tech_rate
                         : product?.our_rate)) / product.market_rate) * 100) + "%" } 
                   </span> */}
-                  {
-                    handleDiscount(product,data)
-                  }
+                  {handleDiscount(product, data)}
 
-                <div className="md:px-4 px-1 mt-[10px]">
-                  <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
-                    {product.page_title}
-                  </h3>
+                  <div className="md:px-4 px-1 mt-[10px]">
+                    <h3 className="text-xs text-[black] md:pr-[10px] overflow-hidden">
+                      {product.page_title}
+                    </h3>
 
-                  <div className="flex flex-col ">
+                    <div className="flex flex-col ">
                       {/* <span className="text-[15px] text-[#f85606] block">
                         
                         {(data?.type === "Technician")
                           ? product.tech_discount_rate < product.tech_rate && product.tech_discount_rate > 0 ? `Rs.${product?.tech_discount_rate}` : `Rs.${product?.tech_rate}`
                           : product.customer_discount_rate < product.customer_rate && product.customer_discount_rate > 0 ? `Rs.${product?.customer_discount_rate} ` : `Rs.${product?.customer_rate}`}
                     </span> */}
-                       {
-                        handleLineThrough(product,data,false)
-                      }
-                    {/* <span className="text-[13px] line-through text-[#9e9e9e]">
+                      {handleLineThrough(product, data, false)}
+                      {/* <span className="text-[13px] line-through text-[#9e9e9e]">
                         {
                         (data?.type === "Technician") ? (product.tech_discount_rate > 0 ? `Rs.${product?.tech_rate}`: '') : (product.customer_discount_rate > 0 ?  `Rs.${product?.customer_rate}`:'')
                       }
                     </span> */}
-                      {
-                        handleLineThrough(product,data)
-                      }
+                      {handleLineThrough(product, data)}
+                    </div>
                   </div>
-                </div>
-              </Link>
-              {/* {ifloggedIn === null ? (
+                </Link>
+                {/* {ifloggedIn === null ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowPopover(true)}
@@ -317,8 +323,8 @@ const Home = () => {
                 >
                   Add to Cart
                 </button>
-              {/* )} */}
-            </div>
+                {/* )} */}
+              </div>
             ))}
         </div>
       </div>
