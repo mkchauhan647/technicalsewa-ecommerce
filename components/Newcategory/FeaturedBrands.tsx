@@ -41,7 +41,7 @@ const Ncategories: React.FC = () => {
           Feature Brands
         </span>
       </div>
-      <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-4 ">
+      <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-4 ">
         {brands.map((brand, index) => (
           <div key={index} className="flex items-center justify-center">
             {/* <Image
