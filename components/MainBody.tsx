@@ -158,7 +158,28 @@ const MainBody = ({ children }: any) => {
           <Latestproduct />
         </div>
       </div>
-
+          <div className="xl:container mx-auto  2xl:px-28 px-4">
+        {bannerfooter.map((product) => (
+          <div key={product.id} className="w-full h-auto">
+            {/* <Image
+              src={product.image_url}
+              alt={product.alt}
+              width={189}
+              height={189}
+              layout="responsive"
+              className="w-full h-auto object-cover"
+              quality={100}
+              priority
+            /> */}
+            <LazyLoadImage
+              alt={product.alt}
+              src={product.image_url}
+              width="100%"
+              height={189}
+            />
+          </div>
+        ))}
+      </div>
       <div className=" xl:container mx-auto  2xl:px-28 px-4">
         <Deals />
       </div>

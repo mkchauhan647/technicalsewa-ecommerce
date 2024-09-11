@@ -286,7 +286,7 @@ const Deals = () => {
       <div className="featured-products py-5">
         <div className="flex flex-col md:flex-row  items-center mb-8 md:gap-10">
           <div className="flex w-1/3 ">
-            <span className="text-[14px] lg:text-base font-semibold">
+            <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold w-full">
               Deals of the Day
             </span>
           </div>

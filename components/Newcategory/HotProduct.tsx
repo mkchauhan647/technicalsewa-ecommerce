@@ -234,7 +234,7 @@ const HotProduct = () => {
     <>
       <div className="featured-products py-5">
         <div className="flex justify-between">
-          <span className="text-[14px] lg:text-base font-semibold">
+          <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold w-full">
             You May Like
           </span>
           {currentProduct === 5 ? (

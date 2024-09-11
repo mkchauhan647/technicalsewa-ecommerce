@@ -37,7 +37,7 @@ const Ncategories: React.FC = () => {
   return (
     <div className="featured-products py-5">
       <div className="flex justify-between">
-        <span className="text-[14px] lg:text-base font-semibold">
+        <span className="text-[12px] md:text-[14px] lg:text-[16px] font-semibold w-full">
           Feature Brands
         </span>
       </div>
