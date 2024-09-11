@@ -622,7 +622,39 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   </div>
                 </div>
               </div>
-              <div className="py- 5 ">
+              <div className="flex flex-col pb-5">
+                <div className="flex flex-col gap-2 md:flex-row items-center lg:gap-12">
+                  <span className="text-sm">Quantity</span>
+                  <div className="flex items-center gap-4">
+                    <Button variant="outline" onClick={decreaseQuantity}>
+                      -
+                    </Button>
+                    <span>{quantity}</span>
+                    <Button variant="outline" onClick={increaseQuantity}>
+                      +
+                    </Button>
+                  </div>
+                  <div className="flex flex-col  gap-2">
+                    {/* <span className="text-[16px]  text-[gray] font-semibold  line-through  block whitespace-nowrap">
+                      {data?.type === "Technician"
+                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_rate}` : null
+                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_rate}`
+                          : null}
+                      </span>
+                      <span className="text-[16px]  text-[black] font-semibold block whitespace-nowrap">
+                       
+                        {data?.type === "Technician"
+                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_discount_rate}` : `Rs. ${product?.tech_rate * quantity}`
+                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_discount_rate}`
+                          : `Rs. ${product?.customer_rate * quantity}`}
+                      </span> */}
+                    {handleLineThrough(product, data, false)}
+                    {handleLineThrough(product, data)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="py- 5 border-t ">
                 <h2 className="font-semibold mb-2">Description</h2>
                 {product?.meta_desc && product.blog_desc && (
                   <>
@@ -639,39 +671,6 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                 )}
               </div>
 
-              <div className="py-5 border-t ">
-                <div className="flex flex-col space-y-4">
-                  <div className="flex flex-col gap-2 md:flex-row items-center lg:gap-12">
-                    <span className="text-sm">Quantity</span>
-                    <div className="flex items-center gap-4">
-                      <Button variant="outline" onClick={decreaseQuantity}>
-                        -
-                      </Button>
-                      <span>{quantity}</span>
-                      <Button variant="outline" onClick={increaseQuantity}>
-                        +
-                      </Button>
-                    </div>
-                    <div className="flex flex-col  gap-2">
-                      {/* <span className="text-[16px]  text-[gray] font-semibold  line-through  block whitespace-nowrap">
-                      {data?.type === "Technician"
-                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_rate}` : null
-                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_rate}`
-                          : null}
-                      </span>
-                      <span className="text-[16px]  text-[black] font-semibold block whitespace-nowrap">
-                       
-                        {data?.type === "Technician"
-                          ? product.tech_discount_rate > 0 && product.tech_discount_rate < product.tech_rate ? `Rs. ${product.tech_discount_rate}` : `Rs. ${product?.tech_rate * quantity}`
-                          : product.customer_discount_rate > 0 && product.customer_discount_rate < product.customer_rate ? `Rs. ${product.customer_discount_rate}`
-                          : `Rs. ${product?.customer_rate * quantity}`}
-                      </span> */}
-                      {handleLineThrough(product, data, false)}
-                      {handleLineThrough(product, data)}
-                    </div>
-                  </div>
-                </div>
-              </div>
               <div className="py-5 border-t ">
                 <h2 className="font-semibold mb-2">Specifications</h2>
                 <div

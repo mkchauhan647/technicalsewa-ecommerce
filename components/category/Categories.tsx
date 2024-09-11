@@ -13,9 +13,15 @@ const Categories: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([])
   const product_id = "160"
   const [openCategory, setOpenCategory] = useState<string | null>(null)
+
   const handleCategoryToggle = (categoryValue: string) => {
     setOpenCategory(openCategory === categoryValue ? null : categoryValue)
   }
+
+  const handleSubCategorySelect = () => {
+    setOpenCategory(null) // Close the menu when a subcategory is selected
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -44,9 +50,10 @@ const Categories: React.FC = () => {
         <SubCategories
           key={category.value}
           category={category}
-          product_id="some-product-id"
+          product_id={product_id}
           isOpen={openCategory === category.value}
           onToggle={() => handleCategoryToggle(category.value)}
+          onSubCategorySelect={handleSubCategorySelect} // Pass the handler
         />
       ))}
     </div>

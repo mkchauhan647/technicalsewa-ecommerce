@@ -16,6 +16,7 @@ interface SubCategoriesProps {
   product_id: string
   isOpen: boolean
   onToggle: () => void
+  onSubCategorySelect: () => void
 }
 
 const SubCategories: React.FC<SubCategoriesProps> = ({
@@ -23,8 +24,12 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
   product_id,
   isOpen,
   onToggle,
+  onSubCategorySelect,
 }) => {
   const [subcategories, setSubcategories] = useState<SubCategory[]>([])
+  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+    null,
+  )
 
   const fetchSubcategories = async () => {
     try {
@@ -51,6 +56,11 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
     fetchSubcategories()
   }, [category.value, product_id])
 
+  const handleSubCategoryClick = (value: string) => {
+    setSelectedSubcategory(value)
+    onSubCategorySelect() // Close the menu
+  }
+
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
       <div className="flex relative w-full group">
@@ -64,13 +74,16 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
           </div>
           {isOpen && (
             <ul className="w-52">
-              {subcategories.map((subcategory, index) => (
-                <SubCategoryItem
-                  key={index}
-                  subcategory={subcategory}
-                  product_id={product_id}
-                  urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
-                />
+              {subcategories.map((subcategory) => (
+                <li key={subcategory.value}>
+                  <SubCategoryItem
+                    subcategory={subcategory}
+                    product_id={product_id}
+                    urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
+                    onClick={() => handleSubCategoryClick(subcategory.value)}
+                    isSelected={subcategory.value === selectedSubcategory}
+                  />
+                </li>
               ))}
             </ul>
           )}
@@ -88,16 +101,16 @@ const SubCategories: React.FC<SubCategoriesProps> = ({
           className={`hidden lg:group-hover:block absolute top-[15%] md:left-full z-50 bg-white p-2 rounded-lg shadow-lg ${isOpen ? "block" : "hidden"}`}
         >
           <ul className="w-52">
-            {subcategories.map((subcategory, index) => (
-              <SubCategoryItem
-                key={index}
-                subcategory={subcategory}
-                product_id={product_id}
-                urlType={
-                  `category/` +
-                  category.title.trim().split(" ").join("-").toLowerCase()
-                }
-              />
+            {subcategories.map((subcategory) => (
+              <li key={subcategory.value}>
+                <SubCategoryItem
+                  subcategory={subcategory}
+                  product_id={product_id}
+                  urlType={`category/${category.title.trim().split(" ").join("-").toLowerCase()}`}
+                  onClick={() => handleSubCategoryClick(subcategory.value)}
+                  isSelected={subcategory.value === selectedSubcategory}
+                />
+              </li>
             ))}
           </ul>
         </div>
