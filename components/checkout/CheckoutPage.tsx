@@ -15,6 +15,8 @@ import toast, { Toaster } from "react-hot-toast"
 import { redirect, useRouter } from "next/navigation"
 import Login from "@/components/Login"
 import { handleLineThrough } from "../Newcategory/Brands"
+import logo from "@/assets/icon.png"
+
 interface CustomerData {
   name: string
   type: string
@@ -177,7 +179,7 @@ export const CheckoutPage = () => {
                     <div className="flex flex-col gap-4">
                       <div className="flex gap-4">
                         <Image
-                          src={item?.itemsData[0]?.image_name ?? ""}
+                          src={item?.itemsData[0]?.image_name ?? logo.src}
                           alt="img"
                           width={150}
                           height={150}
@@ -186,7 +188,7 @@ export const CheckoutPage = () => {
                         />
 
                         <Image
-                          src={item?.itemsData[0]?.image_name ?? ""}
+                          src={item?.itemsData[0]?.image_name ?? logo.src}
                           alt="img"
                           width={80}
                           className="md:hidden flex object-cover"

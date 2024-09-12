@@ -17,6 +17,7 @@ import Login from "../Login"
 import Categories from "./Categories"
 import { CartItem, CustomerData, ParsedCartItem, Product } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "../Newcategory/Brands"
+import logo from "@/assets/icon.png"
 
 export interface GrandChild {
   STATUS: string
@@ -181,7 +182,7 @@ const Productlist: React.FC<ProductProps> = ({ grandChildData }) => {
               >
                 <div className="transition-all duration-500 hover:scale-110">
                   <Image
-                    src={product.image_name ?? "/p5.jpg"}
+                    src={product?.image_name ? product.image_name : logo.src}
                     alt={product.blog_name}
                     width={189}
                     height={189}
