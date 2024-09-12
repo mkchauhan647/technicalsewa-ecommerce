@@ -16,7 +16,7 @@ import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 const Home = () => {
   const [loading, setLoading] = useState(true)

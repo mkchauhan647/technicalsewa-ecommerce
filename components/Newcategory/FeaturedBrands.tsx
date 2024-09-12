@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import AxiosInstance from "@/axios_config/Axios"
 import Image from "next/image"
 import { LazyLoadImage } from "react-lazy-load-image-component"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 export interface Brand {
   image_url: string

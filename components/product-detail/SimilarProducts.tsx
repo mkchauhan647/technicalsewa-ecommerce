@@ -16,7 +16,7 @@ import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 const SimilarProducts = (props: any) => {
   const [loading, setLoading] = useState(true)
