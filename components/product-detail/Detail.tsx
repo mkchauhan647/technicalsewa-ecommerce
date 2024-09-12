@@ -514,7 +514,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   <img
                     alt="Product Image"
                     className="w-full h-full lg:object-contain sm:object-cover"
-                    src={product?.image_name ? product.image_name : logo.src}
+                    src={mainImage || logo.src}
                     ref={mainImageRef}
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setZoomVisible(true)}
@@ -557,7 +557,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                       className={`w-[70px] h-[60px] rounded-lg ${
                         mainImage === thumbnail ? "border border-cyan-400" : ""
                       }`}
-                      src={product?.image_name ? product.image_name : logo.src}
+                      src={thumbnail || logo.src}
                       style={{
                         aspectRatio: "70/50",
                         objectFit: "cover",
