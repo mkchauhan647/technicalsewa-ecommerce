@@ -29,7 +29,7 @@ import Login from "../Login"
 import { Product } from "@/lib/types"
 import { handleLineThrough } from "../Newcategory/Brands"
 import SimilarProducts from "@/components/product-detail/SimilarProducts"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 interface ProductDetails {
   text: string

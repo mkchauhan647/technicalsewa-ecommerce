@@ -9,7 +9,7 @@ import {
 import { CiCircleRemove } from "react-icons/ci"
 import { RootState, AppDispatch } from "../../store/store"
 import { toast, ToastContainer } from "react-toastify"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 interface CartContentProps {
   cartdata: CartItem[]

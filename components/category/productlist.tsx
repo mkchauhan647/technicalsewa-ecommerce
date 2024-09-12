@@ -17,7 +17,7 @@ import Login from "../Login"
 import Categories from "./Categories"
 import { CartItem, CustomerData, ParsedCartItem, Product } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "../Newcategory/Brands"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 export interface GrandChild {
   STATUS: string

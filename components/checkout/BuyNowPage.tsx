@@ -15,7 +15,7 @@ import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { SingleProduct } from "@/store/slice/singleProduct.slice"
 import { handleLineThrough } from "../Newcategory/Brands"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 interface CustomerData {
   name: string

@@ -17,7 +17,7 @@ import Login from "../Login"
 import Timer from "./Timer"
 import { Product } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
-import logo from "@/assets/icon.png"
+import logo from "@/assets/logo-ts.jpg"
 
 // interface Product {
 //   model: string
