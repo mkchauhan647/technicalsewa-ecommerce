@@ -15,6 +15,8 @@ import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { SingleProduct } from "@/store/slice/singleProduct.slice"
 import { handleLineThrough } from "../Newcategory/Brands"
+import logo from "@/assets/icon.png"
+
 interface CustomerData {
   name: string
   type: string
@@ -161,7 +163,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                 <div className="flex flex-col gap-4">
                   <div className="flex gap-4">
                     <Image
-                      src={product?.image_name ?? ""}
+                      src={product?.image_name ? product.image_name : logo.src}
                       alt="img"
                       width={150}
                       height={150}
@@ -170,7 +172,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                     />
 
                     <Image
-                      src={product?.image_name ?? ""}
+                      src={product?.image_name ? product.image_name : logo.src}
                       alt="img"
                       width={80}
                       className="md:hidden flex object-cover"
@@ -225,9 +227,9 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                 </div>
               </div>
               <div className="hidden md:flex flex-col w-full gap-1 justify-center">
-                <span className="font-semibold">{product?.blog_name}</span>
+                <span className="font-semibold">{product?.page_title}</span>
                 <span className="font-normal text-sm">
-                  {product?.meta_desc}
+                  {/* {product?.meta_desc} */}
                 </span>
               </div>
               <hr />

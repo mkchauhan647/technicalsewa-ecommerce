@@ -15,6 +15,7 @@ import toast from "react-hot-toast"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
+import logo from "@/assets/icon.png"
 
 const Home = () => {
   const [loading, setLoading] = useState(true)
@@ -271,7 +272,7 @@ const Home = () => {
                   <div className="transition-all duration-500 hover:scale-110">
                     <LazyLoadImage
                       alt={product.blog_name}
-                      src={product.image_name}
+                      src={product?.image_name ? product.image_name : logo.src}
                       className="w-full h-36 md:h-52 md:p-6"
                     />
                   </div>

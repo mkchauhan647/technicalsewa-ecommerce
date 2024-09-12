@@ -16,6 +16,7 @@ import toast from "react-hot-toast"
 import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
+import logo from "@/assets/icon.png"
 
 const SimilarProducts = (props: any) => {
   const [loading, setLoading] = useState(true)
@@ -291,7 +292,7 @@ const SimilarProducts = (props: any) => {
                   <div className=" transition-all duration-500 hover:scale-110">
                     <LazyLoadImage
                       alt={product.blog_name}
-                      src={product.image_name}
+                      src={product?.image_name ? product.image_name : logo.src}
                       className="w-full h-50 md:h-52 md:p-6"
                     />
                   </div>
