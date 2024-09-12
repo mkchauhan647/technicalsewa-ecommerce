@@ -271,7 +271,7 @@ const Deals = () => {
     return
   }
 
-  // console.log("featuredProducts", featuredProducts)
+  console.log("featuredProducts", featuredProducts)
 
   const handleClosePopover = () => setShowPopover(false)
 
@@ -334,7 +334,7 @@ const Deals = () => {
                     <LazyLoadImage
                       alt={product?.blog_name}
                       src={product?.image_name ? product.image_name : logo.src}
-                      className="w-full h-36 md:h-52 object-cover md:p-6" // Added object-cover for better scaling
+                      className="w-full h-36 md:h-52  md:p-6" // Added object-cover for better scaling
                     />
                   </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
