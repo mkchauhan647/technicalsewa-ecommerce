@@ -213,7 +213,7 @@ export const CheckoutPage = () => {
                         <div className="w-3/4  gap-3 flex flex-col">
                           <span className="line-through text-red-500">
                             {/* Rs.{item?.itemsData[0]?.market_rate} */}
-                            {handleLineThrough(item.itemsData[0], data)}
+                            {handleLineThrough(item.itemsData[0], data, true)}
                           </span>
                           <span className="">
                             {/* {data?.type === "Technician"
@@ -242,6 +242,7 @@ export const CheckoutPage = () => {
                       <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
                         {/* <span className="line-through text-red-500"> */}
                         {/* Rs.{item?.itemsData[0]?.market_rate} */}
+                        {handleLineThrough(item.itemsData[0], data, false)}
                         {handleLineThrough(item.itemsData[0], data)}
 
                         {/* </span> */}

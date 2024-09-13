@@ -273,7 +273,7 @@ const Home = () => {
                     <LazyLoadImage
                       alt={product.blog_name}
                       src={product?.image_name ? product.image_name : logo.src}
-                      className="w-full h-36 md:h-52 md:p-6"
+                      className="w-full h-36 md:h-52 md:p-6 object-contain"
                     />
                   </div>
                   {handleDiscount(product, data)}
