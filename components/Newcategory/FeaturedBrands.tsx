@@ -56,6 +56,7 @@ const Ncategories: React.FC = () => {
               src={brand?.image_url ? brand.image_url : logo.src}
               width={150}
               height={150}
+              className="object-contain"
             />
           </div>
         ))}

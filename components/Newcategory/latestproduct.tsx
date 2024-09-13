@@ -276,8 +276,8 @@ const Home = () => {
                   <div className="transition-all duration-500 hover:scale-110 rounded-md">
                     <LazyLoadImage
                       alt={product.blog_name}
-                      src={product?.image_name ? product.image_name : logo.src}
-                      className="w-96 h-36 md:h-52 md:p-6"
+                      src={product.image_name ? product.image_name : logo.src}
+                      className="w-96 h-36 md:h-52 md:p-6 object-contain "
                     />
                   </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">
