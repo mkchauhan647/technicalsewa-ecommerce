@@ -399,7 +399,9 @@ export const handleLineThrough = (
       priceThrough && (
         <span className="text-[13px] whitespace-nowrap text-left">
           Market Price: {""}
-          <span className="text-[13px]  text-[#9e9e9e]">{priceThrough}</span>
+          <span className="text-[13px] line-through  text-[#9e9e9e]">
+            {priceThrough}
+          </span>
         </span>
       )
     )
@@ -414,11 +416,9 @@ export const handleLineThrough = (
           : `Rs.${product?.customer_rate}`
 
     return (
-      <span className="text-[13px] mt-2 whitespace-nowrap text-left">
+      <span className="text-[13px] mt-1 whitespace-nowrap text-left">
         Our Price: {""}
-        <span className="text-[15px] line-through text-[#f85606] ">
-          {price}
-        </span>
+        <span className="text-[15px] text-[#f85606]   ">{price}</span>
       </span>
     )
   }
