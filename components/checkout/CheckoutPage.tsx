@@ -210,15 +210,14 @@ export const CheckoutPage = () => {
                         <div className="w-1/4  text-green-700">
                           Qty:{item?.item?.quantity}
                         </div>
-                        <div className="w-3/4  gap-3 flex flex-col">
-                          <span className="line-through text-red-500">
-                            {/* Rs.{item?.itemsData[0]?.market_rate} */}
-                            {handleLineThrough(item.itemsData[0], data, true)}
-                          </span>
-                          <span className="">
-                            {/* {data?.type === "Technician"
+                        <div className="w-3/4  flex flex-col">
+                          {/* Rs.{item?.itemsData[0]?.market_rate} */}
+                          {handleLineThrough(item.itemsData[0], data)}
+                          {handleLineThrough(item.itemsData[0], data, false)}
+                          {/* {data?.type === "Technician"
                             ? `Rs.${item?.itemsData[0]?.tech_rate}`
                             : `Rs.${item?.itemsData[0]?.our_rate}`} */}
+                          {/* <span className="">
                             {data?.type === "Technician"
                               ? item?.itemsData[0]?.tech_discount_rate <
                                   item?.itemsData[0]?.tech_rate &&
@@ -230,7 +229,7 @@ export const CheckoutPage = () => {
                                   item?.itemsData[0]?.customer_discount_rate > 0
                                 ? `Rs.${item?.itemsData[0]?.customer_discount_rate} `
                                 : `Rs.${item?.itemsData[0]?.customer_rate}`}
-                          </span>
+                          </span> */}
                         </div>
                       </div>
                     </div>
@@ -242,15 +241,15 @@ export const CheckoutPage = () => {
                       <div className="hidden flex-1 md:flex flex-col justify-center items-end gap-3">
                         {/* <span className="line-through text-red-500"> */}
                         {/* Rs.{item?.itemsData[0]?.market_rate} */}
-                        {handleLineThrough(item.itemsData[0], data, false)}
                         {handleLineThrough(item.itemsData[0], data)}
+                        {handleLineThrough(item.itemsData[0], data, false)}
 
                         {/* </span> */}
-                        <span>
-                          {/* {" "}
+                        {/* {" "}
                         {data?.type === "Technician"
-                          ? `Rs.${item?.itemsData[0]?.tech_rate}`
-                          : `Rs.${item?.itemsData[0]?.our_rate}`} */}
+                        ? `Rs.${item?.itemsData[0]?.tech_rate}`
+                        : `Rs.${item?.itemsData[0]?.our_rate}`} */}
+                        {/* <span>
                           {data?.type === "Technician"
                             ? item?.itemsData[0]?.tech_discount_rate <
                                 item?.itemsData[0]?.tech_rate &&
@@ -262,7 +261,7 @@ export const CheckoutPage = () => {
                                 item?.itemsData[0]?.customer_discount_rate > 0
                               ? `Rs.${item?.itemsData[0]?.customer_discount_rate} `
                               : `Rs.${item?.itemsData[0]?.customer_rate}`}
-                        </span>
+                        </span> */}
                       </div>
                     </div>
                   </div>

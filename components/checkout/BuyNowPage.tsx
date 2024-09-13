@@ -196,14 +196,14 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                       {/* <span className="line-through text-red-500">
                         Rs.{product?.market_rate * quantity}
                       </span> */}
-                      {handleLineThrough(product, data, false)}
                       {/* <span>
                         {" "}
                         {data?.type === "Technician"
-                          ? `Rs.${product?.tech_rate * quantity}`
-                          : `Rs.${product?.our_rate * quantity}`}
-                      </span> */}
+                        ? `Rs.${product?.tech_rate * quantity}`
+                        : `Rs.${product?.our_rate * quantity}`}
+                        </span> */}
                       {handleLineThrough(product, data, true)}
+                      {handleLineThrough(product, data, false)}
                     </div>
                   </div>
                 </div>
@@ -216,13 +216,13 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                     {/* <span className="line-through text-red-500">
                       Rs.{product?.market_rate * quantity}
                     </span> */}
-                    {handleLineThrough(product, data, false)}
                     {/* <span>
                       {data?.type === "Technician"
-                        ? `Rs.${product?.tech_rate * quantity}`
-                        : `Rs.${product?.our_rate * quantity}`}
-                    </span> */}
+                      ? `Rs.${product?.tech_rate * quantity}`
+                      : `Rs.${product?.our_rate * quantity}`}
+                      </span> */}
                     {handleLineThrough(product, data, true)}
+                    {handleLineThrough(product, data, false)}
                   </div>
                 </div>
               </div>
