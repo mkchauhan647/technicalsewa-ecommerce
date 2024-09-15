@@ -30,6 +30,7 @@ import {
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "@/store/store"
 import { toast, ToastContainer } from "react-toastify"
+import PopupBanner from "./pop-up/PopUp"
 
 interface Product {
   id: string
@@ -101,6 +102,7 @@ const MainBody = ({ children }: any) => {
     {show && <Categories />}
   </div> */}
 
+        <PopupBanner />
         {/* larger screen */}
         <div className="border-r hidden lg:block lg:w-[10%]">
           <div className="font-medium flex items-center gap-2 py-4 border-b pl-[12px] text-sm">
@@ -153,7 +155,7 @@ const MainBody = ({ children }: any) => {
                 />
               </div>
             ))}
-          </Slider> */}
+          </Slider>
           {/* <BrandSliders /> */}
           <Latestproduct />
         </div>
