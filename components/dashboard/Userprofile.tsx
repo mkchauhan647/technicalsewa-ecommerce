@@ -37,15 +37,18 @@ export default function UserProfile() {
 
   useEffect(() => {
     if (userProfile) {
+      console.log("userProfile", userProfile);
       const userData: CustomerData = {
-        first_name: userProfile.first_name || "",
-        last_name: userProfile.last_name || "",
-        email: userProfile.email || "",
-        mobile_number: userProfile.mobile_number || "",
+        
+        first_name: userProfile.first_name || userProfile.sc_name?.split(" ")[0] ||  "",
+        last_name: userProfile.last_name || userProfile.sc_name?.split(" ").at(-1) || "",
+        email: userProfile.email || userProfile.sc_email || "",
+        mobile_number: userProfile.mobile_number || userProfile.mobile || "",
         shipping_address1: userProfile.shipping_address1 || "",
         shipping_address2: userProfile.shipping_address2 || "",
         shipping_address3: userProfile.shipping_address3 || "",
       }
+      console.log("userData", userData);
       setData(userData)
       setInitialData(userData)
       setLoading(false)

@@ -90,7 +90,7 @@ export const Nav: React.FC = () => {
     if (userProfile) {
       const userData: CustomerData = {
         first_name: userProfile.first_name || userProfile.sc_name?.split(' ')[0] || "",
-        last_name: userProfile.last_name || userProfile.sc_name?.split(' ')[1] || "",
+        last_name: userProfile.last_name || userProfile.sc_name?.split(' ').at(-1) || "",
         email: userProfile.email || userProfile.sc_email || "",
         mobile_number: userProfile.mobile_number || userProfile.mobile || "",
         photo: userProfile.photo ||  "",
@@ -160,7 +160,7 @@ export const Nav: React.FC = () => {
                 </Avatar>
                 <div className="flex gap-1 text-xs text-white ml-2">
                   <span>{data?.first_name || "FirstName"}</span>
-                  <span>{data?.last_name || "Last"}</span>
+                  <span>{data?.last_name || ""}</span>
                 </div>
                 <IoIosArrowDown className="text-white ml-2" />
               </div>
