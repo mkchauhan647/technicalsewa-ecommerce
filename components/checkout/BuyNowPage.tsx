@@ -15,6 +15,8 @@ import toast, { Toaster } from "react-hot-toast"
 import { useRouter } from "next/navigation"
 import { SingleProduct } from "@/store/slice/singleProduct.slice"
 import { handleLineThrough } from "../Newcategory/Brands"
+import logo from "@/assets/logo-ts.jpg"
+
 interface CustomerData {
   name: string
   type: string
@@ -34,7 +36,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
   const [type, setType] = useState("Normal")
   const itemsArray = product
 
-  console.log("product", product);
+  console.log("product", product)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -161,7 +163,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                 <div className="flex flex-col gap-4">
                   <div className="flex gap-4">
                     <Image
-                      src={product?.image_name ?? ""}
+                      src={product?.image_name ? product.image_name : logo.src}
                       alt="img"
                       width={150}
                       height={150}
@@ -170,7 +172,7 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                     />
 
                     <Image
-                      src={product?.image_name ?? ""}
+                      src={product?.image_name ? product.image_name : logo.src}
                       alt="img"
                       width={80}
                       className="md:hidden flex object-cover"
@@ -180,32 +182,28 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
 
                     <div className="md:hidden flex flex-col flex-3 gap-1 justify-center">
                       <span className="font-semibold">
-                        {product?.blog_name}
+                        {product?.page_title}
                       </span>
                       <span className="font-normal text-sm">
-                        {product?.meta_desc}
+                        {/* {product?.meta_desc} */}
                       </span>
                     </div>
                   </div>
 
-                  <div className="md:hidden flex">
-                    <div className="w-1/4 flex justify-center items-center text-green-700">
-                      Qty:{pqty}
-                    </div>
-                    <div className="w-3/4 flex justify-end items-center gap-3">
+                  <div className="md:hidden flex flex-col">
+                    <div className="w-1/4  text-green-700">Qty:{pqty}</div>
+                    <div className="w-3/4 flex flex-col">
                       {/* <span className="line-through text-red-500">
                         Rs.{product?.market_rate * quantity}
                       </span> */}
-                      {handleLineThrough(product,data,true)}
                       {/* <span>
                         {" "}
                         {data?.type === "Technician"
-                          ? `Rs.${product?.tech_rate * quantity}`
-                          : `Rs.${product?.our_rate * quantity}`}
-                      </span> */}
-                      {
-                        handleLineThrough(product,data,false)
-                      }
+                        ? `Rs.${product?.tech_rate * quantity}`
+                        : `Rs.${product?.our_rate * quantity}`}
+                        </span> */}
+                      {handleLineThrough(product, data, true)}
+                      {handleLineThrough(product, data, false)}
                     </div>
                   </div>
                 </div>
@@ -218,24 +216,20 @@ const BuyNowPage: React.FC<DetailsProps> = ({ product, qty, routeid }) => {
                     {/* <span className="line-through text-red-500">
                       Rs.{product?.market_rate * quantity}
                     </span> */}
-                    {
-                      handleLineThrough(product,data,true)
-                    }
                     {/* <span>
                       {data?.type === "Technician"
-                        ? `Rs.${product?.tech_rate * quantity}`
-                        : `Rs.${product?.our_rate * quantity}`}
-                    </span> */}
-                    {
-                      handleLineThrough(product,data,false)
-                    }
+                      ? `Rs.${product?.tech_rate * quantity}`
+                      : `Rs.${product?.our_rate * quantity}`}
+                      </span> */}
+                    {handleLineThrough(product, data, true)}
+                    {handleLineThrough(product, data, false)}
                   </div>
                 </div>
               </div>
               <div className="hidden md:flex flex-col w-full gap-1 justify-center">
-                <span className="font-semibold">{product?.blog_name}</span>
+                <span className="font-semibold">{product?.page_title}</span>
                 <span className="font-normal text-sm">
-                  {product?.meta_desc}
+                  {/* {product?.meta_desc} */}
                 </span>
               </div>
               <hr />

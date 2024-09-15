@@ -16,6 +16,7 @@ import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
+import logo from "@/assets/logo-ts.jpg"
 
 const Home = () => {
   const [loading, setLoading] = useState(true)
@@ -254,6 +255,7 @@ const Home = () => {
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
           {featuredProducts
+            ?.reverse()
             .slice(0, currentProduct)
             .map((product: Product, index: number) => (
               <div
@@ -274,8 +276,8 @@ const Home = () => {
                   <div className="transition-all duration-500 hover:scale-110 rounded-md">
                     <LazyLoadImage
                       alt={product.blog_name}
-                      src={product.image_name}
-                      className="w-96 h-36 md:h-52 md:p-6 "
+                      src={product.image_name ? product.image_name : logo.src}
+                      className="w-96 h-36 md:h-52 md:p-6 object-contain "
                     />
                   </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">

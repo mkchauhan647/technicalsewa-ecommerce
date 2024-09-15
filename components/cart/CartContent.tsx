@@ -9,6 +9,8 @@ import {
 import { CiCircleRemove } from "react-icons/ci"
 import { RootState, AppDispatch } from "../../store/store"
 import { toast, ToastContainer } from "react-toastify"
+import logo from "@/assets/logo-ts.jpg"
+
 interface CartContentProps {
   cartdata: CartItem[]
 }
@@ -107,7 +109,7 @@ const CartContent: React.FC<CartContentProps> = ({
               alt={item.item.image_url}
               className="h-16 w-16 rounded-md"
               height="64"
-              src={item.item.image_url}
+              src={item.item.image_url ? item.item.image_url : logo.src}
               style={{
                 aspectRatio: "64/64",
                 objectFit: "cover",

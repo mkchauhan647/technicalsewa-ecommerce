@@ -17,6 +17,7 @@ import { Footer } from "../dashboard/Footer"
 import Login from "../Login"
 import { CustomerData, Product, CartItem, ParsedCartItem } from "@/lib/types"
 import { handleDiscount, handleLineThrough } from "./Brands"
+import logo from "@/assets/logo-ts.jpg"
 
 const HotProduct = () => {
   const [loading, setLoading] = useState(true)
@@ -275,8 +276,8 @@ const HotProduct = () => {
                   <div className="transition-all duration-500 hover:scale-110">
                     <LazyLoadImage
                       alt={product.blog_name}
-                      src={product.image_name}
-                      className="w-full h-36 md:h-52 md:p-6"
+                      src={product?.image_name ? product.image_name : logo.src}
+                      className="w-full h-36 md:h-52 md:p-6 object-contain"
                     />
                   </div>
                   {/* <span className="absolute top-0 left-0 bg-red-500 text-white px-2 py-1 text-xs font-bold rounded-tr-md uppercase">

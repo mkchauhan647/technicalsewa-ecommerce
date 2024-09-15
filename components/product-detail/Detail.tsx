@@ -29,6 +29,7 @@ import Login from "../Login"
 import { Product } from "@/lib/types"
 import { handleLineThrough } from "../Newcategory/Brands"
 import SimilarProducts from "@/components/product-detail/SimilarProducts"
+import logo from "@/assets/logo-ts.jpg"
 
 interface ProductDetails {
   text: string
@@ -513,7 +514,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                   <img
                     alt="Product Image"
                     className="w-full h-full lg:object-contain sm:object-cover"
-                    src={mainImage}
+                    src={mainImage || logo.src}
                     ref={mainImageRef}
                     onMouseMove={handleMouseMove}
                     onMouseEnter={() => setZoomVisible(true)}
@@ -556,7 +557,7 @@ const Detail: React.FC<DetailsProps> = ({ product, id }) => {
                       className={`w-[70px] h-[60px] rounded-lg ${
                         mainImage === thumbnail ? "border border-cyan-400" : ""
                       }`}
-                      src={thumbnail}
+                      src={thumbnail || logo.src}
                       style={{
                         aspectRatio: "70/50",
                         objectFit: "cover",

@@ -25,28 +25,47 @@ export const Search = () => {
       fetchData()
     }
   }, [])
+
+  // select suggestion.
   const selectSuggestion = (option: any) => {
     setSearchText(option.label)
-    router.push(`/detail-beta?id=${option.id}`)
+    router.push(
+      `/${option.page_url
+        .split(" ")
+        .map((value: string) => value.toLowerCase())
+        .join("-")}`,
+    )
     setSuggestions([{ label: "", id: "" }])
   }
+
+  // Update suggestions based on user input
   useEffect(() => {
     if (searchText.length > 1) {
       const filteredSuggestions = [...allData]
         .filter((item: any) =>
-          item?.blog_name.toLowerCase().includes(searchText.toLowerCase()),
+          item?.blog_name
+            .toLowerCase()
+            .includes(searchText.toLowerCase().trim()),
         )
         .map((item: any) => ({
           label: item.blog_name,
           id: item.blog_id,
+          page_url: item.page_url,
         }))
 
       setSuggestions(filteredSuggestions)
     }
   }, [searchText])
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    if (searchText.length > 1) {
+      router.push(`/search?name=${searchText}`)
+    }
+  }
   return (
     <div className="flex justify-center w-full py-3 xl:hidden ">
-      {/* <div className="fixed w-full container z-20 bg-white top-14 py-3">
+      <div className="fixed w-full container z-20 bg-white top-14 py-3">
         <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
           <FiSearch />
         </div>
@@ -68,7 +87,7 @@ export const Search = () => {
             ))}
           </div>
         )}
-      </div> */}
+      </div>
     </div>
   )
 }
