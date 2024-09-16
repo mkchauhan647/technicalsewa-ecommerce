@@ -195,10 +195,15 @@ const Home = () => {
 
     const fetchData = async () => {
       try {
-        const response = await AxiosInstance.get(
+        const response = await AxiosInstance.post(
           "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
+         
+          {
+            latest:"1"
+          }
         )
 
+        console.log("responsesss", response)
         setTrending(response.data)
         setLoading(false)
       } catch (error) {
@@ -210,7 +215,8 @@ const Home = () => {
     fetchData()
   }, [])
 
-  const featuredProducts = trending?.filter((product) => product.latest)
+  const featuredProducts = trending
+    // ?.filter((product) => product.latest)
 
   const view = (text: string) => {
     if (text === "more") {

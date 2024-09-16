@@ -15,6 +15,7 @@ export interface Product {
     featured: boolean
     page_title: string
   is_hot?: string
+  is_deal?: string
   end_dt?: string
   end_tm?: string
   start_dt?: string

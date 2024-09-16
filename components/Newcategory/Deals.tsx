@@ -213,8 +213,11 @@ const Deals = () => {
 
     const fetchData = async () => {
       try {
-        const response = await AxiosInstance.get(
+        const response = await AxiosInstance.post(
           "https://www.technicalsewa.com/techsewa/publicControl/getPartsPartPurja",
+          {
+            deal:"1"
+          }
         )
 
         setTrending(response.data)
@@ -252,7 +255,7 @@ const Deals = () => {
   const featuredProducts = trending
     .filter(
       (product) =>
-        product.latest &&
+        product.is_deal && product.latest &&
         new Date(product.end_dt || "") > new Date() &&
         product.end_tm,
     )

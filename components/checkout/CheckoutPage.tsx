@@ -142,7 +142,7 @@ export const CheckoutPage = () => {
           total_price: subtotalamt,
           grand_total: subtotalamt,
           cust_id: id,
-          cust_type: data?.type,
+          cust_type: data?.type === "Technician" ? "tech" : "cust",
           img,
           sales_details_id: sales_details_id,
         },

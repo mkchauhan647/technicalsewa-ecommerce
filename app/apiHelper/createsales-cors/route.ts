@@ -1,0 +1,46 @@
+
+
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import axios from 'axios';
+import next from 'next';
+
+export async function POST(req: NextRequest,res: NextResponse) {
+
+    // console.log('req.nextUrl.pathname', req.nextUrl.pathname);
+
+    // console.log('req.body', await req.json());
+    // const id = await req.json();
+    const formData = await req.json();
+    
+    console.log('formData', formData);
+
+    const externalUrl = `https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/CreatePublicSales`;
+
+    try {
+        // const response = await fetch(externalUrl, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded',
+        //     },
+        //     body: JSON.stringify(formData),
+
+        //     // next:{revalidate:3600}
+        // });
+        const response = await axios.post(externalUrl, formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+
+        const data = await response.data;
+        console.log('responsse', data);
+
+        return NextResponse.json(data, { status: response.status });
+    } catch (error: any) {
+        console.error('Error fetching data:', error.message);
+        return NextResponse.json({ message: error.message }, { status: error.response?.status || 500 });
+    }
+
+    
+}
