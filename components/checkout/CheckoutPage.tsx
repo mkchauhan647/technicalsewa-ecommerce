@@ -16,6 +16,7 @@ import { redirect, useRouter } from "next/navigation"
 import Login from "@/components/Login"
 import { handleLineThrough } from "../Newcategory/Brands"
 import logo from "@/assets/logo-ts.jpg"
+import axios from "axios"
 
 interface CustomerData {
   name: string
@@ -124,8 +125,10 @@ export const CheckoutPage = () => {
     const id = localStorage.getItem("id") ?? "{}"
 
     try {
-      const response = await AxiosCorsInstance.post(
-        "/publiccontrol/publicsales/CreatePublicSales",
+      const response = await
+        // AxiosCorsInstance
+        axios.post(
+        "https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/CreatePublicSales",
         {
           customer_name: formData?.name,
           customer_address: formData.address,
