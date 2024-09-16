@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { FiSearch } from "react-icons/fi"
 import { useRouter } from "next/navigation"
 import AxiosInstance from "@/axios_config/Axios"
@@ -8,6 +8,9 @@ export const Search = () => {
   const [suggestions, setSuggestions] = useState([{ label: "", id: "" }])
   const router = useRouter()
   const [allData, setAllData] = useState<any>(null)
+  const [showSearchArea, setSearchArea] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,11 +64,17 @@ export const Search = () => {
     e.preventDefault()
     if (searchText.length > 1) {
       router.push(`/search?name=${searchText}`)
+
+      setSearchText("");
     }
   }
   return (
     <div className="flex justify-center w-full py-3 xl:hidden ">
-      <div className="fixed w-full container z-20 bg-white top-14 py-3">
+
+      <form onSubmit={handleSubmit}
+         onMouseEnter={()=>setSearchArea(true)}
+         onMouseLeave={()=>setSearchArea(false)}
+        className="fixed w-full container z-20 bg-white top-14 py-3">
         <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
           <FiSearch />
         </div>
@@ -75,7 +84,7 @@ export const Search = () => {
           className="w-full  border border-black/40 rounded-md  text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
           placeholder="Search"
         />
-        {suggestions.length > 1 && searchText.length > 1 && (
+        {showSearchArea && suggestions.length > 0 && searchText.length > 1 && (
           <div className="absolute z-50 bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
             {suggestions.map((option: any) => (
               <span
@@ -87,7 +96,7 @@ export const Search = () => {
             ))}
           </div>
         )}
-      </div>
+        </form>
     </div>
   )
 }

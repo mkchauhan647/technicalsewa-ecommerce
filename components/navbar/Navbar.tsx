@@ -123,6 +123,7 @@ const Navbar: FC<NavbarProps> = ({ cart }) => {
     e.preventDefault()
     if (searchText.length > 1) {
       router.push(`/search?name=${searchText}`)
+      setSearchText("");
     }
   }
 

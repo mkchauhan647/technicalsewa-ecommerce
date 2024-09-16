@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react"
 import { CartItem, GrandChild } from "@/lib/types"
 import Productlist from "@/components/category/productlist"
+import { Search as SearchBar } from "@/components/navbar/Search"
+
 interface SearchParams {
   searchParams: {
    name:string
@@ -82,6 +84,9 @@ const Search = ({ params,searchParams }: { params: { slug:string,slug1:string },
         <div className="xl:container mx-auto px-4 lg:px-0 2xl:px-28">
           <div className="relative">
             {/* Product List */}
+            <div className="flex lg:hidden justify-center">
+            <SearchBar/>
+            </div>
             <Productlist grandChildData={grandChildData} />
           </div>
         </div>
