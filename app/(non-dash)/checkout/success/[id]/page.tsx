@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/store/store"
 import { singleItemData } from "@/store/slice/singleProduct.slice"
 import { AxiosCorsInstance } from "@/axios_config/Axios"
 import PaymentPage from "@/app/(dash)/pay-online/page"
+import axios from "axios"
 interface CustomerData {
   name: string
   type: string
@@ -39,8 +40,10 @@ const page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AxiosCorsInstance.post(
-          "/publiccontrol/publicsales/getsalesparts",
+        // const response = await AxiosCorsInstance.post(
+        //   "/publiccontrol/publicsales/getsalesparts",
+        const response = await axios.post(
+          "/spareparts/apiHelper/cors-helper",
           {
             sales_id: id,
           },

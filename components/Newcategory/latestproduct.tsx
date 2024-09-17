@@ -203,7 +203,6 @@ const Home = () => {
           }
         )
 
-        console.log("responsesss", response)
         setTrending(response.data)
         setLoading(false)
       } catch (error) {

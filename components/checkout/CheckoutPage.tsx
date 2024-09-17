@@ -101,11 +101,26 @@ export const CheckoutPage = () => {
   }
   const pdesc = itemsArray.map((item) => item.itemsData[0].blog_desc)
   const pnum = itemsArray.map((item) => item.itemsData[0].blog_name)
-  const prate = itemsArray.map((item) => item.itemsData[0].our_rate)
+  const prate = itemsArray.map((item) => {
+
+    return data?.type === "Technician"
+      ? item.itemsData[0].tech_discount_rate <
+          item.itemsData[0].tech_rate &&
+        item.itemsData[0].tech_discount_rate > 0
+        ? item.itemsData[0].tech_discount_rate
+        : item.itemsData[0].tech_rate
+      : item.itemsData[0].customer_discount_rate <
+          item.itemsData[0].customer_rate &&
+        item.itemsData[0].customer_discount_rate > 0
+      ? item.itemsData[0].customer_discount_rate
+      : item.itemsData[0].customer_rate
+
+  })
   const pqty = itemsArray.map((item) => item.item.quantity)
   const img = itemsArray.map((item) => item.item.image_url)
   const sales_details_id = itemsArray.map((item) => "")
   // const sales_details_id = Array(itemsArray.length).fill([""])
+  console.log("itemsarry", itemsArray);
   function extractOrderId(message: any) {
     const match = message.match(/order id is (\d+)/i)
     return match ? match[1] : null
@@ -128,7 +143,8 @@ export const CheckoutPage = () => {
       const response = await
         // AxiosCorsInstance
         axios.post(
-        "https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/CreatePublicSales",
+          // "https://www.technicalsewa.com/techsewa/publiccontrol/publicsales/CreatePublicSales",
+        "/spareparts/apiHelper/createsales-cors",
         {
           customer_name: formData?.name,
           customer_address: formData.address,
@@ -142,7 +158,7 @@ export const CheckoutPage = () => {
           total_price: subtotalamt,
           grand_total: subtotalamt,
           cust_id: id,
-          cust_type: data?.type === "Technician" ? "tech" : "cust",
+          cust_type: data?.type === "Technician" ? "Tech" : "Cust",
           img,
           sales_details_id: sales_details_id,
         },

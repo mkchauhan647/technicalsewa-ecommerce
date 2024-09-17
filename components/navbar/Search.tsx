@@ -74,18 +74,26 @@ export const Search = () => {
       <form onSubmit={handleSubmit}
          onMouseEnter={()=>setSearchArea(true)}
          onMouseLeave={()=>setSearchArea(false)}
-        className="fixed w-full container z-20 bg-white top-14 py-3">
-        <div className="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer">
-          <FiSearch />
-        </div>
+        className="fixed flex w-full container z-20 bg-white top-14 py-3">
+       
         <input
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
           className="w-full  border border-black/40 rounded-md  text-[8px] sm:text-xs outline-none p-2 placeholder:text-gray-400"
           placeholder="Search"
         />
+
+      {/* <div className="absolut e inset-y-0 right-0 flex items-center  justify-center  px-3 cursor-pointer"> */}
+
+<button type="submit" className="text-white bg-blue-500 flex gap-2 rounded-lg px-3 py-[6px] ml-3  ">
+            <span>Search</span>
+            <FiSearch size={20} />
+          </button>
+          {/* </div> */}
+
+
         {showSearchArea && suggestions.length > 0 && searchText.length > 1 && (
-          <div className="absolute z-50 bg-gray-200 border border-black/40 rounded-md w-full flex flex-col">
+          <div className="absolute z-50 bg-gray-200 border border-black/40 rounded-md w-full flex flex-col top-14">
             {suggestions.map((option: any) => (
               <span
                 onClick={() => selectSuggestion(option)}
